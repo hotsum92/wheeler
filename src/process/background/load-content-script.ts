@@ -31,11 +31,11 @@ export const createLoadContentScript = (
 
         if(fromAppStatusDomain.isSuspended(appStatus)) {
           yield call(openContentScriptFromChromeModule, action.payload.tabId)
-          yield put(fromLoadContentScriptBackgroundProcessAction.runApp())
+          yield put(fromLoadContentScriptBackgroundProcessAction.runApp(action.payload.tabId))
         }
 
         if(fromAppStatusDomain.isRunning(appStatus)) {
-          yield put(fromLoadContentScriptBackgroundProcessAction.suspendApp())
+          yield put(fromLoadContentScriptBackgroundProcessAction.suspendApp(action.payload.tabId))
         }
 
         return
