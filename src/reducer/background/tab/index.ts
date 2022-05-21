@@ -48,6 +48,7 @@ const reducer = combineReducers({
 export type State = ReturnType<typeof reducer>
 
 export const getAppStatusByTabId = (state: State, tabId: number): fromAppStatusDomain.AppStatus => {
+  if(state.byTabId[tabId] == null) return fromAppStatusDomain.newAppStatus()
   return state.byTabId[tabId].appStatus
 }
 

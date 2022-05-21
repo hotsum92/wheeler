@@ -3,6 +3,7 @@ import { pipe, takeOnce } from '~/test/helper'
 import configureStoreContent from '~/store/content'
 import configureStoreBackground from '~/store/background'
 import * as fromContentReducer from '~/reducer/content'
+import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromChromeAction from '~/action/chrome'
 import * as fromInitializeContentContentProcess from '~/process/content/initialize-content'
@@ -60,6 +61,11 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
     expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))
       .toStrictEqual({
         input: '356',
+      })
+
+    expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
+      .toStrictEqual({
+        isRunning: true,
       })
 
   })
@@ -128,6 +134,11 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
         input: '23',
       })
 
+    expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
+      .toStrictEqual({
+        isRunning: true,
+      })
+
   })
 
 })
@@ -140,10 +151,15 @@ describe('ページを更新した後、content scriptを開始する', () => {
     const url = 'http://example.com/23/356/'
 
     const storeBackground = configureStoreBackground({
-      app: {
-        status: pipe(fromAppStatusDomain.newAppStatus())
-                  (fromAppStatusDomain.runApp)
-                  ()
+      tab: {
+        tabIds: [ tabId ],
+        byTabId: {
+          [tabId]: {
+            appStatus: pipe(fromAppStatusDomain.newAppStatus())
+                        (fromAppStatusDomain.runApp)
+                        ()
+          }
+        }
       }
     })
 
@@ -187,6 +203,11 @@ describe('ページを更新した後、content scriptを開始する', () => {
     expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))
       .toStrictEqual({
         input: '356',
+      })
+
+    expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
+      .toStrictEqual({
+        isRunning: true,
       })
 
   })

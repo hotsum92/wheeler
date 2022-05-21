@@ -1,5 +1,4 @@
 import { takeLatest, select, call, put } from 'redux-saga/effects'
-import { Action } from '~/action'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
 import * as fromChromeAction from '~/action/chrome'
@@ -10,6 +9,10 @@ export const actions = [
   fromChromeAction.ON_CLICK_EXTENTION,
   fromChromeAction.ON_UPDATE_WEB_PAGE,
 ]
+
+type Action =
+  | fromChromeAction.OnClickExtention
+  | fromChromeAction.OnUpdateWebPage
 
 export function* watchLoadContentScript(saga: ReturnType<typeof createLoadContentScript>) {
   yield takeLatest(
@@ -23,19 +26,21 @@ export const createLoadContentScript = (
 ) => {
   return function* (action: Action) {
 
-    const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatus)
+    const { payload: { tabId } } = action
+
+    const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatusByTabId, tabId)
 
     switch(action.type) {
 
       case fromChromeAction.ON_CLICK_EXTENTION: {
 
         if(fromAppStatusDomain.isSuspended(appStatus)) {
-          yield call(openContentScriptFromChromeModule, action.payload.tabId)
-          yield put(fromLoadContentScriptBackgroundProcessAction.runApp(action.payload.tabId))
+          yield call(openContentScriptFromChromeModule, tabId)
+          yield put(fromLoadContentScriptBackgroundProcessAction.runApp(tabId))
         }
 
         if(fromAppStatusDomain.isRunning(appStatus)) {
-          yield put(fromLoadContentScriptBackgroundProcessAction.suspendApp(action.payload.tabId))
+          yield put(fromLoadContentScriptBackgroundProcessAction.suspendApp(tabId))
         }
 
         return
@@ -43,7 +48,7 @@ export const createLoadContentScript = (
 
       case fromChromeAction.ON_UPDATE_WEB_PAGE: {
         if(fromAppStatusDomain.isRunning(appStatus)) {
-          yield call(openContentScriptFromChromeModule, action.payload.tabId)
+          yield call(openContentScriptFromChromeModule, tabId)
         }
         return
       }
