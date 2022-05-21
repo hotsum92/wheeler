@@ -23,10 +23,11 @@ export const createLoadContentScript = (
 ) => {
   return function* (action: Action) {
 
+    const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatus)
+
     switch(action.type) {
 
       case fromChromeAction.ON_CLICK_EXTENTION: {
-        const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatus)
 
         if(fromAppStatusDomain.isSuspended(appStatus)) {
           yield call(openContentScriptFromChromeModule, action.payload.tabId)
@@ -41,7 +42,9 @@ export const createLoadContentScript = (
       }
 
       case fromChromeAction.ON_UPDATE_WEB_PAGE: {
-        yield call(openContentScriptFromChromeModule, action.payload.tabId)
+        if(fromAppStatusDomain.isRunning(appStatus)) {
+          yield call(openContentScriptFromChromeModule, action.payload.tabId)
+        }
         return
       }
     }
