@@ -21,12 +21,13 @@ export function* watchDisplayExtention(
 }
 
 export const createDisplayExtention = (
+  displayDivElement: typeof fromDomModule.displayDivElement,
 ) => {
   return function* (
     _action: fromDisplayExtentionContentProcessAction.RequestDisplayExtention,
     sendResponse: () => void,
   ) {
-    yield call(fromDomModule.displayDivElement)
+    yield call(displayDivElement)
     sendResponse()
   }
 }

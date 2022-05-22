@@ -13,6 +13,7 @@ export default function* ({
   assignUrlFromDomModule = fromDomModule.assignUrl,
   chromeRuntimeSendMessageFromChromeModule = fromChromeModule.chromeRuntimeSendMessage,
   hideDivElement = fromDomModule.hideDivElement,
+  displayDivElement = fromDomModule.displayDivElement,
 } = {}) {
   yield all([
     fork(watchInitializeContent, createInitializeContent(getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
@@ -20,6 +21,6 @@ export default function* ({
     fork(watchUpdateUrl, createUpdateUrl(assignUrlFromDomModule)),
     fork(watchSaveSelectRange, createSaveSelectRange(getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
     fork(watchHideExtention, createHideExtention(hideDivElement)),
-    fork(watchDisplayExtention, createDisplayExtention()),
+    fork(watchDisplayExtention, createDisplayExtention(displayDivElement)),
   ])
 }
