@@ -42,6 +42,8 @@ export default (props: Props) => {
               ...theme.typography.body1,
               visibility: 'hidden',
               boxSizing: 'border-box',
+              height: '28px',
+              minWidth: '180px',
             }}
           >{ props.urlInput }
           </div>
@@ -52,6 +54,7 @@ export default (props: Props) => {
               background: theme.palette.background.paper,
               color: theme.palette.text.primary,
               position: 'absolute',
+              height: '28px',
               width: '100%',
               top: 0,
               left: 0,

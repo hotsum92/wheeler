@@ -57,6 +57,7 @@ export default (props: Props) => {
               style={{
                 ...theme.typography.body1,
                 visibility: 'hidden',
+                height: '28px',
                 minWidth: '30px',
                 boxSizing: 'border-box',
               }}
@@ -69,6 +70,7 @@ export default (props: Props) => {
                 position: 'absolute',
                 background: theme.palette.background.paper,
                 color: theme.palette.text.primary,
+                height: '28px',
                 width: '100%',
                 top: 0,
                 left: 0,
@@ -79,7 +81,7 @@ export default (props: Props) => {
                 textAlign: 'center',
               }}
               value={props.pageInput}
-              onChange={e => props.onChangePageInput(e.currentTarget.innerText)}
+              onChange={e => props.onChangePageInput(e.target.value)}
             />
           </div>
           <IconButton
