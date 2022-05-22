@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import FloatBox from '~/ui/component/float-box'
+import PageInput from '~/ui/component/page-input'
 import UrlFloatInput from '~/ui/component/url-float-input'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromContentUiAction from '~/action/ui/content'
@@ -22,7 +22,7 @@ export default function Content() {
         onChangeUrlInput={(input) => dispatch(fromContentUiAction.onChangeUrlInput(input))}
         onSelectUrlInput={(selectStart, select) => dispatch(fromContentUiAction.onSelectUrlInput(selectStart, select))}
       />
-      <FloatBox
+      <PageInput
         sx={{ position: 'fixed', right: 10, top: 50 }}
         pageInput={pageInput.input}
         onChangePageInput={(input) => dispatch(fromContentUiAction.onChangePageInput(input))}

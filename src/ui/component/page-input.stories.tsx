@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import CssBaseLine from '~/ui/css-base-line'
-import FloatBox from './float-box'
+import PageInput from '~/ui/component/page-input'
 
 export default {
-  component: FloatBox,
+  component: PageInput,
 };
 
 export const Default = () => {
@@ -13,7 +13,7 @@ export const Default = () => {
   return (
     <>
       <CssBaseLine />
-      <FloatBox
+      <PageInput
         sx={{ position: 'absolute', left: 50 }}
         pageInput={pageInput}
         onChangePageInput={setPageInput}
