@@ -8,8 +8,8 @@ import * as fromContentUiAction from '~/action/ui/content'
 import * as fromChromeAction from '~/action/chrome'
 import * as fromInitializeContentContentProcess from '~/process/content/initialize-content'
 import * as fromLoadContentScriptBackgroundProcess from '~/process/background/load-content-script'
-import * as fromAppStatusDomain from '~/domain/app-status'
 import * as fromUrlKeyDomain from '~/domain/url-key'
+import * as fromAppStatusDomain from '~/domain/app-status'
 import * as fromLoadUrlSelectRangeBackgroundProcess from '~/process/background/load-url-select-range'
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
 
@@ -65,7 +65,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
     expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
       .toStrictEqual({
-        isRunning: true,
+        status: fromAppStatusDomain.RUN,
       })
 
   })
@@ -136,7 +136,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
     expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
       .toStrictEqual({
-        isRunning: true,
+        status: fromAppStatusDomain.RUN,
       })
 
   })
@@ -207,7 +207,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
     expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
       .toStrictEqual({
-        isRunning: true,
+        status: fromAppStatusDomain.RUN,
       })
 
   })

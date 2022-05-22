@@ -35,7 +35,7 @@ export const createLoadContentScript = (
 
       case fromChromeAction.ON_CLICK_EXTENTION: {
 
-        if(fromAppStatusDomain.isSuspended(appStatus)) {
+        if(fromAppStatusDomain.isStop(appStatus)) {
           yield call(openContentScriptFromChromeModule, tabId)
           yield put(fromLoadContentScriptBackgroundProcessAction.runApp(tabId))
         }

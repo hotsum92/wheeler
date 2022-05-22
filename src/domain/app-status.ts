@@ -1,32 +1,39 @@
+export const RUN = 'RUN'
+export const SUSPEND = 'SUSPEND'
+export const STOP = 'STOP'
+
 export interface AppStatus {
-  isRunning: boolean
+  status: typeof RUN | typeof SUSPEND | typeof STOP
 }
 
 export const newAppStatus = (): AppStatus => {
   return {
-    isRunning: false
+    status: STOP,
   }
 }
 
 export const suspendApp = (appStatus: AppStatus): AppStatus => {
   return {
     ...appStatus,
-    isRunning: false,
+    status: SUSPEND,
   }
 }
 
 export const runApp = (appStatus: AppStatus): AppStatus => {
   return {
     ...appStatus,
-    isRunning: true,
+    status: RUN,
   }
 }
 
 export const isSuspended = (appStatus: AppStatus): boolean => {
-  return !appStatus.isRunning
+  return appStatus.status === SUSPEND
 }
 
 export const isRunning = (appStatus: AppStatus): boolean => {
-  return appStatus.isRunning
+  return appStatus.status === RUN
 }
 
+export const isStop = (appStatus: AppStatus): boolean => {
+  return appStatus.status === STOP
+}
