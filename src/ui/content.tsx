@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PageInput from '~/ui/component/page-input'
-import UrlFloatInput from '~/ui/component/url-float-input'
+import UrlInput from '~/ui/component/url-input'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromContentUiAction from '~/action/ui/content'
 
@@ -16,7 +16,7 @@ export default function Content() {
 
   return (
     <>
-      <UrlFloatInput
+      <UrlInput
         sx={{ position: 'fixed', right: 10, top: 10 }}
         urlInput={urlInput.input}
         onChangeUrlInput={(input) => dispatch(fromContentUiAction.onChangeUrlInput(input))}

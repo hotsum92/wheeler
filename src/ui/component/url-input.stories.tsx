@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import CssBaseLine from '~/ui/css-base-line'
-import UrlFloatInput from './url-float-input'
+import UrlInput from '~/ui/component/url-input'
 
 export default {
-  component: UrlFloatInput,
+  component: UrlInput,
 };
 
 export const Default = () => {
@@ -13,7 +13,7 @@ export const Default = () => {
   return (
     <>
       <CssBaseLine />
-      <UrlFloatInput
+      <UrlInput
         sx={{ position: 'absolute', left: 50 }}
         urlInput={urlInput}
         onChangeUrlInput={setUrlInput}
