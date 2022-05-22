@@ -8,11 +8,12 @@ import { watchSaveUrlSelectRange, createSaveUrlSelectRange } from '~/process/bac
 
 export default function* ({
   openContentScript = fromChromeModule.openContentScript,
+  chromeTabsSendMessage = fromChromeModule.chromeTabsSendMessage,
 } = {}) {
   yield all([
     fork(watchHandleChromeTabsOnUpdated),
     fork(watchHandleChromeActionOnClicked),
-    fork(watchLoadContentScript, createLoadContentScript(openContentScript)),
+    fork(watchLoadContentScript, createLoadContentScript(openContentScript, chromeTabsSendMessage)),
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
     fork(watchSaveUrlSelectRange, createSaveUrlSelectRange()),
   ])

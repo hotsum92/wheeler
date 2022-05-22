@@ -21,12 +21,13 @@ export function* watchHideExtention(
 }
 
 export const createHideExtention = (
+  hideDivElement: typeof fromDomModule.hideDivElement
 ) => {
   return function* (
     _action: fromHideExtentionBackgroundProcessAction.RequestHideExtention,
     sendResponse: () => void,
   ) {
-    yield call(fromDomModule.hideDivElement)
+    yield call(hideDivElement)
     sendResponse()
   }
 }

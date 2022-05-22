@@ -26,21 +26,22 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
     const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const getUrlFromDomModuleMock = jest.fn(() => url)
     const obj: any = {}
-    const chromeTabsSendMessage = jest.fn(action => new Promise((resolve) => {
+    const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
       obj.sendResponse = resolve
       storeBackground.dispatch(action)
     }))
+    const chromeTabsSendMessageFromBackground = jest.fn()
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock)),
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
         takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => obj.sendResponse(args)),
       ])
     })
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessage)),
+        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessageFromContent)),
       ])
     })
 
@@ -97,21 +98,22 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
     const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const getUrlFromDomModuleMock = jest.fn(() => url)
     const obj: any = {}
-    const chromeTabsSendMessage = jest.fn(action => new Promise((resolve) => {
+    const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
       obj.sendResponse = resolve
       storeBackground.dispatch(action)
     }))
+    const chromeTabsSendMessageFromBackground = jest.fn()
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock)),
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
         takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => obj.sendResponse(args)),
       ])
     })
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessage)),
+        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessageFromContent)),
       ])
     })
 
@@ -168,21 +170,22 @@ describe('ページを更新した後、content scriptを開始する', () => {
     const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const getUrlFromDomModuleMock = jest.fn(() => url)
     const obj: any = {}
-    const chromeTabsSendMessage = jest.fn(action => new Promise((resolve) => {
+    const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
       obj.sendResponse = resolve
       storeBackground.dispatch(action)
     }))
+    const chromeTabsSendMessageFromBackground = jest.fn()
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock)),
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
         takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => obj.sendResponse(args)),
       ])
     })
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessage)),
+        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessageFromContent)),
       ])
     })
 

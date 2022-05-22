@@ -25,6 +25,7 @@ export function* watchLoadContentScript(saga: ReturnType<typeof createLoadConten
 
 export const createLoadContentScript = (
   openContentScriptFromChromeModule: typeof fromChromeModule.openContentScript,
+  chromeTabsSendMessage: typeof fromChromeModule.chromeTabsSendMessage,
 ) => {
   return function* (action: Action) {
 
@@ -42,12 +43,12 @@ export const createLoadContentScript = (
         }
 
         if(fromAppStatusDomain.isRunning(appStatus)) {
-          yield call(fromChromeModule.chromeTabsSendMessage, tabId, fromHideExtentionBackgroundProcessAction.requestHideExtention())
+          yield call(chromeTabsSendMessage, tabId, fromHideExtentionBackgroundProcessAction.requestHideExtention())
           yield put(fromLoadContentScriptBackgroundProcessAction.suspendApp(tabId))
         }
 
         if(fromAppStatusDomain.isSuspended(appStatus)) {
-          yield call(fromChromeModule.chromeTabsSendMessage, tabId, fromDisplayExtentionContentProcessAction.requestDisplayExtention())
+          yield call(chromeTabsSendMessage, tabId, fromDisplayExtentionContentProcessAction.requestDisplayExtention())
           yield put(fromLoadContentScriptBackgroundProcessAction.runApp(tabId))
         }
 
