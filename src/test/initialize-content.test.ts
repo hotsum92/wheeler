@@ -147,7 +147,9 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
 describe('ページを更新した後、content scriptを開始する', () => {
 
-  test('初期値からの起動', async () => {
+  test.skip('初期値からの起動', async () => {
+
+    throw new Error('複数スクリプトが出ることを防ぐ')
 
     const tabId = -1
     const url = 'http://example.com/23/356/'
