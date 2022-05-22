@@ -4,7 +4,7 @@ export const chromeRuntimeSendMessage = (message: any) => {
 }
 
 export const chromeTabsSendMessage = (tabId: number, message: any) => {
-  chrome.tabs.sendMessage(tabId, message)
+  return chrome.tabs.sendMessage(tabId, message)
 }
 
 export const chromeRuntimeOnMessageAddListener = (listener: (...args: any) => void) => {

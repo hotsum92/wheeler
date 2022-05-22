@@ -20,3 +20,8 @@ export const getDivElement = (): HTMLDivElement => {
 export const appendDivElement = (element: HTMLDivElement) => {
   document.body.appendChild(element)
 }
+
+export const hideDivElement = () => {
+  const div = getDivElement()
+  div.style.display = 'none'
+}

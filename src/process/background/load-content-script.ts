@@ -1,6 +1,7 @@
 import { takeLatest, select, call, put } from 'redux-saga/effects'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
+import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
 import * as fromChromeAction from '~/action/chrome'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromAppStatusDomain from '~/domain/app-status'
@@ -40,6 +41,7 @@ export const createLoadContentScript = (
         }
 
         if(fromAppStatusDomain.isRunning(appStatus)) {
+          yield call(fromChromeModule.chromeTabsSendMessage, tabId, fromHideExtentionBackgroundProcessAction.requestHideExtention())
           yield put(fromLoadContentScriptBackgroundProcessAction.suspendApp(tabId))
         }
 
