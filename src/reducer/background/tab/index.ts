@@ -35,6 +35,18 @@ const byTabId = (state = {} as { [key: number]: TabData }, action: Action): { [k
       }
     }
 
+    case fromLoadContentScriptBackgroundProcessAction.SUSPEND_APP: {
+      const appStatus = state[action.payload.tabId].appStatus
+
+      return {
+        ...state,
+        [action.payload.tabId]: {
+          ...state[action.payload.tabId],
+          appStatus: fromAppStatusDomain.suspendApp(appStatus)
+        }
+      }
+    }
+
     default:
       return state
   }
