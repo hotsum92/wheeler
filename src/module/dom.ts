@@ -25,3 +25,8 @@ export const hideDivElement = () => {
   const div = getDivElement()
   div.style.display = 'none'
 }
+
+export const displayDivElement = () => {
+  const div = getDivElement()
+  div.style.display = 'block'
+}

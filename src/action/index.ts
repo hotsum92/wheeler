@@ -8,6 +8,7 @@ import * as fromSaveSelectRangeContentProcess from '~/action/process/content/sav
 import * as fromChromeAction from '~/action/chrome'
 import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process/background/save-url-select-range'
 import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
+import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
 
 export const INITIAL = 'ACTION.INITIAL'
 
@@ -50,4 +51,5 @@ export type Action =
   | fromSaveUrlSelectRangeBackgroundProcessAction.RequestSaveUrlSelectRange
   | fromSaveSelectRangeContentProcess.SaveSelectRange
   | fromHideExtentionBackgroundProcessAction.RequestHideExtention
+  | fromDisplayExtentionContentProcessAction.RequestDisplayExtention
 
