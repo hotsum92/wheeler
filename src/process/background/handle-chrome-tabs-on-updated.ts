@@ -1,6 +1,6 @@
 import { eventChannel, EventChannel } from 'redux-saga'
 import { take, put, call } from 'redux-saga/effects'
-import { chromeTabsOnUpdatedAddListener } from '~/module/chrome'
+import * as fromChromeModule from '~/module/chrome'
 import { Action } from '~/action'
 import * as fromChromeAction from '~/action/chrome'
 
@@ -15,14 +15,16 @@ export function* watchHandleChromeTabsOnUpdated() {
 
 export const handleChromeTabsOnUpdated = () => {
   return eventChannel(emitter => {
-    const listener = (tabId: number) => {
-      emitter(fromChromeAction.onUpdateWebPage(tabId))
+    const listener = (tabId: number, changeInfo: { status?: string }) => {
+      if(changeInfo.status === fromChromeModule.STATUS_LOADING) {
+        emitter(fromChromeAction.onUpdateWebPage(tabId))
+      }
     }
 
-    chromeTabsOnUpdatedAddListener(listener)
+    fromChromeModule.chromeTabsOnUpdatedAddListener(listener)
 
     return () => {
-      chrome.tabs.onUpdated.removeListener(listener)
+      fromChromeModule.chromeTabsOnUpdatedRemoveListener(listener)
     }
   })
 }

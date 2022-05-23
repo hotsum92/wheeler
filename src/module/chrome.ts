@@ -15,6 +15,9 @@ export const chromeRuntimeOnMessageRemoveListener = (listener: (...args: any) =>
   chrome.runtime.onMessage.removeListener(listener)
 }
 
+export const STATUS_COMPLETE = 'complete'
+export const STATUS_LOADING = 'loading'
+
 export const chromeTabsOnUpdatedAddListener = (listener: (...args: any) => void) => {
   chrome.tabs.onUpdated.addListener(listener)
 }
