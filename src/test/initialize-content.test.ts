@@ -217,5 +217,9 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
   })
 
+  test.skip('URLのみの変更の場合は、inputを変更する', () => {
+    throw new Error('未実装')
+  })
+
 })
 
