@@ -15,13 +15,13 @@ export function* watchHandleChromeWebNavigationOnCommitted() {
 
 export const handleChromeWebNavigationOnCommitted = () => {
   return eventChannel(emitter => {
-    const listener = (details: { trasitionType?: string }) => {
-      if(details.trasitionType === fromChromeModule.TRANSITION_TYPE_LINK) {
-        emitter(fromHandleChromeWebNavigationOnCommittedChromeAction.transitionTypeLink())
+    const listener = (details: { tabId: number, transitionType?: string }) => {
+      if(details.transitionType === fromChromeModule.TRANSITION_TYPE_LINK) {
+        emitter(fromHandleChromeWebNavigationOnCommittedChromeAction.transitionTypeLink(details.tabId))
       }
 
-      if(details.trasitionType === fromChromeModule.TRANSITION_TYPE_RELOAD) {
-        emitter(fromHandleChromeWebNavigationOnCommittedChromeAction.transitionTypeReload())
+      if(details.transitionType === fromChromeModule.TRANSITION_TYPE_RELOAD) {
+        emitter(fromHandleChromeWebNavigationOnCommittedChromeAction.transitionTypeReload(details.tabId))
       }
     }
 

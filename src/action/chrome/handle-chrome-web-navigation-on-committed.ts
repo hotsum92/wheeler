@@ -3,13 +3,15 @@ export const TRANSITION_TYPE_LINK = 'HANDLE_CHROME_WEB_NAVIGATION_ON_COMMITTED.T
 export interface TransitionTypeLink {
   type: typeof TRANSITION_TYPE_LINK
   payload: {
+    tabId: number
   }
 }
 
-export const transitionTypeLink = (): TransitionTypeLink =>
+export const transitionTypeLink = (tabId: number): TransitionTypeLink =>
   ({
     type: TRANSITION_TYPE_LINK,
     payload: {
+      tabId,
     }
   })
 
@@ -18,12 +20,14 @@ export const TRANSITION_TYPE_RELOAD = 'HANDLE_CHROME_WEB_NAVIGATION_ON_COMMITTED
 export interface TransitionTypeReload {
   type: typeof TRANSITION_TYPE_RELOAD
   payload: {
+    tabId: number
   }
 }
 
-export const transitionTypeReload = (): TransitionTypeReload =>
+export const transitionTypeReload = (tabId: number): TransitionTypeReload =>
   ({
     type: TRANSITION_TYPE_RELOAD,
     payload: {
+      tabId,
     }
   })
