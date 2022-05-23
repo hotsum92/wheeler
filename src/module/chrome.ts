@@ -15,8 +15,11 @@ export const chromeRuntimeOnMessageRemoveListener = (listener: (...args: any) =>
   chrome.runtime.onMessage.removeListener(listener)
 }
 
-export const STATUS_COMPLETE = 'complete'
-export const STATUS_LOADING = 'loading'
+export const TAB_STATUS_COMPLETE = 'complete'
+export const TAB_STATUS_LOADING = 'loading'
+export const TRANSITION_TYPE_LINK = 'link'
+export const TRANSITION_TYPE_RELOAD = 'reload'
+
 
 export const chromeTabsOnUpdatedAddListener = (listener: (...args: any) => void) => {
   chrome.tabs.onUpdated.addListener(listener)
@@ -32,6 +35,14 @@ export const chromeActionOnClickedAddListener = (listener: (tab: chrome.tabs.Tab
 
 export const chromeActionOnClickedRemoveListener = (listener: (...args: any) => void) => {
   chrome.action.onClicked.removeListener(listener)
+}
+
+export const chromeWebNavigationOnCommittedAddListener = (listener: (details: any) => void) => {
+  chrome.webNavigation.onCommitted.addListener(listener)
+}
+
+export const chromeWebNavigationOnCommittedRemoveListener = (listener: (details: any) => void) => {
+  chrome.webNavigation.onCommitted.removeListener(listener)
 }
 
 export const openContentScript = (tabId: number) => {
