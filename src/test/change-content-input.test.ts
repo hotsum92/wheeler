@@ -14,7 +14,9 @@ import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/s
 
 describe('ページに数値を入力すると、指定したページのウェブページに移動することができる', () => {
 
-  test('数値を入力する', async () => {
+  test.skip('数値を入力する', async () => {
+
+    throw new Error('入力欄から抜けたときにページを更新')
 
     const url = 'http://example.com/23/'
     const input = '10'
