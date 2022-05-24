@@ -7,19 +7,16 @@ import * as fromContentReducer from '~/reducer/content'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromPageInputDomain from '~/domain/page-input'
-import * as fromApplyPageContentProcess from '~/process/content/apply-page'
 import * as fromUpdateUrlContentProcess from '~/process/content/update-url'
+import * as fromApplyPageContentProcess from '~/process/content/apply-page'
 import * as fromSaveSelectRangeContentProcess from '~/process/content/save-select-range'
 import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/save-url-select-range'
 
-describe('ページに数値を入力すると、指定したページのウェブページに移動することができる', () => {
+describe('ページを変更すると、指定したページのウェブページに移動することができる', () => {
 
-  test.skip('数値を入力する', async () => {
-
-    throw new Error('入力欄から抜けたときにページを更新')
+  test('ページを増やす', async () => {
 
     const url = 'http://example.com/23/'
-    const input = '10'
 
     const store = configureStoreContent({
       ui: {
@@ -39,27 +36,30 @@ describe('ページに数値を入力すると、指定したページのウェ�
       ])
     })
 
-    store.dispatch(fromContentUiAction.onChangePageInput(input))
+    store.dispatch(fromContentUiAction.onClickForwardButton())
 
     await task.toPromise()
 
     expect(fromContentReducer.getContentUiPageInput(store.getState()))
       .toStrictEqual({
-        input,
+        input: '24',
       })
 
     expect(fromContentReducer.getContentUiUrlInput(store.getState()))
       .toStrictEqual({
-        input: 'http://example.com/10/',
-        select: '10',
+        input: 'http://example.com/24/',
+        select: '24',
         selectStart: 19,
       })
 
     expect(assignUrlFromDomModule)
       .toHaveBeenCalledWith(
-        'http://example.com/10/',
+        'http://example.com/24/',
       )
 
+  })
+
+  test.skip('数値を入力する', async () => {
   })
 
   test.skip('数値以外を入力', async () => {
