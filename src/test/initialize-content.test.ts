@@ -5,8 +5,8 @@ import configureStoreBackground from '~/store/background'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromContentUiAction from '~/action/ui/content'
-import * as fromChromeAction from '~/action/chrome'
 import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
+import * as fromHandleChromeWebNavigationOnCommittedChromeAction from '~/action/chrome/handle-chrome-web-navigation-on-committed'
 import * as fromInitializeContentContentProcess from '~/process/content/initialize-content'
 import * as fromLoadContentScriptBackgroundProcess from '~/process/background/load-content-script'
 import * as fromUrlKeyDomain from '~/domain/url-key'
@@ -148,9 +148,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
 describe('ページを更新した後、content scriptを開始する', () => {
 
-  test.skip('初期値からの起動', async () => {
-
-    throw new Error('複数スクリプトが出ることを防ぐ')
+  test('初期値からの起動', async () => {
 
     const tabId = -1
     const url = 'http://example.com/23/356/'
@@ -192,7 +190,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
       ])
     })
 
-    storeBackground.dispatch(fromChromeAction.onUpdateWebPage(tabId))
+    storeBackground.dispatch(fromHandleChromeWebNavigationOnCommittedChromeAction.transitionTypeReload(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),
