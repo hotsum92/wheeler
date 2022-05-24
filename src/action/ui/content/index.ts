@@ -133,3 +133,35 @@ export const onSelectUrlInput =
         select,
       }
     })
+
+export const ON_FOCUS_OUT = 'CONTENT_UI.ON_FOCUS_OUT'
+
+export interface OnFocusOut {
+  type: typeof ON_FOCUS_OUT
+  payload: {
+  }
+}
+
+export const onFocusOut =
+  (): OnFocusOut =>
+    ({
+      type: ON_FOCUS_OUT,
+      payload: {
+      }
+    })
+
+export const ON_INPUT_ENTER = 'CONTENT_UI.ON_INPUT_ENTER'
+
+export interface OnInputEnter {
+  type: typeof ON_INPUT_ENTER
+  payload: {
+  }
+}
+
+export const onInputEnter =
+  (): OnInputEnter =>
+    ({
+      type: ON_INPUT_ENTER,
+      payload: {
+      }
+    })
