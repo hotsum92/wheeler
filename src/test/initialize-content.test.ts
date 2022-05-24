@@ -7,6 +7,7 @@ import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
 import * as fromHandleChromeWebNavigationOnCommittedChromeAction from '~/action/chrome/handle-chrome-web-navigation-on-committed'
+import * as fromHandleChromeTabsOnUpdatedChromeAction from '~/action/chrome/handle-chrome-tabs-on-updated'
 import * as fromInitializeContentContentProcess from '~/process/content/initialize-content'
 import * as fromLoadContentScriptBackgroundProcess from '~/process/background/load-content-script'
 import * as fromUrlKeyDomain from '~/domain/url-key'
@@ -216,8 +217,70 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
   })
 
-  test.skip('URLのみの変更の場合は、inputを変更する', () => {
-    throw new Error('未実装')
+  test.skip('URLのみの変更の場合は、inputを変更する', async () => {
+    const tabId = -1
+    const url = 'http://example.com/23/356/'
+
+    const storeBackground = configureStoreBackground({
+      tab: {
+        tabIds: [ tabId ],
+        byTabId: {
+          [tabId]: {
+            appStatus: pipe(fromAppStatusDomain.newAppStatus())
+                        (fromAppStatusDomain.runApp)
+                        ()
+          }
+        }
+      }
+    })
+
+    const storeContent = configureStoreContent()
+
+    const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
+    const getUrlFromDomModuleMock = jest.fn(() => url)
+    let sendResponse: any = null
+    const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
+      sendResponse = resolve
+      storeBackground.dispatch(action)
+    }))
+    const chromeTabsSendMessageFromBackground = jest.fn()
+
+    const taskBackground = storeBackground.runSaga(function* () {
+      yield all([
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
+        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => sendResponse(args)),
+      ])
+    })
+
+    const taskContent = storeContent.runSaga(function* () {
+      yield all([
+        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessageFromContent)),
+      ])
+    })
+
+    storeBackground.dispatch(fromHandleChromeTabsOnUpdatedChromeAction.tabStatusLoading(tabId))
+
+    await Promise.all([
+      taskBackground.toPromise(),
+      taskContent.toPromise(),
+    ])
+
+    expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
+      .toStrictEqual({
+        input: url,
+        selectStart: 22,
+        select: '356',
+      })
+
+    expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))
+      .toStrictEqual({
+        input: '356',
+      })
+
+    expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
+      .toStrictEqual({
+        status: fromAppStatusDomain.RUN,
+      })
   })
 
 })
