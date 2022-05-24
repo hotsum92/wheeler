@@ -59,8 +59,34 @@ describe('ページを変更すると、指定したページのウェブペー�
 
   })
 
-  test.skip('数値を入力する', async () => {
-    throw new Error('未実装')
+  test('数値を入力する', async () => {
+
+    const url = 'http://example.com/23/'
+    const input = '24'
+
+    const store = configureStoreContent({
+      ui: {
+        content: {
+          urlInput: fromUrlInputDomain.fromUrl(url),
+          pageInput: fromPageInputDomain.fromUrl(url),
+        }
+      }
+    })
+
+    const task = store.runSaga(function* () {
+      yield all([
+      ])
+    })
+
+    store.dispatch(fromContentUiAction.onChangePageInput(input))
+
+    await task.toPromise()
+
+    expect(fromContentReducer.getContentUiPageInput(store.getState()))
+      .toStrictEqual({
+        input: '24',
+      })
+
   })
 
   test.skip('数値以外を入力', async () => {
