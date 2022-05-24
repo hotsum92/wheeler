@@ -6,6 +6,7 @@ import * as fromContentReducer from '~/reducer/content'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromChromeAction from '~/action/chrome'
+import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
 import * as fromInitializeContentContentProcess from '~/process/content/initialize-content'
 import * as fromLoadContentScriptBackgroundProcess from '~/process/background/load-content-script'
 import * as fromUrlKeyDomain from '~/domain/url-key'
@@ -25,9 +26,9 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
     const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const getUrlFromDomModuleMock = jest.fn(() => url)
-    const obj: any = {}
+    let sendResponse: any = null
     const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
-      obj.sendResponse = resolve
+      sendResponse = resolve
       storeBackground.dispatch(action)
     }))
     const chromeTabsSendMessageFromBackground = jest.fn()
@@ -35,7 +36,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
         takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
-        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => obj.sendResponse(args)),
+        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => sendResponse(args)),
       ])
     })
 
@@ -45,7 +46,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
       ])
     })
 
-    storeBackground.dispatch(fromChromeAction.onClickExtention(tabId))
+    storeBackground.dispatch(fromHandleChromeActionOnClickedChromeProcessAction.onClickExtention(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),
@@ -71,7 +72,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
   })
 
-  test('すでに訪れたことのあるURLから起動', async () => {
+  test.skip('すでに訪れたことのあるURLから起動', async () => {
 
     const tabId = -1
     const url = 'http://example.com/23/356/'
@@ -97,9 +98,9 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
     const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const getUrlFromDomModuleMock = jest.fn(() => url)
-    const obj: any = {}
+    let sendResponse: any = null
     const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
-      obj.sendResponse = resolve
+      sendResponse = resolve
       storeBackground.dispatch(action)
     }))
     const chromeTabsSendMessageFromBackground = jest.fn()
@@ -107,7 +108,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
         takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
-        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => obj.sendResponse(args)),
+        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => sendResponse(args)),
       ])
     })
 
@@ -117,7 +118,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
       ])
     })
 
-    storeBackground.dispatch(fromChromeAction.onClickExtention(tabId))
+    storeBackground.dispatch(fromHandleChromeActionOnClickedChromeProcessAction.onClickExtention(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),
@@ -171,9 +172,9 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
     const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const getUrlFromDomModuleMock = jest.fn(() => url)
-    const obj: any = {}
+    let sendResponse: any = null
     const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
-      obj.sendResponse = resolve
+      sendResponse = resolve
       storeBackground.dispatch(action)
     }))
     const chromeTabsSendMessageFromBackground = jest.fn()
@@ -181,7 +182,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
         takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
-        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => obj.sendResponse(args)),
+        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => sendResponse(args)),
       ])
     })
 

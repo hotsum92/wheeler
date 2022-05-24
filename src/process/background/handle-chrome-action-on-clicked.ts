@@ -2,7 +2,7 @@ import { eventChannel, EventChannel } from 'redux-saga'
 import { take, put, call } from 'redux-saga/effects'
 import { chromeActionOnClickedAddListener, chromeActionOnClickedRemoveListener } from '~/module/chrome'
 import { Action } from '~/action'
-import * as fromChromeAction from '~/action/chrome'
+import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
 
 export function* watchHandleChromeActionOnClicked() {
   const chan: EventChannel<Action> = yield call(handleChromeActionOnClicked)
@@ -17,7 +17,7 @@ export const handleChromeActionOnClicked = () => {
   return eventChannel(emitter => {
     const listener = (tab: { id?: number }) => {
       if(tab.id != null) {
-        emitter(fromChromeAction.onClickExtention(tab.id))
+        emitter(fromHandleChromeActionOnClickedChromeProcessAction.onClickExtention(tab.id))
       }
     }
 

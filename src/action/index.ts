@@ -10,6 +10,7 @@ import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process
 import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
 import * as fromHandleChromeWebNavigationOnCommittedChromeAction from '~/action/chrome/handle-chrome-web-navigation-on-committed'
+import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
 import * as fromHandleChromeTabsOnUpdated from '~/action/chrome/handle-chrome-tabs-on-updated'
 
 export const INITIAL = 'ACTION.INITIAL'
@@ -58,4 +59,5 @@ export type Action =
   | fromHandleChromeWebNavigationOnCommittedChromeAction.TransitionTypeReload
   | fromHandleChromeTabsOnUpdated.TabStatusLoading
   | fromHandleChromeTabsOnUpdated.TabStatusComplete
+  | fromHandleChromeActionOnClickedChromeProcessAction.OnClickExtention
 
