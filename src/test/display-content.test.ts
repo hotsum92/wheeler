@@ -8,12 +8,12 @@ import * as fromHideExtentionBackgroundProcess from '~/process/content/hide-exte
 import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
 import * as fromDisplayExtentionContentProcess from '~/process/content/display-extention'
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
-import * as fromChromeAction from '~/action/chrome'
+import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
 import * as fromBackgroundReducer from '~/reducer/background'
 
 describe('拡張を表示、非表示する', () => {
 
-  test.skip('表示から非表示にする', async () => {
+  test('表示から非表示にする', async () => {
 
     const tabId = -1
 
@@ -49,7 +49,7 @@ describe('拡張を表示、非表示する', () => {
       ])
     })
 
-    storeBackground.dispatch(fromChromeAction.onClickExtention(tabId))
+    storeBackground.dispatch(fromHandleChromeActionOnClickedChromeProcessAction.onClickExtention(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),
@@ -65,7 +65,7 @@ describe('拡張を表示、非表示する', () => {
 
   })
 
-  test.skip('非表示から表示にする', async () => {
+  test('非表示から表示にする', async () => {
 
     const tabId = -1
 
@@ -101,7 +101,7 @@ describe('拡張を表示、非表示する', () => {
       ])
     })
 
-    storeBackground.dispatch(fromChromeAction.onClickExtention(tabId))
+    storeBackground.dispatch(fromHandleChromeActionOnClickedChromeProcessAction.onClickExtention(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),
