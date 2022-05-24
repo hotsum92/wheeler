@@ -73,7 +73,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
   })
 
-  test.skip('すでに訪れたことのあるURLから起動', async () => {
+  test('すでに訪れたことのあるURLから起動', async () => {
 
     const tabId = -1
     const url = 'http://example.com/23/356/'
