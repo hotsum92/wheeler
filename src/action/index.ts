@@ -5,7 +5,6 @@ import * as fromInitializeContentContentProcessAction from '~/action/process/con
 import * as fromApplyPageContentProcess from '~/action/process/content/apply-page'
 import * as fromUpdateUrlContentProcess from '~/action/process/content/update-url'
 import * as fromSaveSelectRangeContentProcess from '~/action/process/content/save-select-range'
-import * as fromChromeAction from '~/action/chrome'
 import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process/background/save-url-select-range'
 import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
@@ -43,9 +42,6 @@ export type Action =
   | fromInitializeContentContentProcessAction.LoadUrlSelectRangeSuccess
   | fromInitializeContentContentProcessAction.InitializeUrlSelectRange
   | fromUpdateUrlContentProcess.UpdateUrl
-  | fromChromeAction.OnClickExtention
-  | fromChromeAction.OnUpdateWebPage
-  | fromChromeAction.OnMessageExtention
   | fromLoadContentScriptBackgroundProcessAction.RunApp
   | fromLoadContentScriptBackgroundProcessAction.SuspendApp
   | fromLoadUrlSelectRangeBackgroundProcessAction.RequestLoadUrlSelectRange
