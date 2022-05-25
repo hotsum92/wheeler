@@ -8,6 +8,7 @@ import * as fromUpdateUrlContentProcessAction from '~/action/process/content/upd
 import * as fromContentReducer from '~/reducer/content'
 
 export const actions = [
+  fromContentUiAction.ON_INPUT_ENTER_KEY_PAGE_INPUT,
   fromContentUiAction.ON_FOCUS_OUT_PAGE_INPUT,
   fromContentUiAction.ON_CLICK_BACKWARD_BUTTON,
   fromContentUiAction.ON_CLICK_FORWARD_BUTTON,
