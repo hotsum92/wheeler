@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects'
 import configureStoreContent from '~/store/content'
 import configureStoreBackground from '~/store/background'
-import { takeOnce } from '~/test/helper'
+import { takeOnce, pipe } from '~/test/helper'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromBackgroundReducer from '~/reducer/background'
@@ -93,8 +93,53 @@ describe('ページを変更すると、指定したページのウェブペー�
     throw new Error('未実装')
   })
 
-  test.skip('フォーカスが抜けたとき', async () => {
-    throw new Error('未実装')
+  test('フォーカスが抜けたとき', async () => {
+
+    const url = 'http://example.com/23/'
+    const input = '24'
+
+    const store = configureStoreContent({
+      ui: {
+        content: {
+          urlInput: fromUrlInputDomain.fromUrl(url),
+          pageInput: pipe(url)
+                      (fromPageInputDomain.fromUrl)
+                      (pageInput => fromPageInputDomain.assignInput(pageInput, input))
+                      (),
+        }
+      }
+    })
+
+    const assignUrlFromDomModule = jest.fn()
+
+    const task = store.runSaga(function* () {
+      yield all([
+        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage()),
+        takeOnce(fromUpdateUrlContentProcess.actions, fromUpdateUrlContentProcess.createUpdateUrl(assignUrlFromDomModule)),
+      ])
+    })
+
+    store.dispatch(fromContentUiAction.onFocusOutPageInput())
+
+    await task.toPromise()
+
+    expect(fromContentReducer.getContentUiPageInput(store.getState()))
+      .toStrictEqual({
+        input: '24',
+      })
+
+    expect(fromContentReducer.getContentUiUrlInput(store.getState()))
+      .toStrictEqual({
+        input: 'http://example.com/24/',
+        select: '24',
+        selectStart: 19,
+      })
+
+    expect(assignUrlFromDomModule)
+      .toHaveBeenCalledWith(
+        'http://example.com/24/',
+      )
+
   })
 
 })
