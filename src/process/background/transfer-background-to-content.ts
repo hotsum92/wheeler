@@ -29,7 +29,11 @@ export const createTransferBackgroundToContent = (
     const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatusByTabId, tabId)
 
     if(fromAppStatusDomain.isRunning(appStatus)) {
-      yield call(chromeTabsSendMessage, action.payload.tabId, action)
+      // リロード時はレスポンスがないので、エラーを潰す
+      try {
+        yield call(chromeTabsSendMessage, action.payload.tabId, action)
+      } catch {
+      }
     }
 
   }
