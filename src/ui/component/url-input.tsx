@@ -8,6 +8,8 @@ interface Props {
   urlInput: string
   onChangeUrlInput: (input: string) => void
   onSelectUrlInput: (selectStart: number, select: string) => void
+  onBlur: () => void
+  onEnterKeyDown: () => void
   sx?: SxProps<Theme>
 }
 
@@ -65,6 +67,8 @@ export default (props: Props) => {
             }}
             value={props.urlInput}
             onChange={e => props.onChangeUrlInput(e.target.value)}
+            onBlur={() => props.onBlur()}
+            onKeyDown={e => e.key === 'Enter' && e.preventDefault() || props.onEnterKeyDown()}
           />
         </div>
       </Card>

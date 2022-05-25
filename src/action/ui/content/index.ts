@@ -165,3 +165,35 @@ export const onInputEnterKeyPageInput =
       payload: {
       }
     })
+
+export const ON_INPUT_ENTER_KEY_URL_INPUT = 'CONTENT_UI.ON_INPUT_ENTER_KEY_URL_INPUT'
+
+export interface OnInputEnterKeyUrlInput {
+  type: typeof ON_INPUT_ENTER_KEY_URL_INPUT
+  payload: {
+  }
+}
+
+export const onInputEnterKeyUrlInput =
+  (): OnInputEnterKeyUrlInput =>
+    ({
+      type: ON_INPUT_ENTER_KEY_URL_INPUT,
+      payload: {
+      }
+    })
+
+export const ON_FOCUS_OUT_URL_INPUT = 'CONTENT_UI.ON_FOCUS_OUT_URL_INPUT'
+
+export interface OnFocusOutUrlInput {
+  type: typeof ON_FOCUS_OUT_URL_INPUT
+  payload: {
+  }
+}
+
+export const onFocusOutUrlInput =
+  (): OnFocusOutUrlInput =>
+    ({
+      type: ON_FOCUS_OUT_URL_INPUT,
+      payload: {
+      }
+    })

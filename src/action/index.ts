@@ -41,6 +41,8 @@ export type Action =
   | fromContentUiAction.OnSelectUrlInput
   | fromContentUiAction.OnFocusOutPageInput
   | fromContentUiAction.OnInputEnterKeyPageInput
+  | fromContentUiAction.OnFocusOutUrlInput
+  | fromContentUiAction.OnInputEnterKeyUrlInput
   | fromApplyPageContentProcess.ApplyPage
   | fromInitializeContentContentProcessAction.LoadUrlSelectRangeSuccess
   | fromInitializeContentContentProcessAction.InitializeUrlSelectRange
