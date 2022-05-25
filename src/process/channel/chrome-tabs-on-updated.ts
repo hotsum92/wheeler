@@ -11,7 +11,7 @@ export type Channel = EventChannel<Message>
 export const createChannel = () => {
   return () => {
     return eventChannel(emitter => {
-      const listener = (tabId: number, changeInfo: any) => {
+      const listener = (tabId: number, changeInfo: { status?: string }) => {
         if(changeInfo.status === fromChromeModule.TAB_STATUS_LOADING) {
           emitter(fromChromeTabsOnUpdatedProcessAction.tabStatusLoading(tabId))
         }
