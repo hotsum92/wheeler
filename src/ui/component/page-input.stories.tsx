@@ -16,6 +16,8 @@ export const Default = () => {
       <PageInput
         sx={{ position: 'absolute', left: 50 }}
         pageInput={pageInput}
+        onBlur={() => console.log('onBlur')}
+        onEnterKeyDown={() => console.log('onEnterKeyDown')}
         onChangePageInput={setPageInput}
         onClickForwardButton={() => setPageInput((Number(pageInput) + 1).toString())}
         onClickBackwardButton={() => setPageInput((Number(pageInput) - 1).toString())}

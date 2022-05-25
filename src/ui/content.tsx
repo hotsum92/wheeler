@@ -25,6 +25,8 @@ export default function Content() {
       <PageInput
         sx={{ position: 'fixed', right: 10, top: 50 }}
         pageInput={pageInput.input}
+        onBlur={() => dispatch(fromContentUiAction.onFocusOutPageInput())}
+        onEnterKeyDown={() => dispatch(fromContentUiAction.onInputEnterKeyPageInput())}
         onChangePageInput={(input) => dispatch(fromContentUiAction.onChangePageInput(input))}
         onClickBackwardButton={() => dispatch(fromContentUiAction.onClickBackwardButton())}
         onClickForwardButton={() => dispatch(fromContentUiAction.onClickForwardButton())}

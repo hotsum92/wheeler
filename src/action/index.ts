@@ -38,6 +38,8 @@ export type Action =
   | fromContentUiAction.OnWheelDown
   | fromContentUiAction.OnChangeUrlInput
   | fromContentUiAction.OnSelectUrlInput
+  | fromContentUiAction.OnFocusOutPageInput
+  | fromContentUiAction.OnInputEnterKeyPageInput
   | fromApplyPageContentProcess.ApplyPage
   | fromInitializeContentContentProcessAction.LoadUrlSelectRangeSuccess
   | fromInitializeContentContentProcessAction.InitializeUrlSelectRange

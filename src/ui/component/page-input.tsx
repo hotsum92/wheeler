@@ -9,6 +9,8 @@ import IconButton from '@mui/material/IconButton';
 
 interface Props {
   pageInput: string
+  onBlur: () => void
+  onEnterKeyDown: () => void
   onChangePageInput: (input: string) => void
   onClickBackwardButton: () => void
   onClickForwardButton: () => void
@@ -81,7 +83,9 @@ export default (props: Props) => {
                 textAlign: 'center',
               }}
               value={props.pageInput}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault() || props.onEnterKeyDown()}
               onChange={e => props.onChangePageInput(e.target.value)}
+              onBlur={() => props.onBlur()}
             />
           </div>
           <IconButton

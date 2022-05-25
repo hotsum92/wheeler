@@ -134,34 +134,34 @@ export const onSelectUrlInput =
       }
     })
 
-export const ON_FOCUS_OUT = 'CONTENT_UI.ON_FOCUS_OUT'
+export const ON_FOCUS_OUT_PAGE_INPUT = 'CONTENT_UI.ON_FOCUS_OUT_PAGE_INPUT'
 
-export interface OnFocusOut {
-  type: typeof ON_FOCUS_OUT
+export interface OnFocusOutPageInput {
+  type: typeof ON_FOCUS_OUT_PAGE_INPUT
   payload: {
   }
 }
 
-export const onFocusOut =
-  (): OnFocusOut =>
+export const onFocusOutPageInput =
+  (): OnFocusOutPageInput =>
     ({
-      type: ON_FOCUS_OUT,
+      type: ON_FOCUS_OUT_PAGE_INPUT,
       payload: {
       }
     })
 
-export const ON_INPUT_ENTER = 'CONTENT_UI.ON_INPUT_ENTER'
+export const ON_INPUT_ENTER_KEY_PAGE_INPUT = 'CONTENT_UI.ON_INPUT_ENTER_KEY_PAGE_INPUT'
 
-export interface OnInputEnter {
-  type: typeof ON_INPUT_ENTER
+export interface OnInputEnterKeyPageInput {
+  type: typeof ON_INPUT_ENTER_KEY_PAGE_INPUT
   payload: {
   }
 }
 
-export const onInputEnter =
-  (): OnInputEnter =>
+export const onInputEnterKeyPageInput =
+  (): OnInputEnterKeyPageInput =>
     ({
-      type: ON_INPUT_ENTER,
+      type: ON_INPUT_ENTER_KEY_PAGE_INPUT,
       payload: {
       }
     })
