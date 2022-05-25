@@ -13,7 +13,7 @@ export function* watchDisplayExtention(
   const chan: fromChromeRuntimeOnMessageChannelProcess.Channel = yield call(fromChromeRuntimeOnMessageChannelProcess.createChannel())
 
   while(true) {
-    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Response = yield take(chan)
+    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Message = yield take(chan)
     if(action.type === fromDisplayExtentionContentProcessAction.REQUEST_DISPLAY_EXTENTION) {
       yield call(saga, action, sendResponse)
     }

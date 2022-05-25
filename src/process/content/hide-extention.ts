@@ -13,7 +13,7 @@ export function* watchHideExtention(
   const chan: fromChromeRuntimeOnMessageChannelProcess.Channel = yield call(fromChromeRuntimeOnMessageChannelProcess.createChannel())
 
   while(true) {
-    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Response = yield take(chan)
+    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Message = yield take(chan)
     if(action.type === fromHideExtentionBackgroundProcessAction.REQUEST_HIDE_EXTENTION) {
       yield call(saga, action, sendResponse)
     }

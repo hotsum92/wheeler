@@ -8,7 +8,7 @@ import * as fromHideExtentionBackgroundProcess from '~/process/content/hide-exte
 import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
 import * as fromDisplayExtentionContentProcess from '~/process/content/display-extention'
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
-import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
+import * as fromHandleChromeActionOnClickedChannelProcessProcessAction from '~/action/process/channel/chrome-action-on-clicked'
 import * as fromBackgroundReducer from '~/reducer/background'
 
 describe('拡張を表示、非表示する', () => {
@@ -49,7 +49,7 @@ describe('拡張を表示、非表示する', () => {
       ])
     })
 
-    storeBackground.dispatch(fromHandleChromeActionOnClickedChromeProcessAction.onClickExtention(tabId))
+    storeBackground.dispatch(fromHandleChromeActionOnClickedChannelProcessProcessAction.onClickExtention(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),
@@ -101,7 +101,7 @@ describe('拡張を表示、非表示する', () => {
       ])
     })
 
-    storeBackground.dispatch(fromHandleChromeActionOnClickedChromeProcessAction.onClickExtention(tabId))
+    storeBackground.dispatch(fromHandleChromeActionOnClickedChannelProcessProcessAction.onClickExtention(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),

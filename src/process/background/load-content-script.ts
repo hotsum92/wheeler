@@ -3,24 +3,24 @@ import * as fromChromeModule from '~/module/chrome'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
 import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
-import * as fromHandleChromeWebNavigationOnCommittedChromeAction from '~/action/chrome/handle-chrome-web-navigation-on-committed'
-import * as fromHandleChromeTabsOnUpdatedChromeAction from '~/action/chrome/handle-chrome-tabs-on-updated'
-import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
+import * as fromChromeWebNavigationOnCommittedChannelProcessAction from '~/action/process/channel/chrome-web-navigation-on-committed'
+import * as fromChromeTabsOnUpdatedChannelProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
+import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromAppStatusDomain from '~/domain/app-status'
 
 export const actions = [
-  fromHandleChromeActionOnClickedChromeProcessAction.ON_CLICK_EXTENTION,
-  fromHandleChromeWebNavigationOnCommittedChromeAction.TRANSITION_TYPE_LINK,
-  fromHandleChromeWebNavigationOnCommittedChromeAction.TRANSITION_TYPE_RELOAD,
-  fromHandleChromeTabsOnUpdatedChromeAction.TAB_STATUS_LOADING,
+  fromChromeActionOnClickedChannelProcessAction.ON_CLICK_EXTENTION,
+  fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_LINK,
+  fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_RELOAD,
+  fromChromeTabsOnUpdatedChannelProcessAction.TAB_STATUS_LOADING,
 ]
 
 type Action =
-  | fromHandleChromeActionOnClickedChromeProcessAction.OnClickExtention
-  | fromHandleChromeWebNavigationOnCommittedChromeAction.TransitionTypeLink
-  | fromHandleChromeWebNavigationOnCommittedChromeAction.TransitionTypeReload
-  | fromHandleChromeTabsOnUpdatedChromeAction.TabStatusLoading
+  | fromChromeActionOnClickedChannelProcessAction.OnClickExtention
+  | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeLink
+  | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeReload
+  | fromChromeTabsOnUpdatedChannelProcessAction.TabStatusLoading
 
 export function* watchLoadContentScript(saga: ReturnType<typeof createLoadContentScript>) {
   yield takeLatest(
@@ -41,7 +41,7 @@ export const createLoadContentScript = (
 
     switch(action.type) {
 
-      case fromHandleChromeActionOnClickedChromeProcessAction.ON_CLICK_EXTENTION: {
+      case fromChromeActionOnClickedChannelProcessAction.ON_CLICK_EXTENTION: {
 
         if(fromAppStatusDomain.isStop(appStatus)) {
           yield call(openContentScriptFromChromeModule, tabId)
@@ -61,8 +61,8 @@ export const createLoadContentScript = (
         return
       }
 
-      case fromHandleChromeWebNavigationOnCommittedChromeAction.TRANSITION_TYPE_RELOAD:
-      case fromHandleChromeWebNavigationOnCommittedChromeAction.TRANSITION_TYPE_LINK: {
+      case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_RELOAD:
+      case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_LINK: {
 
         if(fromAppStatusDomain.isRunning(appStatus)) {
           yield call(openContentScriptFromChromeModule, tabId)
@@ -71,7 +71,7 @@ export const createLoadContentScript = (
         return
       }
 
-      case fromHandleChromeTabsOnUpdatedChromeAction.TAB_STATUS_LOADING: {
+      case fromChromeTabsOnUpdatedChannelProcessAction.TAB_STATUS_LOADING: {
         // TODO: URL変更時の処理
         if(fromAppStatusDomain.isRunning(appStatus)) {
           //yield call(openContentScriptFromChromeModule, tabId)

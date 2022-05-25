@@ -1,4 +1,4 @@
-export const TAB_STATUS_LOADING = 'HANDLE_CHROME_TABS_ON_UPDATED.TAB_STATUS_LOADING'
+export const TAB_STATUS_LOADING = 'CHROME_TABS_ON_UPDATED.TAB_STATUS_LOADING'
 
 export interface TabStatusLoading {
   type: typeof TAB_STATUS_LOADING
@@ -15,7 +15,7 @@ export const tabStatusLoading = (tabId: number): TabStatusLoading =>
     }
   })
 
-export const TAB_STATUS_COMPLETE = 'HANDLE_CHROME_TABS_ON_UPDATED.TAB_STATUS_COMPLETE'
+export const TAB_STATUS_COMPLETE = 'CHROME_TABS_ON_UPDATED.TAB_STATUS_COMPLETE'
 
 export interface TabStatusComplete {
   type: typeof TAB_STATUS_COMPLETE

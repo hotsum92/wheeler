@@ -14,7 +14,7 @@ export function* watchLoadUrlSelectRange(
   const chan: fromChromeRuntimeOnMessageChannelProcess.Channel = yield call(fromChromeRuntimeOnMessageChannelProcess.createChannel())
 
   while(true) {
-    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Response = yield take(chan)
+    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Message = yield take(chan)
     if(action.type === fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE) {
       yield call(saga, action, sendResponse)
     }

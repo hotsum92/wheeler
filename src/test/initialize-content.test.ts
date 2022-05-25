@@ -5,9 +5,9 @@ import configureStoreBackground from '~/store/background'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromContentUiAction from '~/action/ui/content'
-import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
-import * as fromHandleChromeWebNavigationOnCommittedChromeAction from '~/action/chrome/handle-chrome-web-navigation-on-committed'
-import * as fromHandleChromeTabsOnUpdatedChromeAction from '~/action/chrome/handle-chrome-tabs-on-updated'
+import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
+import * as fromChromeWebNavigationOnCommittedProcessChannelAction from '~/action/process/channel/chrome-web-navigation-on-committed'
+import * as fromChromeTabsOnUpdatedProcessChannelAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromInitializeContentContentProcess from '~/process/content/initialize-content'
 import * as fromLoadContentScriptBackgroundProcess from '~/process/background/load-content-script'
 import * as fromUrlKeyDomain from '~/domain/url-key'
@@ -47,7 +47,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
       ])
     })
 
-    storeBackground.dispatch(fromHandleChromeActionOnClickedChromeProcessAction.onClickExtention(tabId))
+    storeBackground.dispatch(fromChromeActionOnClickedChannelProcessAction.onClickExtention(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),
@@ -119,7 +119,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
       ])
     })
 
-    storeBackground.dispatch(fromHandleChromeActionOnClickedChromeProcessAction.onClickExtention(tabId))
+    storeBackground.dispatch(fromChromeActionOnClickedChannelProcessAction.onClickExtention(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),
@@ -191,7 +191,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
       ])
     })
 
-    storeBackground.dispatch(fromHandleChromeWebNavigationOnCommittedChromeAction.transitionTypeReload(tabId))
+    storeBackground.dispatch(fromChromeWebNavigationOnCommittedProcessChannelAction.transitionTypeReload(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),
@@ -258,7 +258,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
       ])
     })
 
-    storeBackground.dispatch(fromHandleChromeTabsOnUpdatedChromeAction.tabStatusLoading(tabId))
+    storeBackground.dispatch(fromChromeTabsOnUpdatedProcessChannelAction.tabStatusLoading(tabId))
 
     await Promise.all([
       taskBackground.toPromise(),

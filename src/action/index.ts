@@ -8,9 +8,9 @@ import * as fromSaveSelectRangeContentProcess from '~/action/process/content/sav
 import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process/background/save-url-select-range'
 import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
-import * as fromHandleChromeWebNavigationOnCommittedChromeAction from '~/action/chrome/handle-chrome-web-navigation-on-committed'
-import * as fromHandleChromeActionOnClickedChromeProcessAction from '~/action/chrome/handle-chrome-action-on-clicked'
-import * as fromHandleChromeTabsOnUpdated from '~/action/chrome/handle-chrome-tabs-on-updated'
+import * as fromChromeWebNavigationOnCommittedProcessChannelAction from '~/action/process/channel/chrome-web-navigation-on-committed'
+import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
+import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 
 export const INITIAL = 'ACTION.INITIAL'
 
@@ -51,9 +51,9 @@ export type Action =
   | fromSaveSelectRangeContentProcess.SaveSelectRange
   | fromHideExtentionBackgroundProcessAction.RequestHideExtention
   | fromDisplayExtentionContentProcessAction.RequestDisplayExtention
-  | fromHandleChromeWebNavigationOnCommittedChromeAction.TransitionTypeLink
-  | fromHandleChromeWebNavigationOnCommittedChromeAction.TransitionTypeReload
-  | fromHandleChromeTabsOnUpdated.TabStatusLoading
-  | fromHandleChromeTabsOnUpdated.TabStatusComplete
-  | fromHandleChromeActionOnClickedChromeProcessAction.OnClickExtention
+  | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeLink
+  | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeReload
+  | fromChromeTabsOnUpdatedProcessAction.TabStatusLoading
+  | fromChromeTabsOnUpdatedProcessAction.TabStatusComplete
+  | fromChromeActionOnClickedChannelProcessAction.OnClickExtention
 
