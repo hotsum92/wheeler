@@ -50,10 +50,10 @@ export const createLoadContentScript = (
 
         if(fromAppStatusDomain.isRunning(appStatus)) {
           yield call(chromeTabsSendMessage, tabId, fromHideExtentionBackgroundProcessAction.requestHideExtention())
-          yield put(fromLoadContentScriptBackgroundProcessAction.suspendApp(tabId))
+          yield put(fromLoadContentScriptBackgroundProcessAction.hideApp(tabId))
         }
 
-        if(fromAppStatusDomain.isSuspended(appStatus)) {
+        if(fromAppStatusDomain.isHidden(appStatus)) {
           yield call(chromeTabsSendMessage, tabId, fromDisplayExtentionContentProcessAction.requestDisplayExtention())
           yield put(fromLoadContentScriptBackgroundProcessAction.runApp(tabId))
         }

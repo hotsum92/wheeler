@@ -58,7 +58,7 @@ describe('拡張を表示、非表示する', () => {
 
     expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
       .toStrictEqual({
-        status: fromAppStatusDomain.SUSPEND
+        status: fromAppStatusDomain.HIDDEN
       })
 
     expect(hideDivElement).toHaveBeenCalled()
@@ -75,7 +75,7 @@ describe('拡張を表示、非表示する', () => {
         byTabId: {
           [tabId]: {
             appStatus: pipe(fromAppStatusDomain.newAppStatus())
-                        (fromAppStatusDomain.suspendApp)
+                        (fromAppStatusDomain.hideApp)
                         ()
           }
         }

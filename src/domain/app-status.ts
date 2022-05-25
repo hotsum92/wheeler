@@ -1,9 +1,9 @@
 export const RUN = 'RUN'
-export const SUSPEND = 'SUSPEND'
+export const HIDDEN = 'HIDDEN'
 export const STOP = 'STOP'
 
 export interface AppStatus {
-  status: typeof RUN | typeof SUSPEND | typeof STOP
+  status: typeof RUN | typeof HIDDEN | typeof STOP
 }
 
 export const newAppStatus = (): AppStatus => {
@@ -12,10 +12,10 @@ export const newAppStatus = (): AppStatus => {
   }
 }
 
-export const suspendApp = (appStatus: AppStatus): AppStatus => {
+export const hideApp = (appStatus: AppStatus): AppStatus => {
   return {
     ...appStatus,
-    status: SUSPEND,
+    status: HIDDEN,
   }
 }
 
@@ -26,8 +26,8 @@ export const runApp = (appStatus: AppStatus): AppStatus => {
   }
 }
 
-export const isSuspended = (appStatus: AppStatus): boolean => {
-  return appStatus.status === SUSPEND
+export const isHidden = (appStatus: AppStatus): boolean => {
+  return appStatus.status === HIDDEN
 }
 
 export const isRunning = (appStatus: AppStatus): boolean => {

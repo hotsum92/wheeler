@@ -46,7 +46,7 @@ export type Action =
   | fromInitializeContentContentProcessAction.InitializeUrlSelectRange
   | fromUpdateUrlContentProcess.UpdateUrl
   | fromLoadContentScriptBackgroundProcessAction.RunApp
-  | fromLoadContentScriptBackgroundProcessAction.SuspendApp
+  | fromLoadContentScriptBackgroundProcessAction.HideApp
   | fromLoadUrlSelectRangeBackgroundProcessAction.RequestLoadUrlSelectRange
   | fromLoadUrlSelectRangeBackgroundProcessAction.LoadUrlSelectRange
   | fromSaveUrlSelectRangeBackgroundProcessAction.SaveUrlSelectRange

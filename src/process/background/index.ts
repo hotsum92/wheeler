@@ -13,9 +13,9 @@ export default function* ({
   chromeTabsSendMessage = fromChromeModule.chromeTabsSendMessage,
 } = {}) {
   yield all([
-    fork(watchHandleChromeTabsOnUpdated),
     fork(watchHandleChromeActionOnClicked),
     fork(watchHandleChromeWebNavigationOnCommitted),
+    fork(watchHandleChromeTabsOnUpdated),
     fork(watchLoadContentScript, createLoadContentScript(openContentScript, chromeTabsSendMessage)),
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
     fork(watchSaveUrlSelectRange, createSaveUrlSelectRange()),
