@@ -19,6 +19,10 @@ import * as fromApplyTabUpdateContentProcess from '~/process/content/apply-tab-u
 
 describe('拡張ボタンをクリックした後、content scriptを開始する', () => {
 
+  test.skip('bookmarkから移動した後', async () => {
+    throw new Error('')
+  })
+
   test('初期値からの起動', async () => {
 
     const tabId = -1
