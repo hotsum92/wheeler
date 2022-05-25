@@ -158,10 +158,6 @@ describe('入力', () => {
     throw new Error('未実装')
   })
 
-  test.skip('数値が繰り上がったときに、適切に移動する', async () => {
-    throw new Error('未実装')
-  })
-
 })
 
 describe('URLの選択範囲を変更することができる', () => {
