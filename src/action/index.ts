@@ -11,6 +11,7 @@ import * as fromDisplayExtentionContentProcessAction from '~/action/process/cont
 import * as fromChromeWebNavigationOnCommittedProcessChannelAction from '~/action/process/channel/chrome-web-navigation-on-committed'
 import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
 import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
+import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 
 export const INITIAL = 'ACTION.INITIAL'
 
@@ -58,4 +59,5 @@ export type Action =
   | fromChromeTabsOnUpdatedProcessAction.TabStatusLoading
   | fromChromeTabsOnUpdatedProcessAction.TabStatusComplete
   | fromChromeActionOnClickedChannelProcessAction.OnClickExtention
+  | fromApplyTabUpdateContentProcessAction.ApplyTabUpdate
 

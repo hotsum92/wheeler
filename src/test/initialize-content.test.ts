@@ -14,6 +14,8 @@ import * as fromUrlKeyDomain from '~/domain/url-key'
 import * as fromAppStatusDomain from '~/domain/app-status'
 import * as fromLoadUrlSelectRangeBackgroundProcess from '~/process/background/load-url-select-range'
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
+import * as fromTransferBackgroundToContentBacgroundProcess from '~/process/background/transfer-background-to-content'
+import * as fromApplyTabUpdateContentProcess from '~/process/content/apply-tab-update'
 
 describe('拡張ボタンをクリックした後、content scriptを開始する', () => {
 
@@ -217,11 +219,26 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
   })
 
-  test.skip('URLのみの変更の場合は、inputを変更する', async () => {
+  test('URLのみの変更の場合は、inputを変更する', async () => {
+
     const tabId = -1
     const url = 'http://example.com/23/356/'
+    const selectStart = 19
+    const selectLength = 2
+    const urlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
 
     const storeBackground = configureStoreBackground({
+      url: {
+        urlKeys: [ urlKey ],
+        byUrlKey: {
+          [urlKey]: {
+            urlSelectRange: {
+              selectStart,
+              selectLength,
+            }
+          }
+        }
+      },
       tab: {
         tabIds: [ tabId ],
         byTabId: {
@@ -231,30 +248,30 @@ describe('ページを更新した後、content scriptを開始する', () => {
                         ()
           }
         }
-      }
+      },
     })
 
     const storeContent = configureStoreContent()
 
-    const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
-    const getUrlFromDomModuleMock = jest.fn(() => url)
-    let sendResponse: any = null
-    const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
-      sendResponse = resolve
+    const sendResponse = jest.fn()
+    const getUrl = jest.fn(() => url)
+    const chromeTabsSendMessageFromBackground = jest.fn((_tabId, action) => storeContent.dispatch(action))
+    let sendResponseFromLoadUrlSelectRange: any = null
+    const chromeTabsSendMessageFromContent = jest.fn((action) => new Promise((resolve) => {
+      sendResponseFromLoadUrlSelectRange = resolve
       storeBackground.dispatch(action)
     }))
-    const chromeTabsSendMessageFromBackground = jest.fn()
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
-        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => sendResponse(args)),
+        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground)),
+        takeOnce(fromLoadUrlSelectRangeBackgroundProcess.actions, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (urlSelectRange: any) => sendResponseFromLoadUrlSelectRange(urlSelectRange)),
       ])
     })
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessageFromContent)),
+        takeOnce(fromApplyTabUpdateContentProcess.actions, fromApplyTabUpdateContentProcess.createApplyTabUpdate(getUrl, chromeTabsSendMessageFromContent), sendResponse),
       ])
     })
 
@@ -268,13 +285,13 @@ describe('ページを更新した後、content scriptを開始する', () => {
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
         input: url,
-        selectStart: 22,
-        select: '356',
+        selectStart: 19,
+        select: '23',
       })
 
     expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))
       .toStrictEqual({
-        input: '356',
+        input: '23',
       })
 
     expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))

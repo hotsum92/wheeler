@@ -6,6 +6,7 @@ import { watchHandleChromeWebNavigationOnCommitted } from '~/process/background/
 import { watchLoadContentScript, createLoadContentScript } from '~/process/background/load-content-script'
 import { watchLoadUrlSelectRange, createLoadUrlSelectRange } from '~/process/background/load-url-select-range'
 import { watchSaveUrlSelectRange, createSaveUrlSelectRange } from '~/process/background/save-url-select-range'
+import { watchTransferBackgroundToContent, createTransferBackgroundToContent } from '~/process/background/transfer-background-to-content'
 
 export default function* ({
   openContentScript = fromChromeModule.openContentScript,
@@ -18,6 +19,7 @@ export default function* ({
     fork(watchLoadContentScript, createLoadContentScript(openContentScript, chromeTabsSendMessage)),
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
     fork(watchSaveUrlSelectRange, createSaveUrlSelectRange()),
+    fork(watchTransferBackgroundToContent, createTransferBackgroundToContent(chromeTabsSendMessage)),
   ])
 }
 

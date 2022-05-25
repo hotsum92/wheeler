@@ -5,6 +5,7 @@ import { Action } from '~/action'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromInitializeContentContentProcessAction from '~/action/process/content/initialize-content'
 import * as fromApplyPageContentProcessAction from '~/action/process/content/apply-page'
+import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 
 export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Action): fromPageInputDomain.PageInput => {
   switch(action.type) {
@@ -32,10 +33,7 @@ export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Ac
       return fromPageInputDomain.assignInput(state, action.payload.select)
     }
 
-    case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
-      return fromPageInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
-    }
-
+    case fromApplyTabUpdateContentProcessAction.APPLY_TAB_UPDATE:
     case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
       return fromPageInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
@@ -64,6 +62,7 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
       )
     }
 
+    case fromApplyTabUpdateContentProcessAction.APPLY_TAB_UPDATE:
     case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
       return fromUrlInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
