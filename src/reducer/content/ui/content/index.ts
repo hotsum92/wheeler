@@ -6,7 +6,7 @@ import * as fromContentUiAction from '~/action/ui/content'
 import * as fromInitializeContentContentProcessAction from '~/action/process/content/initialize-content'
 import * as fromApplyPageContentProcessAction from '~/action/process/content/apply-page'
 
-const pageInput = (state = fromPageInputDomain.newPageInput(), action: Action): fromPageInputDomain.PageInput => {
+export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Action): fromPageInputDomain.PageInput => {
   switch(action.type) {
     case fromContentUiAction.ON_CHANGE_PAGE_INPUT: {
       return fromPageInputDomain.assignInput(state, action.payload.input)
@@ -50,7 +50,7 @@ const pageInput = (state = fromPageInputDomain.newPageInput(), action: Action): 
   }
 }
 
-const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Action): fromUrlInputDomain.UrlInput => {
+export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Action): fromUrlInputDomain.UrlInput => {
   switch(action.type) {
     case fromContentUiAction.ON_CHANGE_URL_INPUT: {
       return fromUrlInputDomain.assignInput(state, action.payload.input)

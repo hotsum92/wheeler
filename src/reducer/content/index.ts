@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import ui from '~/reducer/content/ui'
 import * as fromContentUiContentReducer from '~/reducer/content/ui/content'
 
-const reducer = combineReducers({
+export const reducer = combineReducers({
   ui,
 })
 
