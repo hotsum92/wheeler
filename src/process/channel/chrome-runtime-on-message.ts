@@ -2,16 +2,16 @@ import { eventChannel, EventChannel } from 'redux-saga'
 import { Action } from '~/action'
 import * as fromChromeModule from '~/module/chrome'
 
-export interface Response {
+export interface Message {
  action: Action
  sendResponse: (response?: any) => void
 }
 
-export type Channel = EventChannel<Response>
+export type Channel = EventChannel<Message>
 
 export const createChannel = () => {
   return () => {
-    return eventChannel<Response>(emitter => {
+    return eventChannel<Message>(emitter => {
       const listener = (action: Action, _sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) => {
         emitter({ action, sendResponse })
       }
