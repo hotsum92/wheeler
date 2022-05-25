@@ -3,12 +3,11 @@ import * as fromDomModule from '~/module/dom'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
 import * as fromChromeRuntimeOnMessageChannelProcess from '~/process/channel/chrome-runtime-on-message'
-import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 import * as fromChromeModule from '~/module/chrome'
 
 export const actions = [
-  fromChromeTabsOnUpdatedProcessAction.TAB_STATUS_LOADING,
+  fromApplyTabUpdateContentProcessAction.REQUEST_APPLY_TAB_UPDATE,
 ]
 
 export function* watchApplyTabUpdate(
@@ -18,7 +17,7 @@ export function* watchApplyTabUpdate(
 
   while(true) {
     const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Message = yield take(chan)
-    if(action.type === fromChromeTabsOnUpdatedProcessAction.TAB_STATUS_LOADING) {
+    if(action.type === fromApplyTabUpdateContentProcessAction.REQUEST_APPLY_TAB_UPDATE) {
       yield call(saga, action, sendResponse)
     }
   }
@@ -29,7 +28,7 @@ export const createApplyTabUpdate = (
   chromeRuntimeSendMessage: typeof fromChromeModule.chromeRuntimeSendMessage,
 ) => {
   return function* (
-    _action: fromChromeTabsOnUpdatedProcessAction.TabStatusLoading,
+    _action: fromApplyTabUpdateContentProcessAction.RequestApplyTabUpdate,
     sendResponse: () => void,
   ) {
     yield call(sendResponse)

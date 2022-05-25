@@ -3,6 +3,7 @@ import * as fromChromeModule from '~/module/chrome'
 import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromAppStatusDomain from '~/domain/app-status'
+import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 
 export const actions = [
   fromChromeTabsOnUpdatedProcessAction.TAB_STATUS_LOADING,
@@ -31,7 +32,7 @@ export const createTransferBackgroundToContent = (
     if(fromAppStatusDomain.isRunning(appStatus)) {
       // リロード時はレスポンスがないので、エラーを潰す
       try {
-        yield call(chromeTabsSendMessage, action.payload.tabId, action)
+        yield call(chromeTabsSendMessage, action.payload.tabId, fromApplyTabUpdateContentProcessAction.requestApplyTabUpdate())
       } catch {
       }
     }
