@@ -12,7 +12,7 @@ import * as fromApplyPageContentProcess from '~/process/content/apply-page'
 import * as fromSaveSelectRangeContentProcess from '~/process/content/save-select-range'
 import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/save-url-select-range'
 
-describe('ページを変更すると、指定したページのウェブページに移動することができる', () => {
+describe('page inputを変更する', () => {
 
   test('ページを増やす', async () => {
 
@@ -106,13 +106,48 @@ describe('ページを変更すると、指定したページのウェブペー�
 
   })
 
-  test.skip('数値以外を入力', async () => {
-    throw new Error('未実装')
+  test('数値以外を入力', async () => {
+
+    const url = 'http://example.com/23/'
+    const input = 'input'
+
+    const store = configureStoreContent({
+      ui: {
+        content: {
+          urlInput: fromUrlInputDomain.fromUrl(url),
+          pageInput: fromPageInputDomain.fromUrl(url),
+        }
+      }
+    })
+
+    const task = store.runSaga(function* () {
+      yield all([
+        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage()),
+      ])
+    })
+
+    store.dispatch(fromContentUiAction.onChangePageInput(input))
+    store.dispatch(fromContentUiAction.onFocusOutPageInput())
+
+    await task.toPromise()
+
+    expect(fromContentReducer.getContentUiPageInput(store.getState()))
+      .toStrictEqual({
+        input: input,
+      })
+
+    expect(fromContentReducer.getContentUiUrlInput(store.getState()))
+      .toStrictEqual({
+        input: 'http://example.com/23/',
+        select: '23',
+        selectStart: 19,
+      })
+
   })
 
 })
 
-describe('入力', () => {
+describe('url inputを変更する', () => {
 
   test.skip('urlのフォーカスが抜けたときに移動する', async () => {
     throw new Error('未実装')
