@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects'
 import configureStoreContent from '~/store/content'
 import configureStoreBackground from '~/store/background'
-import { takeOnce, pipe } from '~/test/helper'
+import { takeOnce } from '~/test/helper'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromBackgroundReducer from '~/reducer/background'
@@ -73,43 +73,6 @@ describe('ページを変更すると、指定したページのウェブペー�
       }
     })
 
-    const task = store.runSaga(function* () {
-      yield all([
-      ])
-    })
-
-    store.dispatch(fromContentUiAction.onChangePageInput(input))
-
-    await task.toPromise()
-
-    expect(fromContentReducer.getContentUiPageInput(store.getState()))
-      .toStrictEqual({
-        input: '24',
-      })
-
-  })
-
-  test.skip('数値以外を入力', async () => {
-    throw new Error('未実装')
-  })
-
-  test('フォーカスが抜けたとき', async () => {
-
-    const url = 'http://example.com/23/'
-    const input = '24'
-
-    const store = configureStoreContent({
-      ui: {
-        content: {
-          urlInput: fromUrlInputDomain.fromUrl(url),
-          pageInput: pipe(url)
-                      (fromPageInputDomain.fromUrl)
-                      (pageInput => fromPageInputDomain.assignInput(pageInput, input))
-                      (),
-        }
-      }
-    })
-
     const assignUrlFromDomModule = jest.fn()
 
     const task = store.runSaga(function* () {
@@ -119,6 +82,7 @@ describe('ページを変更すると、指定したページのウェブペー�
       ])
     })
 
+    store.dispatch(fromContentUiAction.onChangePageInput(input))
     store.dispatch(fromContentUiAction.onFocusOutPageInput())
 
     await task.toPromise()
@@ -140,6 +104,10 @@ describe('ページを変更すると、指定したページのウェブペー�
         'http://example.com/24/',
       )
 
+  })
+
+  test.skip('数値以外を入力', async () => {
+    throw new Error('未実装')
   })
 
 })
