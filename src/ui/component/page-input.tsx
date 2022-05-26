@@ -24,7 +24,6 @@ export default (props: Props) => {
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
@@ -83,7 +82,7 @@ export default (props: Props) => {
                 textAlign: 'center',
               }}
               value={props.pageInput}
-              onKeyDown={e => e.key === 'Enter' && e.preventDefault() || props.onEnterKeyDown()}
+              onKeyDown={e => { if(e.key === 'Enter') { e.preventDefault(); props.onEnterKeyDown(); } }}
               onChange={e => props.onChangePageInput(e.target.value)}
               onBlur={() => props.onBlur()}
             />

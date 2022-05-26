@@ -68,7 +68,7 @@ export default (props: Props) => {
             value={props.urlInput}
             onChange={e => props.onChangeUrlInput(e.target.value)}
             onBlur={() => props.onBlur()}
-            onKeyDown={e => e.key === 'Enter' && e.preventDefault() || props.onEnterKeyDown()}
+            onKeyDown={e => { if(e.key === 'Enter') { e.preventDefault(); props.onEnterKeyDown(); } }}
           />
         </div>
       </Card>
