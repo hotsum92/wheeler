@@ -231,18 +231,6 @@ describe('url inputを変更する', () => {
 
   })
 
-  test.skip('urlのフォーカスが抜けたときに移動する', async () => {
-    throw new Error('未実装')
-  })
-
-  test.skip('選択内容がないときには、移動しない', async () => {
-    throw new Error('未実装')
-  })
-
-  test.skip('数値以外が選択されているときは、移動しない', async () => {
-    throw new Error('未実装')
-  })
-
 })
 
 describe('URLの選択範囲を変更することができる', () => {

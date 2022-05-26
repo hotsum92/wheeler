@@ -29,8 +29,6 @@ export const createApplyUrl = (
     const urlInput: fromUrlInputDomain.UrlInput
       = yield select(fromContentReducer.getContentUiUrlInput)
 
-    if(fromUrlInputDomain.invalid(urlInput)) return
-
     const url = fromUrlInputDomain.toUrl(urlInput)
 
     const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange

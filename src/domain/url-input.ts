@@ -42,7 +42,11 @@ export const fromUrl = (url: string): UrlInput => {
   }
 }
 
-export const invalid = (_urlInput: UrlInput): boolean => {
+export const invalid = (urlInput: UrlInput): boolean => {
+  if(urlInput.input === '') return true
+  if(urlInput.select === '') return true
+  if(urlInput.selectStart === 0) return true
+  if(urlInput.select.match(/[^0-9]/)) return true
   return false
 }
 

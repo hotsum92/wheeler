@@ -30,7 +30,12 @@ export const createApplyPage = (
     const pageInput: fromPageInputDomain.PageInput
       = yield select(fromContentReducer.getContentUiPageInput)
 
-    if(fromPageInputDomain.invalid(pageInput)) return
+    const urlInputCurrent: fromUrlInputDomain.UrlInput
+      = yield select(fromContentReducer.getContentUiUrlInput)
+
+    if(fromPageInputDomain.invalid(pageInput)
+       || fromUrlInputDomain.invalid(urlInputCurrent)
+      ) return
 
     yield put(fromApplyPageContentProcessAction.applyPage(fromPageInputDomain.toPage(pageInput)))
 
