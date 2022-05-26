@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "build": "webpack --mode production",
+    "dev:build": "webpack --mode production --env mode=development",
     "dev:content": "webpack-dev-server --mode development --env entry=./src/content.tsx",
     "dev:options": "webpack-dev-server --mode development --env entry=./src/options.tsx",
     "type": "tsc --noEmit",

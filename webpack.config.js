@@ -41,13 +41,31 @@ const devServer = (index) => {
 
 module.exports = (env, argv) => {
 
-  if(argv.mode === mode.production) {
+  if(argv.mode === mode.development && env.entry === entry.content) {
     return {
-      entry,
+      devtool,
+      resolve,
+      devServer: devServer('content.html'),
+      module: { rules },
+
+      entry: {
+        content: './src/content.dev.tsx',
+        background: './src/background.dev.ts',
+      },
+
+    }
+  }
+
+  if(env.mode === mode.development) {
+    return {
+      entry: {
+        content: './src/content.dev.tsx',
+        background: './src/background.dev.ts',
+      },
       resolve,
       module: { rules },
       optimization:{
-        minimize: false
+        minimize: true
       },
 
       plugins: [
@@ -60,20 +78,24 @@ module.exports = (env, argv) => {
         }),
       ],
     }
-  } // if(argv.mode === mode.production)
+  }
 
-  if(argv.mode === mode.development && env.entry === entry.content) {
+  if(argv.mode === mode.production) {
     return {
-      devtool,
+      entry,
       resolve,
-      devServer: devServer('content.html'),
       module: { rules },
 
-      entry: {
-        content: './src/content.dev.tsx'
-      },
-
+      plugins: [
+        new CopyWebpackPlugin({
+          patterns: [
+            {
+              from: 'public'
+            },
+          ],
+        }),
+      ],
     }
-  } // if(argv.mode === mode.development && env.entry === entry.content)
+  }
 
 }

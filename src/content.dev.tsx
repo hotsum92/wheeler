@@ -2,15 +2,15 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { configureStore } from '~/store/content'
+import * as fromDomModule from '~/module/dom'
 import Content from '~/ui/content'
 import saga from '~/process/content'
 
-const newDiv = document.createElement("div")
-document.body.appendChild(newDiv)
+const newDiv = fromDomModule.getDivElement()
+fromDomModule.appendDivElement(newDiv)
 
 const store = configureStore()
-store.runSaga(saga, {
-})
+store.runSaga(saga)
 
 render(
   <Provider store={store}>
