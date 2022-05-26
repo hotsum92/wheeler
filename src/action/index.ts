@@ -58,6 +58,7 @@ export type Action =
   | fromSaveSelectRangeContentProcess.SaveSelectRange
   | fromHideExtentionBackgroundProcessAction.RequestHideExtention
   | fromDisplayExtentionContentProcessAction.RequestDisplayExtention
+  | fromDisplayExtentionContentProcessAction.LoadUrlSelectRangeSuccess
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeLink
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeReload
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TrasitionAutoBookmark

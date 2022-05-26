@@ -23,7 +23,7 @@ export default function* ({
     fork(watchUpdateUrl, createUpdateUrl(assignUrlFromDomModule)),
     fork(watchSaveSelectRange, createSaveSelectRange(getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
     fork(watchHideExtention, createHideExtention(hideDivElement)),
-    fork(watchDisplayExtention, createDisplayExtention(displayDivElement)),
+    fork(watchDisplayExtention, createDisplayExtention(displayDivElement, getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
     fork(watchApplyTabUpdate, createApplyTabUpdate(getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
     fork(watchApplyUrl, createApplyUrl(chromeRuntimeSendMessageFromChromeModule))
   ])
