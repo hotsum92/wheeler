@@ -12,6 +12,7 @@ import * as fromChromeWebNavigationOnCommittedProcessChannelAction from '~/actio
 import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
 import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
+import * as fromApplyUrlContentProcessAction from '~/action/process/content/apply-url'
 
 export const INITIAL = 'ACTION.INITIAL'
 
@@ -65,4 +66,5 @@ export type Action =
   | fromChromeActionOnClickedChannelProcessAction.OnClickExtention
   | fromApplyTabUpdateContentProcessAction.RequestApplyTabUpdate
   | fromApplyTabUpdateContentProcessAction.ApplyTabUpdate
+  | fromApplyUrlContentProcessAction.ApplyUrl
 

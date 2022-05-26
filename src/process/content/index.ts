@@ -6,6 +6,7 @@ import { watchSaveSelectRange, createSaveSelectRange } from '~/process/content/s
 import { watchHideExtention, createHideExtention } from '~/process/content/hide-extention'
 import { watchDisplayExtention, createDisplayExtention } from '~/process/content/display-extention'
 import { watchApplyTabUpdate, createApplyTabUpdate } from '~/process/content/apply-tab-update'
+import { watchApplyUrl, createApplyUrl } from '~/process/content/apply-url'
 import * as fromDomModule from '~/module/dom'
 import * as fromChromeModule from '~/module/chrome'
 
@@ -24,5 +25,6 @@ export default function* ({
     fork(watchHideExtention, createHideExtention(hideDivElement)),
     fork(watchDisplayExtention, createDisplayExtention(displayDivElement)),
     fork(watchApplyTabUpdate, createApplyTabUpdate(getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
+    fork(watchApplyUrl, createApplyUrl(chromeRuntimeSendMessageFromChromeModule))
   ])
 }

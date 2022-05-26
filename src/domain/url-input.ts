@@ -42,6 +42,14 @@ export const fromUrl = (url: string): UrlInput => {
   }
 }
 
+export const invalid = (_urlInput: UrlInput): boolean => {
+  return false
+}
+
+export const toUrl = (urlInput: UrlInput): string => {
+  return urlInput.input
+}
+
 export const assignInput = (_urlInput: UrlInput, input: string): UrlInput => {
   return fromUrl(input)
 }

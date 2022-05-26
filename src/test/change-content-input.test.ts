@@ -10,7 +10,11 @@ import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromUpdateUrlContentProcess from '~/process/content/update-url'
 import * as fromApplyPageContentProcess from '~/process/content/apply-page'
 import * as fromSaveSelectRangeContentProcess from '~/process/content/save-select-range'
+import * as fromLoadUrlSelectRangeBackgroundProcess from '~/process/background/load-url-select-range'
 import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/save-url-select-range'
+import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
+import * as fromApplyUrlContentProcess from '~/process/content/apply-url'
+import * as fromUrlKeyDomain from '~/domain/url-key'
 
 describe('page inputを変更する', () => {
 
@@ -148,6 +152,84 @@ describe('page inputを変更する', () => {
 })
 
 describe('url inputを変更する', () => {
+
+  test('urlを入力する', async () => {
+
+    const url = 'http://example.com/23/'
+    const input = 'http://new-example.com/23/456/'
+    const selectStart = 23
+    const selectLength = 2
+    const urlKey = fromUrlKeyDomain.fromSelectStart(input, selectStart)
+
+    const storeContent = configureStoreContent({
+      ui: {
+        content: {
+          urlInput: fromUrlInputDomain.fromUrl(url),
+          pageInput: fromPageInputDomain.fromUrl(url),
+        }
+      }
+    })
+
+    const storeBackground = configureStoreBackground({
+      url: {
+        urlKeys: [ urlKey ],
+        byUrlKey: {
+          [urlKey]: {
+            urlSelectRange: {
+              selectStart,
+              selectLength,
+            }
+          }
+        }
+      }
+    })
+
+    const assignUrlFromDomModule = jest.fn()
+    let sendResponse: any = null
+    const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
+      sendResponse = resolve
+      storeBackground.dispatch(action)
+    }))
+
+    const taskContent = storeContent.runSaga(function* () {
+      yield all([
+        takeOnce(fromApplyUrlContentProcess.actions, fromApplyUrlContentProcess.createApplyUrl(chromeTabsSendMessageFromContent)),
+        takeOnce(fromUpdateUrlContentProcess.actions, fromUpdateUrlContentProcess.createUpdateUrl(assignUrlFromDomModule)),
+      ])
+    })
+
+    const taskBackground = storeBackground.runSaga(function* () {
+      yield all([
+        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => sendResponse(args)),
+      ])
+    })
+
+    storeContent.dispatch(fromContentUiAction.onChangeUrlInput(input))
+    storeContent.dispatch(fromContentUiAction.onFocusOutUrlInput())
+
+    await Promise.all([
+      taskContent.toPromise(),
+      taskBackground.toPromise(),
+    ])
+
+    expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))
+      .toStrictEqual({
+        input: '23',
+      })
+
+    expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
+      .toStrictEqual({
+        input: 'http://new-example.com/23/456/',
+        select: '23',
+        selectStart: 23,
+      })
+
+    expect(assignUrlFromDomModule)
+      .toHaveBeenCalledWith(
+        'http://new-example.com/23/456/',
+      )
+
+  })
 
   test.skip('urlのフォーカスが抜けたときに移動する', async () => {
     throw new Error('未実装')

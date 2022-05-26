@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import { Action } from '~/action'
+import * as fromApplyUrlContentProcessAction from '~/action/process/content/apply-url'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromInitializeContentContentProcessAction from '~/action/process/content/initialize-content'
 import * as fromApplyPageContentProcessAction from '~/action/process/content/apply-page'
@@ -34,6 +35,7 @@ export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Ac
     }
 
     case fromApplyTabUpdateContentProcessAction.APPLY_TAB_UPDATE:
+    case fromApplyUrlContentProcessAction.APPLY_URL:
     case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
       return fromPageInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
@@ -63,6 +65,7 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
     }
 
     case fromApplyTabUpdateContentProcessAction.APPLY_TAB_UPDATE:
+    case fromApplyUrlContentProcessAction.APPLY_URL:
     case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
       return fromUrlInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
