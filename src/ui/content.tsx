@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PageInput from '~/ui/component/page-input'
 import UrlInput from '~/ui/component/url-input'
+import * as fromUi from '~/ui'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromContentUiAction from '~/action/ui/content'
 
@@ -17,7 +18,7 @@ export default function Content() {
   return (
     <>
       <UrlInput
-        sx={{ position: 'fixed', right: 10, top: 10 }}
+        sx={{ position: 'fixed', zIndex: fromUi.MAX_Z_INDEX, right: 10, top: 10 }}
         urlInput={urlInput.input}
         onChangeUrlInput={(input) => dispatch(fromContentUiAction.onChangeUrlInput(input))}
         onSelectUrlInput={(selectStart, select) => dispatch(fromContentUiAction.onSelectUrlInput(selectStart, select))}
@@ -25,7 +26,7 @@ export default function Content() {
         onEnterKeyDown={() => dispatch(fromContentUiAction.onInputEnterKeyUrlInput())}
       />
       <PageInput
-        sx={{ position: 'fixed', right: 10, top: 50 }}
+        sx={{ position: 'fixed', zIndex: fromUi.MAX_Z_INDEX, right: 10, top: 50 }}
         pageInput={pageInput.input}
         onBlur={() => dispatch(fromContentUiAction.onFocusOutPageInput())}
         onEnterKeyDown={() => dispatch(fromContentUiAction.onInputEnterKeyPageInput())}
