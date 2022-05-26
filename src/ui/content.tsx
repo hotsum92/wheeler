@@ -21,6 +21,8 @@ export default function Content() {
         urlInput={urlInput.input}
         onChangeUrlInput={(input) => dispatch(fromContentUiAction.onChangeUrlInput(input))}
         onSelectUrlInput={(selectStart, select) => dispatch(fromContentUiAction.onSelectUrlInput(selectStart, select))}
+        onBlur={() => dispatch(fromContentUiAction.onFocusOutUrlInput())}
+        onEnterKeyDown={() => dispatch(fromContentUiAction.onInputEnterKeyUrlInput())}
       />
       <PageInput
         sx={{ position: 'fixed', right: 10, top: 50 }}
