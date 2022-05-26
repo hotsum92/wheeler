@@ -47,6 +47,7 @@ export type Action =
   | fromInitializeContentContentProcessAction.LoadUrlSelectRangeSuccess
   | fromInitializeContentContentProcessAction.InitializeUrlSelectRange
   | fromUpdateUrlContentProcess.UpdateUrl
+  | fromLoadContentScriptBackgroundProcessAction.StopApp
   | fromLoadContentScriptBackgroundProcessAction.RunApp
   | fromLoadContentScriptBackgroundProcessAction.HideApp
   | fromLoadUrlSelectRangeBackgroundProcessAction.RequestLoadUrlSelectRange
@@ -58,6 +59,7 @@ export type Action =
   | fromDisplayExtentionContentProcessAction.RequestDisplayExtention
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeLink
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeReload
+  | fromChromeWebNavigationOnCommittedProcessChannelAction.TrasitionAutoBookmark
   | fromChromeTabsOnUpdatedProcessAction.TabStatusLoading
   | fromChromeTabsOnUpdatedProcessAction.TabStatusComplete
   | fromChromeActionOnClickedChannelProcessAction.OnClickExtention

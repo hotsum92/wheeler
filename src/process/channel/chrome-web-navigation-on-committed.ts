@@ -20,6 +20,10 @@ export const createChannel = () => {
         if(details.transitionType === fromChromeModule.TRANSITION_TYPE_RELOAD) {
           emitter(fromChromeWebNavigationOnCommittedChannelProcessAction.transitionTypeReload(details.tabId))
         }
+
+        if(details.transitionType === fromChromeModule.TRANSITION_AUTO_BOOKMARK) {
+          emitter(fromChromeWebNavigationOnCommittedChannelProcessAction.transitionAutoBookmark(details.tabId))
+        }
       }
 
       fromChromeModule.chromeWebNavigationOnCommittedAddListener(listener)

@@ -33,3 +33,21 @@ export const hideApp =
         tabId,
       }
     })
+
+export const STOP_APP = 'LOAD_CONTENT_SCRIPT.STOP_APP'
+
+export interface StopApp {
+  type: typeof STOP_APP
+  payload: {
+    tabId: number
+  }
+}
+
+export const stopApp =
+  (tabId: number): StopApp =>
+    ({
+      type: STOP_APP,
+      payload: {
+        tabId,
+      }
+    })

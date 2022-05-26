@@ -26,6 +26,13 @@ export const runApp = (appStatus: AppStatus): AppStatus => {
   }
 }
 
+export const stopApp = (appStatus: AppStatus): AppStatus => {
+  return {
+    ...appStatus,
+    status: STOP,
+  }
+}
+
 export const isHidden = (appStatus: AppStatus): boolean => {
   return appStatus.status === HIDDEN
 }

@@ -13,6 +13,7 @@ export const actions = [
   fromChromeActionOnClickedChannelProcessAction.ON_CLICK_EXTENTION,
   fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_LINK,
   fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_RELOAD,
+  fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_AUTO_BOOKMARK,
   fromChromeTabsOnUpdatedChannelProcessAction.TAB_STATUS_LOADING,
 ]
 
@@ -20,6 +21,7 @@ type Action =
   | fromChromeActionOnClickedChannelProcessAction.OnClickExtention
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeLink
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeReload
+  | fromChromeWebNavigationOnCommittedChannelProcessAction.TrasitionAutoBookmark
   | fromChromeTabsOnUpdatedChannelProcessAction.TabStatusLoading
 
 export function* watchLoadContentScript(saga: ReturnType<typeof createLoadContentScript>) {
@@ -71,13 +73,16 @@ export const createLoadContentScript = (
         return
       }
 
-      case fromChromeTabsOnUpdatedChannelProcessAction.TAB_STATUS_LOADING: {
-        // TODO: URL変更時の処理
+
+      case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_AUTO_BOOKMARK: {
+
         if(fromAppStatusDomain.isRunning(appStatus)) {
-          //yield call(openContentScriptFromChromeModule, tabId)
+          yield put(fromLoadContentScriptBackgroundProcessAction.stopApp(tabId))
         }
+
         return
       }
+
     }
 
   }

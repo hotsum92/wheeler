@@ -31,3 +31,20 @@ export const transitionTypeReload = (tabId: number): TransitionTypeReload =>
       tabId,
     }
   })
+
+export const TRANSITION_AUTO_BOOKMARK = 'CHROME_WEB_NAVIGATION_ON_COMMITTED.TRANSITION_AUTO_BOOKMARK'
+
+export interface TrasitionAutoBookmark {
+  type: typeof TRANSITION_AUTO_BOOKMARK
+  payload: {
+    tabId: number
+  }
+}
+
+export const transitionAutoBookmark = (tabId: number): TrasitionAutoBookmark =>
+  ({
+    type: TRANSITION_AUTO_BOOKMARK,
+    payload: {
+      tabId,
+    }
+  })

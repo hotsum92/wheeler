@@ -19,6 +19,7 @@ export const TAB_STATUS_COMPLETE = 'complete'
 export const TAB_STATUS_LOADING = 'loading'
 export const TRANSITION_TYPE_LINK = 'link'
 export const TRANSITION_TYPE_RELOAD = 'reload'
+export const TRANSITION_AUTO_BOOKMARK = 'auto_bookmark'
 
 
 export const chromeTabsOnUpdatedAddListener = (listener: (...args: any) => void) => {

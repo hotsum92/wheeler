@@ -21,7 +21,7 @@ export const Default = () => {
         sx={{ position: 'absolute', left: 50 }}
         urlInput={urlInput.input}
         onChangeUrlInput={(input) => dispatch(fromContentUiAction.onChangeUrlInput(input))}
-        onSelectUrlInput={(selectStart, select) => console.log({ selectStart, select })}
+        onSelectUrlInput={(selectStart, select) => dispatch(fromContentUiAction.onSelectUrlInput(selectStart, select))}
         onBlur={() => dispatch(fromContentUiAction.onFocusOutUrlInput())}
         onEnterKeyDown={() => dispatch(fromContentUiAction.onInputEnterKeyUrlInput())}
       />
