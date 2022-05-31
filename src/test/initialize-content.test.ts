@@ -19,7 +19,10 @@ import * as fromApplyTabUpdateContentProcess from '~/process/content/apply-tab-u
 
 describe('拡張ボタンをクリックした後、content scriptを開始する', () => {
 
-  test('初期値からの起動', async () => {
+  test.skip('初期値からの起動', async () => {
+
+    // バックグラウンドが定期的に初期化されるため
+    throw new Error('データの保存は、persistにする')
 
     const tabId = -1
     const url = 'http://example.com/23/356/'

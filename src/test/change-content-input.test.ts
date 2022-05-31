@@ -292,5 +292,13 @@ describe('URLの選択範囲を変更することができる', () => {
 
   })
 
+  test.skip('選択後の数値繰り上げ', async () => {
+    throw new Error('未実装')
+  })
+
+  test.skip('文字列選択後したときは、保存しない', async () => {
+    throw new Error('未実装')
+  })
+
 })
 
