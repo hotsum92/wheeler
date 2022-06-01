@@ -2,15 +2,15 @@ import { eventChannel, EventChannel } from 'redux-saga'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 
-export type Message =
+export type Action =
   | fromChromeTabsOnUpdatedProcessAction.TabStatusLoading
   | fromChromeTabsOnUpdatedProcessAction.TabStatusComplete
 
-export type Channel = EventChannel<Message>
+export type Channel = EventChannel<Action>
 
 export const createChannel = () => {
   return () => {
-    return eventChannel(emitter => {
+    return eventChannel<Action>(emitter => {
       const listener = (tabId: number, changeInfo: { status?: string }) => {
         if(changeInfo.status === fromChromeModule.TAB_STATUS_LOADING) {
           emitter(fromChromeTabsOnUpdatedProcessAction.tabStatusLoading(tabId))

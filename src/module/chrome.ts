@@ -46,9 +46,36 @@ export const chromeWebNavigationOnCommittedRemoveListener = (listener: (details:
   chrome.webNavigation.onCommitted.removeListener(listener)
 }
 
+export const chromeWindowsOnCreatedAddListener = (listener: (...args: any) => void) => {
+  chrome.windows.onCreated.addListener(listener)
+}
+
+export const chromeWindowsOnCreatedRemoveListener = (listener: (...args: any) => void) => {
+  chrome.windows.onCreated.removeListener(listener)
+}
+
 export const openContentScript = (tabId: number) => {
   chrome.scripting.executeScript({
     target: { tabId },
     files: ['content.js'],
+  })
+}
+
+export const getCurrentTabUrl = async (): Promise<string> => {
+  let queryOptions = { active: true, lastFocusedWindow: true };
+  let [tab] = await chrome.tabs.query(queryOptions);
+  if(tab.url == null) return ''
+  return tab!.url;
+}
+
+export const chromeStorageLocalSet = <T>(key: string, value: T) => {
+  return chrome.storage.local.set({ [key]: value }, () => {})
+}
+
+export const chromeStorageLocalGet = <T>(key: string): Promise<T> => {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(key, (value: { [key: string]: T }) => {
+      resolve(value[key])
+    })
   })
 }

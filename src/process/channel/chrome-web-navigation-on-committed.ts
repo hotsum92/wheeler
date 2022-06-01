@@ -2,16 +2,16 @@ import { eventChannel, EventChannel } from 'redux-saga'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromChromeWebNavigationOnCommittedChannelProcessAction from '~/action/process/channel/chrome-web-navigation-on-committed'
 
-export type Message =
+export type Action =
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeLink
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeReload
+  | fromChromeWebNavigationOnCommittedChannelProcessAction.TrasitionAutoBookmark
 
-export type Channel = EventChannel<Message>
-
+export type Channel = EventChannel<Action>
 
 export const createChannel = () => {
   return () => {
-    return eventChannel(emitter => {
+    return eventChannel<Action>(emitter => {
       const listener = (details: { tabId: number, transitionType?: string }) => {
         if(details.transitionType === fromChromeModule.TRANSITION_TYPE_LINK) {
           emitter(fromChromeWebNavigationOnCommittedChannelProcessAction.transitionTypeLink(details.tabId))
