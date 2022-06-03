@@ -67,8 +67,14 @@ export const assignSelect = (urlInput: UrlInput, selectStart: number, select: st
 }
 
 export const assignPage = (urlInput: UrlInput, page: number): UrlInput => {
-  const a = urlInput.input.slice(0, urlInput.selectStart)
-  const b = urlInput.input.slice(urlInput.selectStart + urlInput.select.length, urlInput.input.length)
+  const found = [ ...urlInput.input.matchAll(/(\d+)/g) ]
+    .find(match => match.index! <= urlInput.selectStart && urlInput.selectStart <= match.index! + match[0].length)
+
+  if(found == null) return urlInput
+
+  const url = urlInput.input
+  const a = url.slice(0, found.index)
+  const b = url.slice(found.index! + found[0].length, url.length)
   return {
     ...urlInput,
     input: a + page.toString() + b,
