@@ -1,18 +1,18 @@
 import * as fromReducerStorageDomain from '~/domain/reducer-storage'
 
-export const INITIALIZED = 'INITIALIZE-AFTER-LOAD-BACKGROUND-SCRIPT.INITIALIZED'
+export const LOAD_STATE = 'INITIALIZE-AFTER-LOAD-BACKGROUND-SCRIPT.LOAD_STATE'
 
-export interface Initiallized {
-  type: typeof INITIALIZED
+export interface LoadState {
+  type: typeof LOAD_STATE
   payload: {
     reducerStorage: fromReducerStorageDomain.ReducerStorage,
   }
 }
 
-export const initialized =
-  (reducerStorage: fromReducerStorageDomain.ReducerStorage): Initiallized =>
+export const loadState =
+  (reducerStorage: fromReducerStorageDomain.ReducerStorage): LoadState =>
     ({
-      type: INITIALIZED,
+      type: LOAD_STATE,
       payload: {
         reducerStorage
       }

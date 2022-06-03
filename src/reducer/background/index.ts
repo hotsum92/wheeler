@@ -5,6 +5,7 @@ import tab from '~/reducer/background/tab'
 import * as fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction from '~/action/process/background/initialize-after-load-background-script'
 import * as fromUrlBackgroundReducer from '~/reducer/background/url'
 import * as fromTabBackgroundReducer from '~/reducer/background/tab'
+import * as fromReducerStorageDomain from '~/domain/reducer-storage'
 
 const reducer = combineReducers({
   url,
@@ -14,8 +15,8 @@ const reducer = combineReducers({
 export type State = ReturnType<typeof reducer>
 
 const rootReducer = (state: any, action: Action): any => {
-  if(action.type === fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction.INITIALIZED) {
-    return action.payload.reducerStorage
+  if(action.type === fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction.LOAD_STATE) {
+    return fromReducerStorageDomain.toState(action.payload.reducerStorage)
   }
   return reducer(state, action)
 }
