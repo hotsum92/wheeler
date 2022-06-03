@@ -10,8 +10,11 @@ import { watchLoadContentScript, createLoadContentScript } from '~/process/backg
 import { watchLoadUrlSelectRange, createLoadUrlSelectRange } from '~/process/background/load-url-select-range'
 import { watchSaveUrlSelectRange, createSaveUrlSelectRange } from '~/process/background/save-url-select-range'
 import { watchTransferBackgroundToContent, createTransferBackgroundToContent } from '~/process/background/transfer-background-to-content'
+import { watchSaveReducerLocalStorage, createSaveReducerLocalStorage } from '~/process/background/save-reducer-local-storage'
 
 export default function* ({
+  chromeStorageLocalSet = fromChromeModule.chromeStorageLocalSet,
+  chromeStorageLocalGet = fromChromeModule.chromeStorageLocalGet,
   openContentScript = fromChromeModule.openContentScript,
   chromeTabsSendMessage = fromChromeModule.chromeTabsSendMessage,
 } = {}) {
@@ -20,7 +23,8 @@ export default function* ({
     forkChannel(fromChromeWebNavigationOnCommittedChannelProcess.createChannel()),
     forkChannel(fromChromeTabsOnUpdatedChannelProcess.createChannel()),
     forkChannel(fromChromeWindowsOnCreated.createChannel()),
-    fork(watchInitializeAfterLoadBackgroundScript, createInializeAfterLoadBackgroundScript()),
+    fork(watchSaveReducerLocalStorage, createSaveReducerLocalStorage(chromeStorageLocalSet)),
+    fork(watchInitializeAfterLoadBackgroundScript, createInializeAfterLoadBackgroundScript(chromeStorageLocalGet)),
     fork(watchLoadContentScript, createLoadContentScript(openContentScript, chromeTabsSendMessage)),
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
     fork(watchSaveUrlSelectRange, createSaveUrlSelectRange()),
