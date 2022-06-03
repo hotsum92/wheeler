@@ -15,6 +15,7 @@ import { watchSaveReducerLocalStorage, createSaveReducerLocalStorage } from '~/p
 export default function* ({
   chromeStorageLocalSet = fromChromeModule.chromeStorageLocalSet,
   chromeStorageLocalGet = fromChromeModule.chromeStorageLocalGet,
+  getAllTabIds = fromChromeModule.getAllTabIds,
   openContentScript = fromChromeModule.openContentScript,
   chromeTabsSendMessage = fromChromeModule.chromeTabsSendMessage,
 } = {}) {
@@ -24,7 +25,7 @@ export default function* ({
     forkChannel(fromChromeTabsOnUpdatedChannelProcess.createChannel()),
     forkChannel(fromChromeWindowsOnCreated.createChannel()),
     fork(watchSaveReducerLocalStorage, createSaveReducerLocalStorage(chromeStorageLocalSet)),
-    fork(watchInitializeAfterLoadBackgroundScript, createInializeAfterLoadBackgroundScript(chromeStorageLocalGet)),
+    fork(watchInitializeAfterLoadBackgroundScript, createInializeAfterLoadBackgroundScript(chromeStorageLocalGet, chromeStorageLocalSet, getAllTabIds)),
     fork(watchLoadContentScript, createLoadContentScript(openContentScript, chromeTabsSendMessage)),
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
     fork(watchSaveUrlSelectRange, createSaveUrlSelectRange()),

@@ -7,3 +7,18 @@ export const REDUCER_STORAGE_KEY = 'REDUCER_STORAGE_KEY'
 export const fromState = (state: fromBackgroundReducer.State): ReducerStorage => {
   return state
 }
+
+export const extractTabIds = (state: ReducerStorage, ids: number[]): ReducerStorage => {
+  const tabIds = state.tab.tabIds.filter(id => ids.includes(id))
+  const byTabId = tabIds.reduce((prev, id) => ({ ...prev, [id]: state.tab.byTabId[id] }), {})
+
+  return {
+    ...state,
+    tab: {
+      ...state.tab,
+      tabIds,
+      byTabId,
+    }
+  }
+}
+

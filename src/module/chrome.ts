@@ -73,6 +73,11 @@ export const getWindowsLength = async (): Promise<number> => {
   return windows.length
 }
 
+export const getAllTabIds = async (): Promise<number[]> => {
+  const tabs = await chrome.tabs.query({})
+  return tabs.map(tab => tab.id).filter(id => id != null) as number[]
+}
+
 export const chromeStorageLocalSet = <T>(key: string, value: T) => {
   return chrome.storage.local.set({ [key]: value }, () => {})
 }
@@ -84,3 +89,4 @@ export const chromeStorageLocalGet = <T>(key: string): Promise<T> => {
     })
   })
 }
+

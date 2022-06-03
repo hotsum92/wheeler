@@ -76,4 +76,8 @@ export const getAppStatusByTabId = (state: State, tabId: number): fromAppStatusD
   return state.byTabId[tabId].appStatus
 }
 
+export const getAllTabIds = (state: State): number[] => {
+  return state.tabIds
+}
+
 export default reducer

@@ -9,11 +9,18 @@ export function* watchInitializeAfterLoadBackgroundScript(saga: ReturnType<typeo
 
 export const createInializeAfterLoadBackgroundScript = (
   chromeStorageLocalGet: typeof fromChromeModule.chromeStorageLocalGet,
+  chromeStorageLocalSet: typeof fromChromeModule.chromeStorageLocalSet,
+  getAllTabIds: typeof fromChromeModule.getAllTabIds,
 ) => {
   return function* () {
-    const reducerStorage: fromReducerStorageDomain.ReducerStorage =
+    const reducerStorage: fromReducerStorageDomain.ReducerStorage | null =
       yield call(chromeStorageLocalGet, fromReducerStorageDomain.REDUCER_STORAGE_KEY)
-    yield put(fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction.initialized(reducerStorage))
+    if(reducerStorage == null) return
+    const tabIds: number[] = yield call(getAllTabIds)
+    const newReducerStoratge = fromReducerStorageDomain.extractTabIds(reducerStorage, tabIds)
+
+    yield call(chromeStorageLocalSet, fromReducerStorageDomain.REDUCER_STORAGE_KEY, newReducerStoratge)
+    yield put(fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction.initialized(newReducerStoratge))
   }
 }
 
