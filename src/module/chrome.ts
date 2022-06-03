@@ -62,10 +62,15 @@ export const openContentScript = (tabId: number) => {
 }
 
 export const getCurrentTabUrl = async (): Promise<string> => {
-  let queryOptions = { active: true, lastFocusedWindow: true };
-  let [tab] = await chrome.tabs.query(queryOptions);
+  const queryOptions = { active: true, lastFocusedWindow: true };
+  const [tab] = await chrome.tabs.query(queryOptions);
   if(tab.url == null) return ''
   return tab!.url;
+}
+
+export const getWindowsLength = async (): Promise<number> => {
+  const windows = await chrome.windows.getAll()
+  return windows.length
 }
 
 export const chromeStorageLocalSet = <T>(key: string, value: T) => {

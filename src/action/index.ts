@@ -10,6 +10,7 @@ import * as fromHideExtentionBackgroundProcessAction from '~/action/process/cont
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
 import * as fromChromeWebNavigationOnCommittedProcessChannelAction from '~/action/process/channel/chrome-web-navigation-on-committed'
 import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
+import * as fromChromeWindowsOnCreatedChannelProcessAction from '~/action/process/channel/chrome-windows-on-created'
 import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 import * as fromApplyUrlContentProcessAction from '~/action/process/content/apply-url'
@@ -62,6 +63,7 @@ export type Action =
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeLink
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeReload
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TrasitionAutoBookmark
+  | fromChromeWindowsOnCreatedChannelProcessAction.OnCreatedWindow
   | fromChromeTabsOnUpdatedProcessAction.TabStatusLoading
   | fromChromeTabsOnUpdatedProcessAction.TabStatusComplete
   | fromChromeActionOnClickedChannelProcessAction.OnClickExtention

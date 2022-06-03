@@ -4,6 +4,7 @@ import * as fromChromeModule from '~/module/chrome'
 import * as fromChromeActionOnClickedChannelProcess from '~/process/channel/chrome-action-on-clicked'
 import * as fromChromeWebNavigationOnCommittedChannelProcess from '~/process/channel/chrome-web-navigation-on-committed'
 import * as fromChromeTabsOnUpdatedChannelProcess from '~/process/channel/chrome-tabs-on-updated'
+import * as fromChromeWindowsOnCreated from '~/process/channel/chrome-windows-on-created'
 import { watchInitializeAfterLoadBackgroundScript, createInializeAfterLoadBackgroundScript} from '~/process/background/initialize-after-load-background-script'
 import { watchLoadContentScript, createLoadContentScript } from '~/process/background/load-content-script'
 import { watchLoadUrlSelectRange, createLoadUrlSelectRange } from '~/process/background/load-url-select-range'
@@ -18,6 +19,7 @@ export default function* ({
     forkChannel(fromChromeActionOnClickedChannelProcess.createChannel()),
     forkChannel(fromChromeWebNavigationOnCommittedChannelProcess.createChannel()),
     forkChannel(fromChromeTabsOnUpdatedChannelProcess.createChannel()),
+    forkChannel(fromChromeWindowsOnCreated.createChannel()),
     fork(watchInitializeAfterLoadBackgroundScript, createInializeAfterLoadBackgroundScript()),
     fork(watchLoadContentScript, createLoadContentScript(openContentScript, chromeTabsSendMessage)),
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
