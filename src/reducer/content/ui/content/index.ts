@@ -72,8 +72,8 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
       return fromUrlInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
 
-    case fromApplyPageInputContentProcessAction.APPLY_PAGE: {
-      return fromUrlInputDomain.assignPage(state, action.payload.page)
+    case fromApplyPageInputContentProcessAction.VALIDATED_PAGE_INPUT: {
+      return fromUrlInputDomain.assignPageInput(state, action.payload.pageInput)
     }
 
     case fromInitializeContentContentProcessAction.INITIALIZE_URL_SELECT_RANGE: {

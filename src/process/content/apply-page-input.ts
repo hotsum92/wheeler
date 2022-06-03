@@ -38,7 +38,7 @@ export const createApplyPageInput = (
        || fromUrlInputDomain.invalid(urlInputCurrent)
       ) return
 
-    yield put(fromApplyPageInputContentProcessAction.applyPage(fromPageInputDomain.toPage(pageInput)))
+    yield put(fromApplyPageInputContentProcessAction.validatedPageInput(pageInput))
 
     const url: string
       = yield select(fromContentReducer.getUrl)

@@ -1,18 +1,20 @@
-export const APPLY_PAGE = 'APPLY_PAGE_INPUT.APPLY_PAGE'
+import * as fromPageInputDomain from '~/domain/page-input'
 
-export interface ApplyPage {
-  type: typeof APPLY_PAGE
+export const VALIDATED_PAGE_INPUT = 'APPLY_PAGE_INPUT.VALIDATED_PAGE_INPUT'
+
+export interface ValidatedPageInput {
+  type: typeof VALIDATED_PAGE_INPUT
   payload: {
-    page: number
+    pageInput: fromPageInputDomain.PageInput
   }
 }
 
-export const applyPage =
-  (page: number): ApplyPage =>
+export const validatedPageInput =
+  (pageInput: fromPageInputDomain.PageInput): ValidatedPageInput =>
     ({
-      type: APPLY_PAGE,
+      type: VALIDATED_PAGE_INPUT,
       payload: {
-        page,
+        pageInput,
       }
     })
 

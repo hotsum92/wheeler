@@ -46,7 +46,7 @@ export type Action =
   | fromContentUiAction.OnFocusOutUrlInput
   | fromContentUiAction.OnInputEnterKeyUrlInput
   | fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction.LoadState
-  | fromApplyPageInputContentProcess.ApplyPage
+  | fromApplyPageInputContentProcess.ValidatedPageInput
   | fromInitializeContentContentProcessAction.LoadUrlSelectRangeSuccess
   | fromInitializeContentContentProcessAction.InitializeUrlSelectRange
   | fromLoadContentScriptBackgroundProcessAction.StopApp

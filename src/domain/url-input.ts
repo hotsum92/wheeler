@@ -1,3 +1,4 @@
+import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 
 export interface UrlInput {
@@ -58,7 +59,8 @@ export const assignSelect = (urlInput: UrlInput, selectStart: number): UrlInput 
   }
 }
 
-export const assignPage = (urlInput: UrlInput, page: number): UrlInput => {
+export const assignPageInput = (urlInput: UrlInput, pageInput: fromPageInputDomain.PageInput): UrlInput => {
+  const page = fromPageInputDomain.toPage(pageInput)
   const found = [ ...urlInput.input.matchAll(/(\d+)/g) ]
     .find(match => match.index! <= urlInput.selectStart && urlInput.selectStart <= match.index! + match[0].length)
 
