@@ -4,7 +4,6 @@ import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
 import * as fromInitializeContentContentProcessAction from '~/action/process/content/initialize-content'
 import * as fromApplyPageContentProcess from '~/action/process/content/apply-page'
-import * as fromUpdateUrlContentProcess from '~/action/process/content/update-url'
 import * as fromSaveSelectRangeContentProcess from '~/action/process/content/save-select-range'
 import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process/background/save-url-select-range'
 import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
@@ -50,7 +49,6 @@ export type Action =
   | fromApplyPageContentProcess.ApplyPage
   | fromInitializeContentContentProcessAction.LoadUrlSelectRangeSuccess
   | fromInitializeContentContentProcessAction.InitializeUrlSelectRange
-  | fromUpdateUrlContentProcess.UpdateUrl
   | fromLoadContentScriptBackgroundProcessAction.StopApp
   | fromLoadContentScriptBackgroundProcessAction.RunApp
   | fromLoadContentScriptBackgroundProcessAction.HideApp

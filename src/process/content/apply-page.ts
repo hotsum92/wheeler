@@ -1,10 +1,10 @@
-import { takeLatest, select, put } from 'redux-saga/effects'
+import { takeLeading, select, put, call } from 'redux-saga/effects'
 import { Action } from '~/action'
+import * as fromDomModule from '~/module/dom'
 import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromApplyPageContentProcessAction from '~/action/process/content/apply-page'
-import * as fromUpdateUrlContentProcessAction from '~/action/process/content/update-url'
 import * as fromContentReducer from '~/reducer/content'
 
 export const actions = [
@@ -17,7 +17,7 @@ export const actions = [
 ]
 
 export function* watchApplyPage(saga: ReturnType<typeof createApplyPage>) {
-  yield takeLatest(
+  yield takeLeading(
     actions,
     saga,
   )
@@ -25,6 +25,7 @@ export function* watchApplyPage(saga: ReturnType<typeof createApplyPage>) {
 }
 
 export const createApplyPage = (
+  assignUrl: typeof fromDomModule.assignUrl,
 ) => {
   return function* (_: Action) {
     const pageInput: fromPageInputDomain.PageInput
@@ -42,7 +43,6 @@ export const createApplyPage = (
     const url: string
       = yield select(fromContentReducer.getUrl)
 
-    yield put(fromUpdateUrlContentProcessAction.updateUrl(url))
-
+    yield call(assignUrl, url)
   }
 }

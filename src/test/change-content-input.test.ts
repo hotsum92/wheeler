@@ -7,7 +7,6 @@ import * as fromContentReducer from '~/reducer/content'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromPageInputDomain from '~/domain/page-input'
-import * as fromUpdateUrlContentProcess from '~/process/content/update-url'
 import * as fromApplyPageContentProcess from '~/process/content/apply-page'
 import * as fromSaveSelectRangeContentProcess from '~/process/content/save-select-range'
 import * as fromLoadUrlSelectRangeBackgroundProcess from '~/process/background/load-url-select-range'
@@ -35,8 +34,7 @@ describe('page inputを変更する', () => {
 
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage()),
-        takeOnce(fromUpdateUrlContentProcess.actions, fromUpdateUrlContentProcess.createUpdateUrl(assignUrlFromDomModule)),
+        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage(assignUrlFromDomModule)),
       ])
     })
 
@@ -80,8 +78,7 @@ describe('page inputを変更する', () => {
 
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage()),
-        takeOnce(fromUpdateUrlContentProcess.actions, fromUpdateUrlContentProcess.createUpdateUrl(assignUrlFromDomModule)),
+        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage(assignUrlFromDomModule)),
       ])
     })
 
@@ -122,9 +119,11 @@ describe('page inputを変更する', () => {
       }
     })
 
+    const assignUrlFromDomModule = jest.fn()
+
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage()),
+        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage(assignUrlFromDomModule)),
       ])
     })
 
@@ -190,8 +189,7 @@ describe('url inputを変更する', () => {
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyUrlContentProcess.actions, fromApplyUrlContentProcess.createApplyUrl(chromeTabsSendMessageFromContent)),
-        takeOnce(fromUpdateUrlContentProcess.actions, fromUpdateUrlContentProcess.createUpdateUrl(assignUrlFromDomModule)),
+        takeOnce(fromApplyUrlContentProcess.actions, fromApplyUrlContentProcess.createApplyUrl(chromeTabsSendMessageFromContent, assignUrlFromDomModule)),
       ])
     })
 
