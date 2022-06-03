@@ -3,22 +3,19 @@ import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 export interface UrlInput {
   input: string
   selectStart: number
-  select: string
 }
 
 export const copy = (props: Partial<UrlInput>): UrlInput => {
   return {
     input: props.input !== undefined ? props.input : '',
     selectStart: props.selectStart !== undefined ? props.selectStart : 0,
-    select: props.select !== undefined ? props.select : '',
   }
 }
 
-export const newUrlInput = (input: string = '', selectStart: number = 0, select: string = '') => {
+export const newUrlInput = (input: string = '', selectStart: number = 0) => {
   return {
     input,
     selectStart,
-    select,
   }
 }
 
@@ -26,7 +23,6 @@ export const fromTabObject = (url: string, selectTabObject: fromUrlSelectRangeDo
   return {
     input: url,
     selectStart: selectTabObject.selectStart,
-    select: url.substr(selectTabObject.selectStart, selectTabObject.selectLength),
   }
 }
 
@@ -38,15 +34,12 @@ export const fromUrl = (url: string): UrlInput => {
   return {
     input: url,
     selectStart: last == null ? 0 : last.index!,
-    select: last == null ? '' : last[0],
   }
 }
 
 export const invalid = (urlInput: UrlInput): boolean => {
   if(urlInput.input === '') return true
-  if(urlInput.select === '') return true
   if(urlInput.selectStart === 0) return true
-  if(urlInput.select.match(/[^0-9]/)) return true
   return false
 }
 
@@ -58,11 +51,10 @@ export const assignInput = (_urlInput: UrlInput, input: string): UrlInput => {
   return fromUrl(input)
 }
 
-export const assignSelect = (urlInput: UrlInput, selectStart: number, select: string): UrlInput => {
+export const assignSelect = (urlInput: UrlInput, selectStart: number): UrlInput => {
   return {
     ...urlInput,
     selectStart,
-    select,
   }
 }
 
@@ -78,6 +70,5 @@ export const assignPage = (urlInput: UrlInput, page: number): UrlInput => {
   return {
     ...urlInput,
     input: a + page.toString() + b,
-    select: page.toString(),
   }
 }

@@ -1,5 +1,3 @@
-import * as fromUrlInputDomain from '~/domain/url-input'
-
 export interface UrlSelectRange {
   selectStart: number
   selectLength: number
@@ -16,13 +14,6 @@ export const fromAction = ({ payload: { selectStart, selectLength } }: { payload
   return {
     selectStart,
     selectLength,
-  }
-}
-
-export const fromUrlInput = (urlInput: fromUrlInputDomain.UrlInput): UrlSelectRange => {
-  return {
-    selectStart: urlInput.selectStart,
-    selectLength: urlInput.select.length,
   }
 }
 

@@ -62,7 +62,6 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
       return fromUrlInputDomain.assignSelect(
         state,
         action.payload.selectStart,
-        action.payload.select,
       )
     }
 

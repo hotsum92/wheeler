@@ -63,7 +63,6 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
       .toStrictEqual({
         input: url,
         selectStart: 22,
-        select: '356',
       })
 
     expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))
@@ -135,7 +134,6 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
       .toStrictEqual({
         input: url,
         selectStart: 19,
-        select: '23',
       })
 
     expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))
@@ -207,7 +205,6 @@ describe('ページを更新した後、content scriptを開始する', () => {
       .toStrictEqual({
         input: url,
         selectStart: 22,
-        select: '356',
       })
 
     expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))
@@ -289,7 +286,6 @@ describe('ページを更新した後、content scriptを開始する', () => {
       .toStrictEqual({
         input: url,
         selectStart: 19,
-        select: '23',
       })
 
     expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))

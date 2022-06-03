@@ -145,7 +145,6 @@ describe('拡張を表示、非表示する', () => {
       .toStrictEqual({
         input: url,
         selectStart: 19,
-        select: '23',
       })
 
     expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))

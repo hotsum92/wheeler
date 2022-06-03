@@ -52,7 +52,6 @@ describe('page inputを変更する', () => {
     expect(fromContentReducer.getContentUiUrlInput(store.getState()))
       .toStrictEqual({
         input: 'http://example.com/24/',
-        select: '24',
         selectStart: 19,
       })
 
@@ -99,7 +98,6 @@ describe('page inputを変更する', () => {
     expect(fromContentReducer.getContentUiUrlInput(store.getState()))
       .toStrictEqual({
         input: 'http://example.com/24/',
-        select: '24',
         selectStart: 19,
       })
 
@@ -143,7 +141,6 @@ describe('page inputを変更する', () => {
     expect(fromContentReducer.getContentUiUrlInput(store.getState()))
       .toStrictEqual({
         input: 'http://example.com/23/',
-        select: '23',
         selectStart: 19,
       })
 
@@ -220,7 +217,6 @@ describe('url inputを変更する', () => {
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
         input: 'http://new-example.com/23/456/',
-        select: '23',
         selectStart: 23,
       })
 
@@ -280,7 +276,6 @@ describe('URLの選択範囲を変更することができる', () => {
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
         input: url,
-        select,
         selectStart,
       })
 
