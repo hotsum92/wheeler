@@ -4,7 +4,7 @@ import * as fromDomModule from '~/module/dom'
 import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromContentUiAction from '~/action/ui/content'
-import * as fromApplyPageContentProcessAction from '~/action/process/content/apply-page'
+import * as fromApplyPageInputContentProcessAction from '~/action/process/content/apply-page-input'
 import * as fromContentReducer from '~/reducer/content'
 
 export const actions = [
@@ -16,7 +16,7 @@ export const actions = [
   fromContentUiAction.ON_WHEEL_DOWN,
 ]
 
-export function* watchApplyPage(saga: ReturnType<typeof createApplyPage>) {
+export function* watchApplyPageInput(saga: ReturnType<typeof createApplyPageInput>) {
   yield takeLeading(
     actions,
     saga,
@@ -24,7 +24,7 @@ export function* watchApplyPage(saga: ReturnType<typeof createApplyPage>) {
 
 }
 
-export const createApplyPage = (
+export const createApplyPageInput = (
   assignUrl: typeof fromDomModule.assignUrl,
 ) => {
   return function* (_: Action) {
@@ -38,7 +38,7 @@ export const createApplyPage = (
        || fromUrlInputDomain.invalid(urlInputCurrent)
       ) return
 
-    yield put(fromApplyPageContentProcessAction.applyPage(fromPageInputDomain.toPage(pageInput)))
+    yield put(fromApplyPageInputContentProcessAction.applyPage(fromPageInputDomain.toPage(pageInput)))
 
     const url: string
       = yield select(fromContentReducer.getUrl)

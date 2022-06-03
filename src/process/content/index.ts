@@ -1,5 +1,5 @@
 import { all, fork } from 'redux-saga/effects'
-import { watchApplyPage, createApplyPage } from '~/process/content/apply-page'
+import { watchApplyPageInput, createApplyPageInput } from '~/process/content/apply-page-input'
 import { watchInitializeContent, createInitializeContent } from '~/process/content/initialize-content'
 import { watchSaveSelectRange, createSaveSelectRange } from '~/process/content/save-select-range'
 import { watchHideExtention, createHideExtention } from '~/process/content/hide-extention'
@@ -18,7 +18,7 @@ export default function* ({
 } = {}) {
   yield all([
     fork(watchInitializeContent, createInitializeContent(getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
-    fork(watchApplyPage, createApplyPage(assignUrl)),
+    fork(watchApplyPageInput, createApplyPageInput(assignUrl)),
     fork(watchSaveSelectRange, createSaveSelectRange(getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
     fork(watchHideExtention, createHideExtention(hideDivElement)),
     fork(watchDisplayExtention, createDisplayExtention(displayDivElement, getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),

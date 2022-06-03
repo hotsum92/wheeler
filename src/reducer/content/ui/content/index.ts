@@ -6,7 +6,7 @@ import * as fromDisplayExtentionContentProcessAction from '~/action/process/cont
 import * as fromApplyUrlContentProcessAction from '~/action/process/content/apply-url'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromInitializeContentContentProcessAction from '~/action/process/content/initialize-content'
-import * as fromApplyPageContentProcessAction from '~/action/process/content/apply-page'
+import * as fromApplyPageInputContentProcessAction from '~/action/process/content/apply-page-input'
 import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 
 export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Action): fromPageInputDomain.PageInput => {
@@ -72,7 +72,7 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
       return fromUrlInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
 
-    case fromApplyPageContentProcessAction.APPLY_PAGE: {
+    case fromApplyPageInputContentProcessAction.APPLY_PAGE: {
       return fromUrlInputDomain.assignPage(state, action.payload.page)
     }
 

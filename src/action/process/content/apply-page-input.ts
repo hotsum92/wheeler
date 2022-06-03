@@ -1,4 +1,4 @@
-export const APPLY_PAGE = 'APPLY_PAGE.APPLY_PAGE'
+export const APPLY_PAGE = 'APPLY_PAGE_INPUT.APPLY_PAGE'
 
 export interface ApplyPage {
   type: typeof APPLY_PAGE

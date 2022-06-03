@@ -7,7 +7,7 @@ import * as fromContentReducer from '~/reducer/content'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromPageInputDomain from '~/domain/page-input'
-import * as fromApplyPageContentProcess from '~/process/content/apply-page'
+import * as fromApplyPageInputContentProcess from '~/process/content/apply-page-input'
 import * as fromSaveSelectRangeContentProcess from '~/process/content/save-select-range'
 import * as fromLoadUrlSelectRangeBackgroundProcess from '~/process/background/load-url-select-range'
 import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/save-url-select-range'
@@ -34,7 +34,7 @@ describe('page inputを変更する', () => {
 
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage(assignUrlFromDomModule)),
+        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule)),
       ])
     })
 
@@ -78,7 +78,7 @@ describe('page inputを変更する', () => {
 
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage(assignUrlFromDomModule)),
+        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule)),
       ])
     })
 
@@ -123,7 +123,7 @@ describe('page inputを変更する', () => {
 
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageContentProcess.actions, fromApplyPageContentProcess.createApplyPage(assignUrlFromDomModule)),
+        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule)),
       ])
     })
 

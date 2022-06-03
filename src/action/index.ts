@@ -3,7 +3,7 @@ import * as fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction from 
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
 import * as fromInitializeContentContentProcessAction from '~/action/process/content/initialize-content'
-import * as fromApplyPageContentProcess from '~/action/process/content/apply-page'
+import * as fromApplyPageInputContentProcess from '~/action/process/content/apply-page-input'
 import * as fromSaveSelectRangeContentProcess from '~/action/process/content/save-select-range'
 import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process/background/save-url-select-range'
 import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
@@ -46,7 +46,7 @@ export type Action =
   | fromContentUiAction.OnFocusOutUrlInput
   | fromContentUiAction.OnInputEnterKeyUrlInput
   | fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction.LoadState
-  | fromApplyPageContentProcess.ApplyPage
+  | fromApplyPageInputContentProcess.ApplyPage
   | fromInitializeContentContentProcessAction.LoadUrlSelectRangeSuccess
   | fromInitializeContentContentProcessAction.InitializeUrlSelectRange
   | fromLoadContentScriptBackgroundProcessAction.StopApp
