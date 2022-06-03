@@ -1,26 +1,23 @@
-import { call, take, put } from 'redux-saga/effects'
+import { takeLatest, call, put } from 'redux-saga/effects'
+import { Action } from '~/action'
 import * as fromDomModule from '~/module/dom'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
-import * as fromChromeRuntimeOnMessageChannelProcess from '~/process/channel/chrome-runtime-on-message'
-import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 import * as fromChromeModule from '~/module/chrome'
+import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
+import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 
 export const actions = [
-  fromApplyTabUpdateContentProcessAction.REQUEST_APPLY_TAB_UPDATE,
+  fromChromeTabsOnUpdatedProcessAction.TAB_STATUS_LOADING,
 ]
 
 export function* watchApplyTabUpdate(
   saga: ReturnType<typeof createApplyTabUpdate>,
 ) {
-  const chan: fromChromeRuntimeOnMessageChannelProcess.Channel = yield call(fromChromeRuntimeOnMessageChannelProcess.createChannel())
-
-  while(true) {
-    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Message = yield take(chan)
-    if(action.type === fromApplyTabUpdateContentProcessAction.REQUEST_APPLY_TAB_UPDATE) {
-      yield call(saga, action, sendResponse)
-    }
-  }
+  yield takeLatest(
+    actions,
+    saga,
+  )
 }
 
 export const createApplyTabUpdate = (
@@ -28,10 +25,8 @@ export const createApplyTabUpdate = (
   chromeRuntimeSendMessage: typeof fromChromeModule.chromeRuntimeSendMessage,
 ) => {
   return function* (
-    _action: fromApplyTabUpdateContentProcessAction.RequestApplyTabUpdate,
-    sendResponse: () => void,
+    _action: Action,
   ) {
-    yield call(sendResponse)
     const url: string = yield call(getUrl)
     const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange
       = yield call(chromeRuntimeSendMessage, fromLoadUrlSelectRangeBackgroundProcessAction.requestLoadUrlSelectRange(url))
