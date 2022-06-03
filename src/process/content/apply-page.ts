@@ -39,10 +39,10 @@ export const createApplyPage = (
 
     yield put(fromApplyPageContentProcessAction.applyPage(fromPageInputDomain.toPage(pageInput)))
 
-    const urlInput: fromUrlInputDomain.UrlInput
-      = yield select(fromContentReducer.getContentUiUrlInput)
+    const url: string
+      = yield select(fromContentReducer.getUrl)
 
-    yield put(fromUpdateUrlContentProcessAction.updateUrl(urlInput.input))
+    yield put(fromUpdateUrlContentProcessAction.updateUrl(url))
 
   }
 }
