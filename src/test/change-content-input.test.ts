@@ -12,7 +12,7 @@ import * as fromSaveSelectRangeContentProcess from '~/process/content/save-selec
 import * as fromLoadUrlSelectRangeBackgroundProcess from '~/process/background/load-url-select-range'
 import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/save-url-select-range'
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
-import * as fromApplyUrlContentProcess from '~/process/content/apply-url'
+import * as fromApplyUrlInputContentProcess from '~/process/content/apply-url-input'
 import * as fromUrlKeyDomain from '~/domain/url-key'
 
 describe('page inputを変更する', () => {
@@ -189,7 +189,7 @@ describe('url inputを変更する', () => {
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyUrlContentProcess.actions, fromApplyUrlContentProcess.createApplyUrl(chromeTabsSendMessageFromContent, assignUrlFromDomModule)),
+        takeOnce(fromApplyUrlInputContentProcess.actions, fromApplyUrlInputContentProcess.createApplyUrlInput(chromeTabsSendMessageFromContent, assignUrlFromDomModule)),
       ])
     })
 

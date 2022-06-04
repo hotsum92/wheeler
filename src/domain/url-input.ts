@@ -40,7 +40,6 @@ export const fromUrl = (url: string): UrlInput => {
 
 export const invalid = (urlInput: UrlInput): boolean => {
   if(urlInput.input === '') return true
-  if(urlInput.selectStart === 0) return true
   return false
 }
 

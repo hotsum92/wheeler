@@ -4,7 +4,7 @@ import * as fromDomModule from '~/module/dom'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
-import * as fromApplyUrlContentProcessAction from '~/action/process/content/apply-url'
+import * as fromApplyUrlInputContentProcessAction from '~/action/process/content/apply-url-input'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromChromeModule from '~/module/chrome'
@@ -14,7 +14,7 @@ export const actions = [
   fromContentUiAction.ON_FOCUS_OUT_URL_INPUT,
 ]
 
-export function* watchApplyUrl(saga: ReturnType<typeof createApplyUrl>) {
+export function* watchApplyUrlInput(saga: ReturnType<typeof createApplyUrlInput>) {
   yield takeLeading(
     actions,
     saga,
@@ -22,7 +22,7 @@ export function* watchApplyUrl(saga: ReturnType<typeof createApplyUrl>) {
 
 }
 
-export const createApplyUrl = (
+export const createApplyUrlInput = (
   chromeRuntimeSendMessage: typeof fromChromeModule.chromeRuntimeSendMessage,
   assignUrl: typeof fromDomModule.assignUrl,
 ) => {
@@ -35,7 +35,7 @@ export const createApplyUrl = (
     const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange
       = yield call(chromeRuntimeSendMessage, fromLoadUrlSelectRangeBackgroundProcessAction.requestLoadUrlSelectRange(url))
 
-    yield put(fromApplyUrlContentProcessAction.applyUrl(url, urlSelectRange))
+    yield put(fromApplyUrlInputContentProcessAction.applyUrl(url, urlSelectRange))
     yield call(assignUrl, url)
 
   }
