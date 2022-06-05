@@ -68,7 +68,7 @@ describe('拡張を表示、非表示する', () => {
 
   })
 
-  test.only('非表示から表示にする', async () => {
+  test('非表示から表示にする', async () => {
 
     const tabId = -1
 
