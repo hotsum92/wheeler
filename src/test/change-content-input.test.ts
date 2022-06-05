@@ -233,9 +233,7 @@ describe('url inputを変更する', () => {
 
 describe('URLの選択範囲を変更することができる', () => {
 
-  test.skip('URLの数値部分を選択する', async () => {
-
-    throw new Error('モデルを変更')
+  test('URLの数値部分を選択する', async () => {
 
     const url = 'http://example.com/23/356/'
     const selectStart = 19
@@ -284,7 +282,6 @@ describe('URLの選択範囲を変更することができる', () => {
     expect(fromBackgroundReducer.getUrlSelectRangeByUrl(storeBackground.getState(), url))
       .toStrictEqual({
         selectStart,
-        selectLength: select.length,
       })
 
     expect(sendResponse).toHaveBeenCalled()
