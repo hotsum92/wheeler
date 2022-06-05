@@ -1,4 +1,5 @@
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
+import * as fromUrlDomain from '~/domain/url'
 
 export interface PageInput {
   input: string
@@ -16,26 +17,28 @@ export const newPageInput = (input: string = ''): PageInput => {
   }
 }
 
-export const fromUrl = (url: string): PageInput => {
-  // TODO: url モデル作成
-  const found = [ ...url.matchAll(/(\d+)/g) ]
-  const last = found[found.length - 1]
+export const fromUrl = (url: fromUrlDomain.Url): PageInput => {
+  const last = fromUrlDomain.matchLastNumber(url)
 
   return {
-    input: last == null ? '' : last[0]
+    input: last == null ? '' : last.matched
   }
 }
 
-export const fromTabObject = (url: string, selectTabObject: fromUrlSelectRangeDomain.UrlSelectRange): PageInput => {
+export const fromTabObject = (url: fromUrlDomain.Url, selectTabObject: fromUrlSelectRangeDomain.UrlSelectRange): PageInput => {
+  const found = fromUrlDomain.matchNumberAroundIndex(url, selectTabObject.selectStart)
+
+  if(found == null) return newPageInput()
+
   return {
-    input: url.substr(selectTabObject.selectStart, selectTabObject.selectLength)
+    input: found.matched
   }
 }
 
 export const invalid = (pageInput: PageInput): boolean => {
   const n = toPage(pageInput)
-  if(n.toString() !== pageInput.input) return true
   if(isNaN(n)) return true
+  if(n.toString() !== pageInput.input) return true
   return false
 }
 
@@ -63,8 +66,6 @@ export const backward = (pageInput: PageInput): PageInput => {
     input: (Number(pageInput.input) - 1).toString(),
   }
 }
-
-// TODO: 10, 100
 
 export const toPage = (pageInput: PageInput): number => {
   return parseInt(pageInput.input, 10)

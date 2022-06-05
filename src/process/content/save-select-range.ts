@@ -20,9 +20,9 @@ export const createSaveSelectRange = (
   chromeRuntimeSendMessage: typeof fromChromeModule.chromeRuntimeSendMessage,
 ) => {
   return function* (action: fromContentUiAction.OnSelectUrlInput) {
-    const { payload: { selectStart, select } } = action
+    const { payload: { selectStart } } = action
     const url: string = yield call(getUrlFromDomModule)
-    yield call(chromeRuntimeSendMessage, fromSaveSelectRangeBackgroundProcessAction.requestSaveUrlSelectRange(url, selectStart, select.length))
+    yield call(chromeRuntimeSendMessage, fromSaveSelectRangeBackgroundProcessAction.requestSaveUrlSelectRange(url, selectStart))
   }
 }
 

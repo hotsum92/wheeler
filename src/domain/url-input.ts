@@ -1,3 +1,4 @@
+import * as fromUrlDomain from '~/domain/url'
 import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 
@@ -27,14 +28,12 @@ export const fromTabObject = (url: string, selectTabObject: fromUrlSelectRangeDo
   }
 }
 
-export const fromUrl = (url: string): UrlInput => {
-  // TODO: url モデル作成
-  const found = [ ...url.matchAll(/(\d+)/g) ]
-  const last = found[found.length - 1]
+export const fromUrl = (url: fromUrlDomain.Url): UrlInput => {
+  const last = fromUrlDomain.matchLastNumber(url)
 
   return {
     input: url,
-    selectStart: last == null ? 0 : last.index!,
+    selectStart: last == null ? 0 : last.index,
   }
 }
 
@@ -60,16 +59,13 @@ export const assignSelect = (urlInput: UrlInput, selectStart: number): UrlInput 
 
 export const assignPageInput = (urlInput: UrlInput, pageInput: fromPageInputDomain.PageInput): UrlInput => {
   const page = fromPageInputDomain.toPage(pageInput)
-  const found = [ ...urlInput.input.matchAll(/(\d+)/g) ]
-    .find(match => match.index! <= urlInput.selectStart && urlInput.selectStart <= match.index! + match[0].length)
+  const url = fromUrlDomain.fromUrlInput(urlInput)
+  const found = fromUrlDomain.matchNumberAroundIndex(url, urlInput.selectStart)
 
   if(found == null) return urlInput
 
-  const url = urlInput.input
-  const a = url.slice(0, found.index)
-  const b = url.slice(found.index! + found[0].length, url.length)
   return {
     ...urlInput,
-    input: a + page.toString() + b,
+    input: fromUrlDomain.assignPage(url, urlInput.selectStart, page),
   }
 }

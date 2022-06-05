@@ -5,18 +5,16 @@ export interface RequestSaveUrlSelectRange {
   payload: {
     url: string
     selectStart: number
-    selectLength: number
   }
 }
 
 export const requestSaveUrlSelectRange =
-  (url: string, selectStart: number, selectLength: number): RequestSaveUrlSelectRange =>
+  (url: string, selectStart: number): RequestSaveUrlSelectRange =>
     ({
       type: REQUEST_SAVE_URL_SELECT_RANGE,
       payload: {
         url,
         selectStart,
-        selectLength,
       }
     })
 
@@ -27,18 +25,16 @@ export interface SaveUrlSelectRange {
   payload: {
     url: string
     selectStart: number
-    selectLength: number
   }
 }
 
 export const saveUrlSelectRange =
-  (url: string, selectStart: number, selectLength: number): SaveUrlSelectRange =>
+  (url: string, selectStart: number): SaveUrlSelectRange =>
     ({
       type: SAVE_URL_SELECT_RANGE,
       payload: {
         url,
         selectStart,
-        selectLength,
       }
     })
 

@@ -25,9 +25,9 @@ export const createSaveUrlSelectRange = (
     action: fromSaveSelectRangeBackgroundProcess.RequestSaveUrlSelectRange,
     sendResponse: (response?: any) => void,
   ) {
-    const { payload: { url, selectStart, selectLength } } = action
+    const { payload: { url, selectStart } } = action
     sendResponse()
-    yield put(fromSaveSelectRangeBackgroundProcess.saveUrlSelectRange(url, selectStart, selectLength))
+    yield put(fromSaveSelectRangeBackgroundProcess.saveUrlSelectRange(url, selectStart))
   }
 }
 
