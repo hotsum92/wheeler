@@ -16,8 +16,8 @@ export function* watchHandleChromeRuntimeOnMessage(
     const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Message = yield take(chan)
     if(actions.includes(action.type)) {
       yield call(saga, action)
+      yield call(sendResponse)
     }
-    yield call(sendResponse)
   }
 }
 
