@@ -2,7 +2,7 @@ import { takeLeading, select, put, call } from 'redux-saga/effects'
 import { Action } from '~/action'
 import * as fromDomModule from '~/module/dom'
 import * as fromPageInputDomain from '~/domain/page-input'
-import * as fromUrlInputDomain from '~/domain/url-input'
+import * as fromApplyPageInputServiceDomain from '~/domain/service/apply-page-input'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromApplyPageInputContentProcessAction from '~/action/process/content/apply-page-input'
 import * as fromContentReducer from '~/reducer/content'
@@ -31,12 +31,7 @@ export const createApplyPageInput = (
     const pageInput: fromPageInputDomain.PageInput
       = yield select(fromContentReducer.getContentUiPageInput)
 
-    const urlInputCurrent: fromUrlInputDomain.UrlInput
-      = yield select(fromContentReducer.getContentUiUrlInput)
-
-    if(fromPageInputDomain.invalid(pageInput)
-       || fromUrlInputDomain.invalid(urlInputCurrent)
-      ) return
+    if(fromApplyPageInputServiceDomain.notReady(pageInput)) return
 
     yield put(fromApplyPageInputContentProcessAction.validatedPageInput(pageInput))
 
