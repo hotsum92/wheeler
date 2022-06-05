@@ -1,6 +1,5 @@
-import { call, take, put } from 'redux-saga/effects'
+import { takeLatest, call, put } from 'redux-saga/effects'
 import * as fromDomModule from '~/module/dom'
-import * as fromChromeRuntimeOnMessageChannelProcess from '~/process/channel/chrome-runtime-on-message'
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
@@ -13,14 +12,10 @@ export const actions = [
 export function* watchDisplayExtention(
   saga: ReturnType<typeof createDisplayExtention>,
 ) {
-  const chan: fromChromeRuntimeOnMessageChannelProcess.Channel = yield call(fromChromeRuntimeOnMessageChannelProcess.createChannel())
-
-  while(true) {
-    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Message = yield take(chan)
-    if(action.type === fromDisplayExtentionContentProcessAction.REQUEST_DISPLAY_EXTENTION) {
-      yield call(saga, action, sendResponse)
-    }
-  }
+  yield takeLatest(
+    actions,
+    saga,
+  )
 }
 
 export const createDisplayExtention = (
@@ -30,10 +25,7 @@ export const createDisplayExtention = (
 ) => {
   return function* (
     _action: fromDisplayExtentionContentProcessAction.RequestDisplayExtention,
-    sendResponse: () => void,
   ) {
-    yield call(sendResponse)
-
     const url: string = yield call(getUrlFromDomModule)
 
     const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange
