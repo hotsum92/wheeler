@@ -1,34 +1,36 @@
-import { call, take } from 'redux-saga/effects'
+import { takeLatest, call, select, put } from 'redux-saga/effects'
 import * as fromDomModule from '~/module/dom'
-import * as fromChromeRuntimeOnMessageChannelProcess from '~/process/channel/chrome-runtime-on-message'
-import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
+import * as fromContentStatusDomain from '~/domain/content-status'
+import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
+import * as fromContentUiReducer from '~/reducer/content'
+import * as fromHideExtentionContentProcessAction from '~/action/process/content/hide-extention'
 
 export const actions = [
-  fromHideExtentionBackgroundProcessAction.REQUEST_HIDE_EXTENTION,
+  fromChromeActionOnClickedChannelProcessAction.ON_CLICK_EXTENTION,
 ]
 
 export function* watchHideExtention(
   saga: ReturnType<typeof createHideExtention>,
 ) {
-  const chan: fromChromeRuntimeOnMessageChannelProcess.Channel = yield call(fromChromeRuntimeOnMessageChannelProcess.createChannel())
-
-  while(true) {
-    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Message = yield take(chan)
-    if(action.type === fromHideExtentionBackgroundProcessAction.REQUEST_HIDE_EXTENTION) {
-      yield call(saga, action, sendResponse)
-    }
-  }
+  yield takeLatest(
+    actions,
+    saga,
+  )
 }
 
 export const createHideExtention = (
   hideDivElement: typeof fromDomModule.hideDivElement
 ) => {
   return function* (
-    _action: fromHideExtentionBackgroundProcessAction.RequestHideExtention,
-    sendResponse: () => void,
+    _action: fromChromeActionOnClickedChannelProcessAction.OnClickExtention,
   ) {
-    yield call(hideDivElement)
-    sendResponse()
+    const contentStatus: fromContentStatusDomain.ContentStatus
+      = yield select(fromContentUiReducer.getContentUiContentStatus)
+
+    if(fromContentStatusDomain.isDisplay(contentStatus)) {
+      yield call(hideDivElement)
+      yield put(fromHideExtentionContentProcessAction.hidDivElement())
+    }
   }
 }
 

@@ -51,15 +51,13 @@ export type Action =
   | fromInitializeContentContentProcessAction.InitializeUrlSelectRange
   | fromLoadContentScriptBackgroundProcessAction.StopApp
   | fromLoadContentScriptBackgroundProcessAction.RunApp
-  | fromLoadContentScriptBackgroundProcessAction.HideApp
   | fromLoadUrlSelectRangeBackgroundProcessAction.RequestLoadUrlSelectRange
   | fromLoadUrlSelectRangeBackgroundProcessAction.LoadUrlSelectRange
   | fromSaveUrlSelectRangeBackgroundProcessAction.SaveUrlSelectRange
   | fromSaveUrlSelectRangeBackgroundProcessAction.RequestSaveUrlSelectRange
   | fromSaveSelectRangeContentProcess.SaveSelectRange
-  | fromHideExtentionBackgroundProcessAction.RequestHideExtention
-  | fromDisplayExtentionContentProcessAction.RequestDisplayExtention
-  | fromDisplayExtentionContentProcessAction.LoadUrlSelectRangeSuccess
+  | fromHideExtentionBackgroundProcessAction.HidDivElement
+  | fromDisplayExtentionContentProcessAction.DisplayedDivElement
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeLink
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeReload
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TrasitionAutoBookmark

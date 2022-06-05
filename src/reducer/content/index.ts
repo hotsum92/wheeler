@@ -9,6 +9,10 @@ export const reducer = combineReducers({
 
 export type State = ReturnType<typeof reducer>
 
+export const getContentUiContentStatus = (state: State) => {
+  return fromContentUiContentReducer.getContentStatus(state.ui.content)
+}
+
 export function getUrl(state: State): string {
   const urlInput = getContentUiUrlInput(state)
   return fromUrlInputDomain.toUrl(urlInput)

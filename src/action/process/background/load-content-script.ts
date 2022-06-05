@@ -16,24 +16,6 @@ export const runApp =
       }
     })
 
-export const HIDE_APP = 'LOAD_CONTENT_SCRIPT.HIDE_APP'
-
-export interface HideApp {
-  type: typeof HIDE_APP
-  payload: {
-    tabId: number
-  }
-}
-
-export const hideApp =
-  (tabId: number): HideApp =>
-    ({
-      type: HIDE_APP,
-      payload: {
-        tabId,
-      }
-    })
-
 export const STOP_APP = 'LOAD_CONTENT_SCRIPT.STOP_APP'
 
 export interface StopApp {

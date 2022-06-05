@@ -1,15 +1,15 @@
-export const REQUEST_HIDE_EXTENTION = 'HIDE_EXTENTION.REQUEST_HIDE_EXTENTION'
+export const HID_DIV_ELEMENT = 'HIDE_EXTENTION.HID_DIV_ELEMENT'
 
-export interface RequestHideExtention {
-  type: typeof REQUEST_HIDE_EXTENTION
+export interface HidDivElement {
+  type: typeof HID_DIV_ELEMENT
   payload: {
   }
 }
 
-export const requestHideExtention =
-  (): RequestHideExtention =>
-    ({
-      type: REQUEST_HIDE_EXTENTION,
-      payload: {
-      }
-    })
+export const hidDivElement = (): HidDivElement => {
+  return {
+    type: HID_DIV_ELEMENT,
+    payload: {
+    }
+  }
+}

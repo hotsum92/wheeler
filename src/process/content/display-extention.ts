@@ -1,12 +1,12 @@
-import { takeLatest, call, put } from 'redux-saga/effects'
+import { takeLatest, call, select, put } from 'redux-saga/effects'
 import * as fromDomModule from '~/module/dom'
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
-import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
-import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
-import * as fromChromeModule from '~/module/chrome'
+import * as fromContentStatusDomain from '~/domain/content-status'
+import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
+import * as fromContentUiReducer from '~/reducer/content'
 
 export const actions = [
-  fromDisplayExtentionContentProcessAction.REQUEST_DISPLAY_EXTENTION,
+  fromChromeActionOnClickedChannelProcessAction.ON_CLICK_EXTENTION,
 ]
 
 export function* watchDisplayExtention(
@@ -20,19 +20,17 @@ export function* watchDisplayExtention(
 
 export const createDisplayExtention = (
   displayDivElement: typeof fromDomModule.displayDivElement,
-  getUrlFromDomModule: typeof fromDomModule.getUrl,
-  chromeRuntimeSendMessage: typeof fromChromeModule.chromeRuntimeSendMessage,
 ) => {
   return function* (
-    _action: fromDisplayExtentionContentProcessAction.RequestDisplayExtention,
+    _action: fromChromeActionOnClickedChannelProcessAction.OnClickExtention,
   ) {
-    const url: string = yield call(getUrlFromDomModule)
+    const contentStatus: fromContentStatusDomain.ContentStatus
+      = yield select(fromContentUiReducer.getContentUiContentStatus)
 
-    const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange
-      = yield call(chromeRuntimeSendMessage, fromLoadUrlSelectRangeBackgroundProcessAction.requestLoadUrlSelectRange(url))
-
-    yield put(fromDisplayExtentionContentProcessAction.loadUrlSelectRangeSuccess(url, urlSelectRange))
-    yield call(displayDivElement)
+    if(fromContentStatusDomain.isHidden(contentStatus)) {
+      yield call(displayDivElement)
+      yield put(fromDisplayExtentionContentProcessAction.displayedDivElement())
+    }
   }
 }
 

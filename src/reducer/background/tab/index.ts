@@ -35,18 +35,6 @@ const byTabId = (state = {} as { [key: number]: TabData }, action: Action): { [k
       }
     }
 
-    case fromLoadContentScriptBackgroundProcessAction.HIDE_APP: {
-      const appStatus = state[action.payload.tabId].appStatus
-
-      return {
-        ...state,
-        [action.payload.tabId]: {
-          ...state[action.payload.tabId],
-          appStatus: fromAppStatusDomain.hideApp(appStatus)
-        }
-      }
-    }
-
     case fromLoadContentScriptBackgroundProcessAction.STOP_APP: {
       const appStatus = state[action.payload.tabId].appStatus
 

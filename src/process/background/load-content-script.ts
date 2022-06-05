@@ -1,8 +1,6 @@
 import { takeLatest, select, call, put } from 'redux-saga/effects'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
-import * as fromHideExtentionBackgroundProcessAction from '~/action/process/content/hide-extention'
-import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
 import * as fromChromeWebNavigationOnCommittedChannelProcessAction from '~/action/process/channel/chrome-web-navigation-on-committed'
 import * as fromChromeTabsOnUpdatedChannelProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
@@ -48,16 +46,8 @@ export const createLoadContentScript = (
         if(fromAppStatusDomain.isStop(appStatus)) {
           yield call(openContentScriptFromChromeModule, tabId)
           yield put(fromLoadContentScriptBackgroundProcessAction.runApp(tabId))
-        }
-
-        if(fromAppStatusDomain.isRunning(appStatus)) {
-          yield call(chromeTabsSendMessage, tabId, fromHideExtentionBackgroundProcessAction.requestHideExtention())
-          yield put(fromLoadContentScriptBackgroundProcessAction.hideApp(tabId))
-        }
-
-        if(fromAppStatusDomain.isHidden(appStatus)) {
-          yield call(chromeTabsSendMessage, tabId, fromDisplayExtentionContentProcessAction.requestDisplayExtention())
-          yield put(fromLoadContentScriptBackgroundProcessAction.runApp(tabId))
+        } else {
+          yield call(chromeTabsSendMessage, tabId, action)
         }
 
         return

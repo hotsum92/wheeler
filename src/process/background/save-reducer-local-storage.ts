@@ -7,14 +7,12 @@ import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process
 
 export const actions = [
   fromLoadContentScriptBackgroundProcessAction.RUN_APP,
-  fromLoadContentScriptBackgroundProcessAction.HIDE_APP,
   fromLoadContentScriptBackgroundProcessAction.STOP_APP,
   fromSaveUrlSelectRangeBackgroundProcessAction.SAVE_URL_SELECT_RANGE,
 ]
 
 type Action =
   | fromLoadContentScriptBackgroundProcessAction.RunApp
-  | fromLoadContentScriptBackgroundProcessAction.HideApp
   | fromLoadContentScriptBackgroundProcessAction.StopApp
   | fromSaveUrlSelectRangeBackgroundProcessAction.SaveUrlSelectRange
 

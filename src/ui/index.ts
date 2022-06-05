@@ -11,7 +11,6 @@ export const useReducer = (initialState?: any) => {
   return {
     state,
     dispatch: (action: fromAction.Action) => {
-      console.log(action)
       dispatch(action)
     }
   }

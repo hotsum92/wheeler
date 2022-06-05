@@ -2,12 +2,30 @@ import { combineReducers } from 'redux'
 import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import { Action } from '~/action'
-import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
+import * as fromContentStatusDomain from '~/domain/content-status'
 import * as fromApplyUrlInputContentProcessAction from '~/action/process/content/apply-url-input'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromInitializeContentContentProcessAction from '~/action/process/content/initialize-content'
 import * as fromApplyPageInputContentProcessAction from '~/action/process/content/apply-page-input'
 import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
+import * as fromHideExtentionContentProcessAction from '~/action/process/content/hide-extention'
+import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
+
+export const status = (state = fromContentStatusDomain.newContentStatus(), action: Action): fromContentStatusDomain.ContentStatus => {
+  switch(action.type) {
+    case fromHideExtentionContentProcessAction.HID_DIV_ELEMENT: {
+      return fromContentStatusDomain.hideContent(state)
+    }
+
+    case fromDisplayExtentionContentProcessAction.DISPLAYED_DIV_ELEMNET: {
+      return fromContentStatusDomain.displayContent(state)
+    }
+
+    default: {
+      return state
+    }
+  }
+}
 
 export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Action): fromPageInputDomain.PageInput => {
   switch(action.type) {
@@ -37,7 +55,6 @@ export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Ac
 
     case fromApplyTabUpdateContentProcessAction.LOADED_URL_SELECT:
     case fromApplyUrlInputContentProcessAction.VALIDATED_URL_INPUT:
-    case fromDisplayExtentionContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS:
     case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
       return fromPageInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
@@ -67,7 +84,6 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
 
     case fromApplyTabUpdateContentProcessAction.LOADED_URL_SELECT:
     case fromApplyUrlInputContentProcessAction.VALIDATED_URL_INPUT:
-    case fromDisplayExtentionContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS:
     case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
       return fromUrlInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
@@ -87,11 +103,16 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
 }
 
 const reducer = combineReducers({
+  status,
   pageInput,
   urlInput,
 })
 
 export type State = ReturnType<typeof reducer>
+
+export const getContentStatus = (state: State) => {
+  return state.status
+}
 
 export const getPageInput = (state: State) => {
   return state.pageInput
