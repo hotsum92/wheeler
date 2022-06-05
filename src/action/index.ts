@@ -67,6 +67,6 @@ export type Action =
   | fromChromeTabsOnUpdatedProcessAction.TabStatusLoading
   | fromChromeTabsOnUpdatedProcessAction.TabStatusComplete
   | fromChromeActionOnClickedChannelProcessAction.OnClickExtention
-  | fromApplyTabUpdateContentProcessAction.ApplyTabUpdate
+  | fromApplyTabUpdateContentProcessAction.LoadedUrlSelect
   | fromApplyUrlInputContentProcessAction.ValidatedUrlInput
 

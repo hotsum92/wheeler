@@ -30,7 +30,7 @@ export const createApplyTabUpdate = (
     const url: string = yield call(getUrl)
     const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange
       = yield call(chromeRuntimeSendMessage, fromLoadUrlSelectRangeBackgroundProcessAction.requestLoadUrlSelectRange(url))
-    yield put(fromApplyTabUpdateContentProcessAction.applyTabUpdate(url, urlSelectRange))
+    yield put(fromApplyTabUpdateContentProcessAction.loadedUrlSelect(url, urlSelectRange))
   }
 }
 

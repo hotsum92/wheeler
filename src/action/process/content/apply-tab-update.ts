@@ -1,19 +1,19 @@
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 
-export const APPLY_TAB_UPDATE = 'APPLY_TAB_UPDATE.APPLY_TAB_UPDATE'
+export const LOADED_URL_SELECT = 'APPLY_TAB_UPDATE.LOADED_URL_SELECT'
 
-export interface ApplyTabUpdate {
-  type: typeof APPLY_TAB_UPDATE
+export interface LoadedUrlSelect {
+  type: typeof LOADED_URL_SELECT
   payload: {
     url: string
     selectTabObject: fromUrlSelectRangeDomain.UrlSelectRange
   }
 }
 
-export const applyTabUpdate =
-  (url: string, selectTabObject: fromUrlSelectRangeDomain.UrlSelectRange): ApplyTabUpdate =>
+export const loadedUrlSelect =
+  (url: string, selectTabObject: fromUrlSelectRangeDomain.UrlSelectRange): LoadedUrlSelect =>
     ({
-      type: APPLY_TAB_UPDATE,
+      type: LOADED_URL_SELECT,
       payload: {
         url,
         selectTabObject,
