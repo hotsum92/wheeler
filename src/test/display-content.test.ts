@@ -9,6 +9,7 @@ import * as fromContentReducer from '~/reducer/content'
 import * as fromHideExtentionBackgroundProcess from '~/process/content/hide-extention'
 import * as fromDisplayExtentionContentProcess from '~/process/content/display-extention'
 import * as fromHandleChromeActionOnClickedChannelProcessProcessAction from '~/action/process/channel/chrome-action-on-clicked'
+import * as fromTransferBackgroundToContentBacgroundProcess from '~/process/background/transfer-background-to-content'
 import * as fromBackgroundReducer from '~/reducer/background'
 
 describe('拡張を表示、非表示する', () => {
@@ -38,7 +39,8 @@ describe('拡張を表示、非表示する', () => {
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock)),
+        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground)),
       ])
     })
 
@@ -99,7 +101,8 @@ describe('拡張を表示、非表示する', () => {
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeTabsSendMessageFromBackground)),
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock)),
+        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground)),
       ])
     })
 

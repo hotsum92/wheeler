@@ -33,14 +33,13 @@ export const createTransferBackgroundToContent = (
 
     if(fromAppStatusDomain.isStop(appStatus)) return
 
-    if(action.type === fromChromeTabsOnUpdatedProcessAction.TAB_STATUS_LOADING) {
+    if(actions.includes(action.type)) {
       try {
         // content scriptが起動しているか判断する方法がないので、リロード時はレスポンスがないので、エラーを潰す
         yield call(chromeTabsSendMessage, action.payload.tabId, action)
       } catch {
       }
     }
-
 
   }
 }

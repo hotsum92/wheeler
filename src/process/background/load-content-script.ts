@@ -31,7 +31,6 @@ export function* watchLoadContentScript(saga: ReturnType<typeof createLoadConten
 
 export const createLoadContentScript = (
   openContentScriptFromChromeModule: typeof fromChromeModule.openContentScript,
-  chromeTabsSendMessage: typeof fromChromeModule.chromeTabsSendMessage,
 ) => {
   return function* (action: Action) {
 
@@ -46,8 +45,6 @@ export const createLoadContentScript = (
         if(fromAppStatusDomain.isStop(appStatus)) {
           yield call(openContentScriptFromChromeModule, tabId)
           yield put(fromLoadContentScriptBackgroundProcessAction.runApp(tabId))
-        } else {
-          yield call(chromeTabsSendMessage, tabId, action)
         }
 
         return
