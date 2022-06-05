@@ -1,19 +1,19 @@
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 
-export const APPLY_URL = 'APPLY_URL.APPLY_URL'
+export const VALIDATED_URL_INPUT = 'APPLY_URL_INPUT.VALIDATED_URL_INPUT'
 
-export interface ApplyUrl {
-  type: typeof APPLY_URL
+export interface ValidatedUrlInput {
+  type: typeof VALIDATED_URL_INPUT
   payload: {
     url: string
     selectTabObject: fromUrlSelectRangeDomain.UrlSelectRange
   }
 }
 
-export const applyUrl =
-  (url: string, selectTabObject: fromUrlSelectRangeDomain.UrlSelectRange): ApplyUrl =>
+export const validatedUrlInput =
+  (url: string, selectTabObject: fromUrlSelectRangeDomain.UrlSelectRange): ValidatedUrlInput =>
     ({
-      type: APPLY_URL,
+      type: VALIDATED_URL_INPUT,
       payload: {
         url,
         selectTabObject,

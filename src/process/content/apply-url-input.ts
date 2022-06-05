@@ -1,5 +1,6 @@
 import { takeLeading, select, put, call } from 'redux-saga/effects'
 import { Action } from '~/action'
+import * as fromApplyUrlInputServiceDomain from '~/domain/service/apply-url-input'
 import * as fromDomModule from '~/module/dom'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromContentUiAction from '~/action/ui/content'
@@ -35,7 +36,9 @@ export const createApplyUrlInput = (
     const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange
       = yield call(chromeRuntimeSendMessage, fromLoadUrlSelectRangeBackgroundProcessAction.requestLoadUrlSelectRange(url))
 
-    yield put(fromApplyUrlInputContentProcessAction.applyUrl(url, urlSelectRange))
+    if(fromApplyUrlInputServiceDomain.invalid(urlInput)) return
+    yield put(fromApplyUrlInputContentProcessAction.validatedUrlInput(url, urlSelectRange))
+
     yield call(assignUrl, url)
 
   }

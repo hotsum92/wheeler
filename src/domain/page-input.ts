@@ -34,6 +34,7 @@ export const fromTabObject = (url: string, selectTabObject: fromUrlSelectRangeDo
 
 export const invalid = (pageInput: PageInput): boolean => {
   const n = toPage(pageInput)
+  if(n.toString() !== pageInput.input) return true
   if(isNaN(n)) return true
   return false
 }

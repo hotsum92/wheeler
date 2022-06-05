@@ -31,7 +31,7 @@ export const createApplyPageInput = (
     const pageInput: fromPageInputDomain.PageInput
       = yield select(fromContentReducer.getContentUiPageInput)
 
-    if(fromApplyPageInputServiceDomain.notReady(pageInput)) return
+    if(fromApplyPageInputServiceDomain.invalid(pageInput)) return
 
     yield put(fromApplyPageInputContentProcessAction.validatedPageInput(pageInput))
 

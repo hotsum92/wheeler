@@ -36,7 +36,7 @@ export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Ac
     }
 
     case fromApplyTabUpdateContentProcessAction.APPLY_TAB_UPDATE:
-    case fromApplyUrlInputContentProcessAction.APPLY_URL:
+    case fromApplyUrlInputContentProcessAction.VALIDATED_URL_INPUT:
     case fromDisplayExtentionContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS:
     case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
       return fromPageInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
@@ -66,7 +66,7 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
     }
 
     case fromApplyTabUpdateContentProcessAction.APPLY_TAB_UPDATE:
-    case fromApplyUrlInputContentProcessAction.APPLY_URL:
+    case fromApplyUrlInputContentProcessAction.VALIDATED_URL_INPUT:
     case fromDisplayExtentionContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS:
     case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
       return fromUrlInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
