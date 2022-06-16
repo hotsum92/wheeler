@@ -1,7 +1,6 @@
 import { all, fork } from 'redux-saga/effects'
 import { watchHandleChromeRuntimeOnMessage, createHandleChromeRuntimeOnMessage } from '~/process/content/handle-chrome-runtime-on-message'
 import { watchApplyPageInput, createApplyPageInput } from '~/process/content/apply-page-input'
-import { watchInitializeContent, createInitializeContent } from '~/process/content/initialize-content'
 import { watchSaveSelectRange, createSaveSelectRange } from '~/process/content/save-select-range'
 import { watchHideExtention, createHideExtention } from '~/process/content/hide-extention'
 import { watchDisplayExtention, createDisplayExtention } from '~/process/content/display-extention'
@@ -20,7 +19,6 @@ export default function* ({
 } = {}) {
   yield all([
     fork(watchHandleChromeRuntimeOnMessage, createHandleChromeRuntimeOnMessage()),
-    fork(watchInitializeContent, createInitializeContent(getUrlFromDomModule, chromeRuntimeSendMessage)),
     fork(watchApplyPageInput, createApplyPageInput(assignUrl)),
     fork(watchSaveSelectRange, createSaveSelectRange(getUrlFromDomModule, chromeRuntimeSendMessage)),
     fork(watchHideExtention, createHideExtention(hideDivElement)),

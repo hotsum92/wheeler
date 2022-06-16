@@ -21,7 +21,7 @@ import * as fromDetectUrlSelectRangeBackgroundProcessAction from '~/action/proce
 
 describe('拡張ボタンをクリックした後、content scriptを開始する', () => {
 
-  test('初期値からの起動', async () => {
+  test.skip('初期値からの起動', async () => {
 
     const tabId = -1
     const url = 'http://example.com/23/356/'
@@ -75,7 +75,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
   })
 
-  test('すでに訪れたことのあるURLから起動', async () => {
+  test.skip('すでに訪れたことのあるURLから起動', async () => {
 
     const tabId = -1
     const url = 'http://example.com/23/356/'
