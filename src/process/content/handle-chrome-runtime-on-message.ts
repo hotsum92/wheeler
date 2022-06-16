@@ -3,9 +3,11 @@ import { Action } from '~/action'
 import * as fromChromeRuntimeOnMessageChannelProcess from '~/process/channel/chrome-runtime-on-message'
 import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
+import * as fromDetectUrlSelectRangeBackgroundProcessAction from '~/action/process/background/detect-url-select-range-update'
 
 export const actions = [
   fromChromeTabsOnUpdatedProcessAction.TAB_STATUS_LOADING,
+  fromDetectUrlSelectRangeBackgroundProcessAction.DETECTED_URL_SELECT_RANGE_UPDATE,
   fromChromeActionOnClickedChannelProcessAction.ON_CLICK_EXTENTION,
 ]
 
