@@ -24,7 +24,7 @@ export default function* ({
     fork(watchSaveSelectRange, createSaveSelectRange(getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
     fork(watchHideExtention, createHideExtention(hideDivElement)),
     fork(watchDisplayExtention, createDisplayExtention(displayDivElement)),
-    fork(watchApplyTabUpdate, createApplyTabUpdate(getUrlFromDomModule, chromeRuntimeSendMessageFromChromeModule)),
+    fork(watchApplyTabUpdate, createApplyTabUpdate(getUrlFromDomModule)),
     fork(watchApplyUrlInput, createApplyUrlInput(chromeRuntimeSendMessageFromChromeModule, assignUrl))
   ])
 }

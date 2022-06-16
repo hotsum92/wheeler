@@ -68,6 +68,13 @@ export const getCurrentTabUrl = async (): Promise<string> => {
   return tab!.url;
 }
 
+export const getTabUrl = async (tabId: number): Promise<string> => {
+  const queryOptions = { active: true, lastFocusedWindow: true, tabIds: [tabId] };
+  const [tab] = await chrome.tabs.query(queryOptions);
+  if(tab.url == null) return ''
+  return tab!.url;
+}
+
 export const getWindowsLength = async (): Promise<number> => {
   const windows = await chrome.windows.getAll()
   return windows.length

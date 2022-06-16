@@ -16,6 +16,8 @@ import * as fromLoadUrlSelectRangeBackgroundProcess from '~/process/background/l
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
 import * as fromTransferBackgroundToContentBacgroundProcess from '~/process/background/transfer-background-to-content'
 import * as fromApplyTabUpdateContentProcess from '~/process/content/apply-tab-update'
+import * as fromDetectUrlSelectRangeBackgroundProcess from '~/process/background/detect-url-select-range-update'
+import * as fromDetectUrlSelectRangeBackgroundProcessAction from '~/action/process/background/detect-url-select-range-update'
 
 describe('拡張ボタンをクリックした後、content scriptを開始する', () => {
 
@@ -253,23 +255,19 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
     const sendResponse = jest.fn()
     const getUrl = jest.fn(() => url)
+    const getTabUrl: any = jest.fn((_tabId: number) => url)
     const chromeTabsSendMessageFromBackground = jest.fn((_tabId, action) => storeContent.dispatch(action))
-    let sendResponseFromLoadUrlSelectRange: any = null
-    const chromeTabsSendMessageFromContent = jest.fn((action) => new Promise((resolve) => {
-      sendResponseFromLoadUrlSelectRange = resolve
-      storeBackground.dispatch(action)
-    }))
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground)),
-        takeOnce(fromLoadUrlSelectRangeBackgroundProcess.actions, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (urlSelectRange: any) => sendResponseFromLoadUrlSelectRange(urlSelectRange)),
+        takeOnce(fromDetectUrlSelectRangeBackgroundProcess.actions, fromDetectUrlSelectRangeBackgroundProcess.createDetectUrlSelectRangeUpdate(getTabUrl)),
+        takeOnce(fromDetectUrlSelectRangeBackgroundProcessAction.DETECTED_URL_SELECT_RANGE_UPDATE, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground)),
       ])
     })
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyTabUpdateContentProcess.actions, fromApplyTabUpdateContentProcess.createApplyTabUpdate(getUrl, chromeTabsSendMessageFromContent), sendResponse),
+        takeOnce(fromApplyTabUpdateContentProcess.actions, fromApplyTabUpdateContentProcess.createApplyTabUpdate(getUrl), sendResponse),
       ])
     })
 

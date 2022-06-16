@@ -1,14 +1,10 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import { Action } from '~/action'
 import * as fromDomModule from '~/module/dom'
-import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
-import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
-import * as fromChromeModule from '~/module/chrome'
-import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
+import * as fromDetectUrlSelectRangeBackgroundProcessAction from '~/action/process/background/detect-url-select-range-update'
 
 export const actions = [
-  fromChromeTabsOnUpdatedProcessAction.TAB_STATUS_LOADING,
+  fromDetectUrlSelectRangeBackgroundProcessAction.DETECTED_URL_SELECT_RANGE_UPDATE,
 ]
 
 export function* watchApplyTabUpdate(
@@ -22,14 +18,12 @@ export function* watchApplyTabUpdate(
 
 export const createApplyTabUpdate = (
   getUrl: typeof fromDomModule.getUrl,
-  chromeRuntimeSendMessage: typeof fromChromeModule.chromeRuntimeSendMessage,
 ) => {
   return function* (
-    _action: Action,
+    action: fromDetectUrlSelectRangeBackgroundProcessAction.DetectedUrlSelectRangeUpdate,
   ) {
+    const { payload: { urlSelectRange } } = action
     const url: string = yield call(getUrl)
-    const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange
-      = yield call(chromeRuntimeSendMessage, fromLoadUrlSelectRangeBackgroundProcessAction.requestLoadUrlSelectRange(url))
     yield put(fromApplyTabUpdateContentProcessAction.loadedUrlSelect(url, urlSelectRange))
   }
 }

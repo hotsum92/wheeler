@@ -11,6 +11,7 @@ import { watchLoadUrlSelectRange, createLoadUrlSelectRange } from '~/process/bac
 import { watchSaveUrlSelectRange, createSaveUrlSelectRange } from '~/process/background/save-url-select-range'
 import { watchTransferBackgroundToContent, createTransferBackgroundToContent } from '~/process/background/transfer-background-to-content'
 import { watchSaveReducerLocalStorage, createSaveReducerLocalStorage } from '~/process/background/save-reducer-local-storage'
+import { watchDetectUrlSelectRangeUpdate, createDetectUrlSelectRangeUpdate } from '~/process/background/detect-url-select-range-update'
 
 export default function* ({
   chromeStorageLocalSet = fromChromeModule.chromeStorageLocalSet,
@@ -18,6 +19,7 @@ export default function* ({
   getAllTabIds = fromChromeModule.getAllTabIds,
   openContentScript = fromChromeModule.openContentScript,
   chromeTabsSendMessage = fromChromeModule.chromeTabsSendMessage,
+  getTabUrl = fromChromeModule.getTabUrl,
 } = {}) {
   yield all([
     forkChannel(fromChromeActionOnClickedChannelProcess.createChannel()),
@@ -30,6 +32,7 @@ export default function* ({
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
     fork(watchSaveUrlSelectRange, createSaveUrlSelectRange()),
     fork(watchTransferBackgroundToContent, createTransferBackgroundToContent(chromeTabsSendMessage)),
+    fork(watchDetectUrlSelectRangeUpdate, createDetectUrlSelectRangeUpdate(getTabUrl))
   ])
 }
 
