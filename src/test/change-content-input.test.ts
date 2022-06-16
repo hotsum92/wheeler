@@ -9,11 +9,8 @@ import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromApplyPageInputContentProcess from '~/process/content/apply-page-input'
 import * as fromSaveSelectRangeContentProcess from '~/process/content/save-select-range'
-import * as fromLoadUrlSelectRangeBackgroundProcess from '~/process/background/load-url-select-range'
 import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/save-url-select-range'
-import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
 import * as fromApplyUrlInputContentProcess from '~/process/content/apply-url-input'
-import * as fromUrlKeyDomain from '~/domain/url-key'
 
 describe('page inputを変更する', () => {
 
@@ -157,9 +154,6 @@ describe('url inputを変更する', () => {
 
     const url = 'http://example.com/23/'
     const input = 'http://new-example.com/23/456/'
-    const selectStart = 23
-    const selectLength = 2
-    const urlKey = fromUrlKeyDomain.fromSelectStart(input, selectStart)
 
     const storeContent = configureStoreContent({
       ui: {
@@ -170,36 +164,11 @@ describe('url inputを変更する', () => {
       }
     })
 
-    const storeBackground = configureStoreBackground({
-      url: {
-        urlKeys: [ urlKey ],
-        byUrlKey: {
-          [urlKey]: {
-            urlSelectRange: {
-              selectStart,
-              selectLength,
-            }
-          }
-        }
-      }
-    })
-
     const assignUrlFromDomModule = jest.fn()
-    let sendResponse: any = null
-    const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
-      sendResponse = resolve
-      storeBackground.dispatch(action)
-    }))
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyUrlInputContentProcess.actions, fromApplyUrlInputContentProcess.createApplyUrlInput(chromeTabsSendMessageFromContent, assignUrlFromDomModule)),
-      ])
-    })
-
-    const taskBackground = storeBackground.runSaga(function* () {
-      yield all([
-        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => sendResponse(args)),
+        takeOnce(fromApplyUrlInputContentProcess.actions, fromApplyUrlInputContentProcess.createApplyUrlInput(assignUrlFromDomModule)),
       ])
     })
 
@@ -208,19 +177,7 @@ describe('url inputを変更する', () => {
 
     await Promise.all([
       taskContent.toPromise(),
-      taskBackground.toPromise(),
     ])
-
-    expect(fromContentReducer.getContentUiPageInput(storeContent.getState()))
-      .toStrictEqual({
-        input: '23',
-      })
-
-    expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
-      .toStrictEqual({
-        input: 'http://new-example.com/23/456/',
-        selectStart: 23,
-      })
 
     expect(assignUrlFromDomModule)
       .toHaveBeenCalledWith(

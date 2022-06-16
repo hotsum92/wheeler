@@ -69,9 +69,11 @@ export const getCurrentTabUrl = async (): Promise<string> => {
 }
 
 export const getTabUrl = async (tabId: number): Promise<string> => {
-  const queryOptions = { active: true, lastFocusedWindow: true, tabIds: [tabId] };
-  const [tab] = await chrome.tabs.query(queryOptions);
-  if(tab.url == null) return ''
+  const queryOptions = { active: true, lastFocusedWindow: true };
+  const tabs = await chrome.tabs.query(queryOptions);
+  const tab = tabs.find(t => t.id === tabId)
+  if(tab == null) return ''
+  if(tab!.url == null) return ''
   return tab!.url;
 }
 
