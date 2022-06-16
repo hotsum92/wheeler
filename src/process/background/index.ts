@@ -12,6 +12,7 @@ import { watchSaveUrlSelectRange, createSaveUrlSelectRange } from '~/process/bac
 import { watchTransferBackgroundToContent, createTransferBackgroundToContent } from '~/process/background/transfer-background-to-content'
 import { watchSaveReducerLocalStorage, createSaveReducerLocalStorage } from '~/process/background/save-reducer-local-storage'
 import { watchDetectUrlSelectRangeUpdate, createDetectUrlSelectRangeUpdate } from '~/process/background/detect-url-select-range-update'
+import { watchHandleChromeRuntimeOnMessage, createHandleChromeRuntimeOnMessage } from '~/process/background/handle-chrome-runtime-on-message'
 
 export default function* ({
   chromeStorageLocalSet = fromChromeModule.chromeStorageLocalSet,
@@ -32,7 +33,8 @@ export default function* ({
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
     fork(watchSaveUrlSelectRange, createSaveUrlSelectRange()),
     fork(watchTransferBackgroundToContent, createTransferBackgroundToContent(chromeTabsSendMessage)),
-    fork(watchDetectUrlSelectRangeUpdate, createDetectUrlSelectRangeUpdate(getTabUrl))
+    fork(watchDetectUrlSelectRangeUpdate, createDetectUrlSelectRangeUpdate(getTabUrl)),
+    fork(watchHandleChromeRuntimeOnMessage, createHandleChromeRuntimeOnMessage()),
   ])
 }
 

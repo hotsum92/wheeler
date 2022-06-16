@@ -15,6 +15,7 @@ import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/
 import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 import * as fromApplyUrlInputContentProcessAction from '~/action/process/content/apply-url-input'
 import * as fromDetectUrlSelectRangeBackgroundProcessAction from '~/action/process/background/detect-url-select-range-update'
+import * as fromHandleChromeRuntimeOnMessageChannelProcessAction from '~/action/process/background/handle-chrome-runtime-on-message-channel'
 
 export const INITIAL = 'ACTION.INITIAL'
 
@@ -69,4 +70,5 @@ export type Action =
   | fromApplyTabUpdateContentProcessAction.LoadedUrlSelect
   | fromApplyUrlInputContentProcessAction.ValidatedUrlInput
   | fromDetectUrlSelectRangeBackgroundProcessAction.DetectedUrlSelectRangeUpdate
+  | fromHandleChromeRuntimeOnMessageChannelProcessAction.OnLoadContentUi
 
