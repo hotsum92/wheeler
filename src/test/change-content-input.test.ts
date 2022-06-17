@@ -227,7 +227,7 @@ describe('url inputを変更する', () => {
 
 })
 
-describe('URLの選択範囲を変更することができる', () => {
+describe('URLの選択範囲を変更する', () => {
 
   test('URLの数値部分を選択する', async () => {
 
