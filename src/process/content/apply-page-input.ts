@@ -26,6 +26,7 @@ export function* watchApplyPageInput(saga: ReturnType<typeof createApplyPageInpu
 
 export const createApplyPageInput = (
   assignUrl: typeof fromDomModule.assignUrl,
+  getUrl: typeof fromDomModule.getUrl,
 ) => {
   return function* (_: Action) {
     const pageInput: fromPageInputDomain.PageInput
@@ -35,8 +36,12 @@ export const createApplyPageInput = (
 
     yield put(fromApplyPageInputContentProcessAction.validatedPageInput(pageInput))
 
+    const currentUrl: string = yield call(getUrl)
+
     const url: string
       = yield select(fromContentReducer.getUrl)
+
+    if(currentUrl === url) return
 
     yield call(assignUrl, url)
   }

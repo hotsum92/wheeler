@@ -34,18 +34,22 @@ export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Ac
     }
 
     case fromContentUiAction.ON_CLICK_FORWARD_BUTTON: {
+      if(fromPageInputDomain.invalid(state)) return state
       return fromPageInputDomain.forward(state)
     }
 
     case fromContentUiAction.ON_CLICK_BACKWARD_BUTTON: {
+      if(fromPageInputDomain.invalid(state)) return state
       return fromPageInputDomain.backward(state)
     }
 
     case fromContentUiAction.ON_WHEEL_UP: {
+      if(fromPageInputDomain.invalid(state)) return state
       return fromPageInputDomain.backward(state)
     }
 
     case fromContentUiAction.ON_WHEEL_DOWN: {
+      if(fromPageInputDomain.invalid(state)) return state
       return fromPageInputDomain.forward(state)
     }
 

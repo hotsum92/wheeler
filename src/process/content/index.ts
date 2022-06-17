@@ -20,12 +20,12 @@ export default function* ({
 } = {}) {
   yield all([
     fork(watchHandleChromeRuntimeOnMessage, createHandleChromeRuntimeOnMessage()),
-    fork(watchApplyPageInput, createApplyPageInput(assignUrl)),
+    fork(watchApplyPageInput, createApplyPageInput(assignUrl, getUrlFromDomModule)),
     fork(watchSaveSelectRange, createSaveSelectRange(getUrlFromDomModule, chromeRuntimeSendMessage)),
     fork(watchHideExtention, createHideExtention(hideDivElement)),
     fork(watchDisplayExtention, createDisplayExtention(displayDivElement)),
     fork(watchApplyTabUpdate, createApplyTabUpdate(getUrlFromDomModule)),
-    fork(watchApplyUrlInput, createApplyUrlInput(assignUrl)),
+    fork(watchApplyUrlInput, createApplyUrlInput(assignUrl, getUrlFromDomModule)),
     fork(watchTransferContentToBackground, createTransferContentToBackground(chromeRuntimeSendMessage)),
     fork(watchApplyUrlSelectRangeInput, createApplyUrlSelectRangeInput()),
   ])

@@ -21,6 +21,7 @@ export function* watchApplyUrlInput(saga: ReturnType<typeof createApplyUrlInput>
 
 export const createApplyUrlInput = (
   assignUrl: typeof fromDomModule.assignUrl,
+  getUrl: typeof fromDomModule.getUrl,
 ) => {
   return function* (_: Action) {
     const urlInput: fromUrlInputDomain.UrlInput
@@ -28,7 +29,10 @@ export const createApplyUrlInput = (
 
     if(fromApplyUrlInputServiceDomain.invalid(urlInput)) return
 
+    const currentUrl: string = yield call(getUrl)
     const url = fromUrlInputDomain.toUrl(urlInput)
+
+    if(currentUrl === url) return
 
     yield call(assignUrl, url)
 

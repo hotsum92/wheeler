@@ -31,10 +31,11 @@ describe('page inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
+    const getUrl = jest.fn(() => url)
 
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule)),
+        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule, getUrl)),
       ])
     })
 
@@ -75,10 +76,11 @@ describe('page inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
+    const getUrl = jest.fn(() => url)
 
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule)),
+        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule, getUrl)),
       ])
     })
 
@@ -120,10 +122,11 @@ describe('page inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
+    const getUrl = jest.fn(() => url)
 
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule)),
+        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule, getUrl)),
       ])
     })
 
@@ -159,10 +162,11 @@ describe('page inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
+    const getUrl = jest.fn(() => url)
 
     const task = store.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule)),
+        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule, getUrl)),
       ])
     })
 
@@ -204,10 +208,11 @@ describe('url inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
+    const getUrl = jest.fn(() => url)
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromApplyUrlInputContentProcess.actions, fromApplyUrlInputContentProcess.createApplyUrlInput(assignUrlFromDomModule)),
+        takeOnce(fromApplyUrlInputContentProcess.actions, fromApplyUrlInputContentProcess.createApplyUrlInput(assignUrlFromDomModule, getUrl)),
       ])
     })
 
