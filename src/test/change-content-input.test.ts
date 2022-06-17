@@ -180,7 +180,7 @@ describe('page inputを変更する', () => {
       )
   })
 
-  test.skip('選択範囲がpageクエリを含めた保存があれば、それを利用してページを更新', () => {
+  test.skip('選択範囲がpageクエリを含めた保存があれば、それを利用してページを更新', async () => {
     throw new Error('未実装')
   })
 
