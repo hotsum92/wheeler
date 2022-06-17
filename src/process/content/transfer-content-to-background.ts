@@ -26,6 +26,5 @@ export const createTransferContentToBackground = (
     if(actions.includes(action.type)) {
       yield call(chromeRuntimeSendMessage, action)
     }
-
   }
 }

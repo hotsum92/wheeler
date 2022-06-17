@@ -17,25 +17,26 @@ export function* watchHandleChromeRuntimeOnMessage(
   while(true) {
     const { action, sendResponse, tabId }: fromChromeRuntimeOnMessageBackgroundChannelProcess.Message = yield take(chan)
 
-    if(action.type === fromContentUiAction.ON_LOAD_CONTENT_UI) {
+    if(actions.includes(action.type)) {
       yield call(sendResponse)
-      yield call(saga, fromHandleChromeRuntimeOnMessageChannelProcessAction.onLoadContentUi(tabId))
+      yield call(saga, action, tabId)
       continue
     }
 
-    if(actions.includes(action.type)) {
-      yield call(sendResponse)
-      yield call(saga, action)
-      continue
-    }
   }
 }
 
 export const createHandleChromeRuntimeOnMessage = (
 ) => {
   return function* (
-    action: Action
+    action: Action,
+    tabId: number
   ) {
+    if(action.type === fromContentUiAction.ON_LOAD_CONTENT_UI) {
+      yield put(fromHandleChromeRuntimeOnMessageChannelProcessAction.onLoadContentUi(tabId))
+      return
+    }
+
     yield put(action)
   }
 }

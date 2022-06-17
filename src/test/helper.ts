@@ -6,6 +6,15 @@ export const takeOnce = function*(actions: string[] | string, saga: (...v: any) 
   yield fork(saga, action, ...args)
 }
 
+export const takeSome = function*(limit: number, actions: string[] | string, saga: (...v: any) => void, ...args: any) {
+  let counter = 0
+  while(counter < limit) {
+    const action: fromAction.Action = yield take(actions)
+    yield fork(saga, action, ...args)
+    counter += 1
+  }
+}
+
 type Pipe<T> = {
   (): T;
   <U>(f: (x: T) => U): Pipe<U>
