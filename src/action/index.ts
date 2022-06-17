@@ -64,6 +64,7 @@ export type Action =
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeLink
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTypeReload
   | fromChromeWebNavigationOnCommittedProcessChannelAction.TrasitionAutoBookmark
+  | fromChromeWebNavigationOnCommittedProcessChannelAction.TransitionTyped
   | fromChromeWindowsOnCreatedChannelProcessAction.OnCreatedWindow
   | fromChromeTabsOnUpdatedProcessAction.TabStatusLoading
   | fromChromeTabsOnUpdatedProcessAction.TabStatusComplete

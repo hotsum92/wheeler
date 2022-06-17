@@ -12,6 +12,7 @@ export const actions = [
   fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_LINK,
   fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_RELOAD,
   fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_AUTO_BOOKMARK,
+  fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPED,
   fromChromeTabsOnUpdatedChannelProcessAction.TAB_STATUS_LOADING,
 ]
 
@@ -20,6 +21,7 @@ type Action =
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeLink
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeReload
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TrasitionAutoBookmark
+  | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTyped
   | fromChromeTabsOnUpdatedChannelProcessAction.TabStatusLoading
 
 export function* watchLoadContentScript(saga: ReturnType<typeof createLoadContentScript>) {
@@ -51,6 +53,7 @@ export const createLoadContentScript = (
       }
 
       case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_RELOAD:
+      case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPED:
       case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_LINK: {
 
         if(fromAppStatusDomain.isRunning(appStatus)) {

@@ -48,3 +48,20 @@ export const transitionAutoBookmark = (tabId: number): TrasitionAutoBookmark =>
       tabId,
     }
   })
+
+export const TRANSITION_TYPED = 'CHROME_WEB_NAVIGATION_ON_COMMITTED.TRANSITION_TYPED'
+
+export interface TransitionTyped {
+  type: typeof TRANSITION_TYPED
+  payload: {
+    tabId: number
+  }
+}
+
+export const transitionTyped = (tabId: number): TransitionTyped =>
+  ({
+    type: TRANSITION_TYPED,
+    payload: {
+      tabId,
+    }
+  })

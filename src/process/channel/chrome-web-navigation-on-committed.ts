@@ -6,6 +6,9 @@ export type Action =
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeLink
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeReload
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TrasitionAutoBookmark
+  | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTyped
+
+  // TODO: rename
 
 export type Channel = EventChannel<Action>
 
@@ -23,6 +26,10 @@ export const createChannel = () => {
 
         if(details.transitionType === fromChromeModule.TRANSITION_AUTO_BOOKMARK) {
           emitter(fromChromeWebNavigationOnCommittedChannelProcessAction.transitionAutoBookmark(details.tabId))
+        }
+
+        if(details.transitionType === fromChromeModule.TRANSITION_TYPED) {
+          emitter(fromChromeWebNavigationOnCommittedChannelProcessAction.transitionTyped(details.tabId))
         }
       }
 
