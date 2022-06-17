@@ -71,4 +71,5 @@ export type Action =
   | fromApplyUrlInputContentProcessAction.ValidatedUrlInput
   | fromDetectUrlSelectRangeBackgroundProcessAction.DetectedUrlSelectRangeUpdate
   | fromHandleChromeRuntimeOnMessageChannelProcessAction.OnLoadContentUi
+  | fromHandleChromeRuntimeOnMessageChannelProcessAction.OnSelectUrlInput
 

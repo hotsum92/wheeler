@@ -31,7 +31,7 @@ export default function* ({
     fork(watchInitializeAfterLoadBackgroundScript, createInializeAfterLoadBackgroundScript(chromeStorageLocalGet, chromeStorageLocalSet, getAllTabIds)),
     fork(watchLoadContentScript, createLoadContentScript(openContentScript)),
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
-    fork(watchSaveUrlSelectRange, createSaveUrlSelectRange()),
+    fork(watchSaveUrlSelectRange, createSaveUrlSelectRange(getTabUrl)),
     fork(watchTransferBackgroundToContent, createTransferBackgroundToContent(chromeTabsSendMessage)),
     fork(watchDetectUrlSelectRangeUpdate, createDetectUrlSelectRangeUpdate(getTabUrl)),
     fork(watchHandleChromeRuntimeOnMessage, createHandleChromeRuntimeOnMessage()),

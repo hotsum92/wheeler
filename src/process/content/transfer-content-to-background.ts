@@ -4,6 +4,7 @@ import * as fromContentUiAction from '~/action/ui/content'
 
 export const actions = [
   fromContentUiAction.ON_LOAD_CONTENT_UI,
+  fromContentUiAction.ON_SELECT_URL_INPUT,
 ]
 
 type Action =

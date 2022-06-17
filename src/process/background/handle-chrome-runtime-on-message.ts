@@ -5,7 +5,8 @@ import * as fromHandleChromeRuntimeOnMessageChannelProcessAction from '~/action/
 import * as fromChromeRuntimeOnMessageBackgroundChannelProcess from '~/process/channel/chrome-runtime-on-message-background'
 
 export const actions = [
-  fromContentUiAction.ON_LOAD_CONTENT_UI
+  fromContentUiAction.ON_LOAD_CONTENT_UI,
+  fromContentUiAction.ON_SELECT_URL_INPUT,
 ]
 
 export function* watchHandleChromeRuntimeOnMessage(

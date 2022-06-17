@@ -208,6 +208,7 @@ describe('URLの選択範囲を変更することができる', () => {
     const storeBackground = configureStoreBackground()
 
     const getUrlMock = jest.fn(() => url)
+    const getTabUrl: any = (_tabId: number) => url
     const chromeTabsSendMessage = jest.fn((action) => storeBackground.dispatch(action))
     const sendResponse = jest.fn()
 
@@ -219,7 +220,7 @@ describe('URLの選択範囲を変更することができる', () => {
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromSaveUrlSelectRangeBackgroundProcess.actions, fromSaveUrlSelectRangeBackgroundProcess.createSaveUrlSelectRange(), sendResponse)
+        takeOnce(fromSaveUrlSelectRangeBackgroundProcess.actions, fromSaveUrlSelectRangeBackgroundProcess.createSaveUrlSelectRange(getTabUrl), sendResponse)
       ])
     })
 

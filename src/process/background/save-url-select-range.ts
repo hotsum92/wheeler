@@ -1,32 +1,29 @@
-import { call, take, put } from 'redux-saga/effects'
+import { takeEvery, call, put } from 'redux-saga/effects'
 import * as fromSaveSelectRangeBackgroundProcess from '~/action/process/background/save-url-select-range'
-import * as fromChromeRuntimeOnMessageChannelProcess from '~/process/channel/chrome-runtime-on-message'
+import * as fromHandleChromeRuntimeOnMessageChannelProcessAction from '~/action/process/background/handle-chrome-runtime-on-message-channel'
+import * as fromChromeModule from '~/module/chrome'
 
 export const actions = [
-  fromSaveSelectRangeBackgroundProcess.REQUEST_SAVE_URL_SELECT_RANGE,
+  fromHandleChromeRuntimeOnMessageChannelProcessAction.ON_SELECT_URL_INPUT,
 ]
 
 export function* watchSaveUrlSelectRange(
   saga: ReturnType<typeof createSaveUrlSelectRange>,
 ) {
-  const chan: fromChromeRuntimeOnMessageChannelProcess.Channel = yield call(fromChromeRuntimeOnMessageChannelProcess.createChannel())
-
-  while(true) {
-    const { action, sendResponse }: fromChromeRuntimeOnMessageChannelProcess.Message = yield take(chan)
-    if(action.type === fromSaveSelectRangeBackgroundProcess.REQUEST_SAVE_URL_SELECT_RANGE) {
-      yield call(saga, action, sendResponse)
-    }
-  }
+  yield takeEvery(
+    actions,
+    saga,
+  )
 }
 
 export const createSaveUrlSelectRange = (
+  getTabUrl: typeof fromChromeModule.getTabUrl,
 ) => {
   return function* (
-    action: fromSaveSelectRangeBackgroundProcess.RequestSaveUrlSelectRange,
-    sendResponse: (response?: any) => void,
+    action: fromHandleChromeRuntimeOnMessageChannelProcessAction.OnSelectUrlInput,
   ) {
-    const { payload: { url, selectStart } } = action
-    sendResponse()
+    const { payload: { tabId, selectStart } } = action
+    const url: string = yield call(getTabUrl, tabId)
     yield put(fromSaveSelectRangeBackgroundProcess.saveUrlSelectRange(url, selectStart))
   }
 }
