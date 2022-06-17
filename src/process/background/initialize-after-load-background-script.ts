@@ -3,6 +3,7 @@ import * as fromChromeModule from '~/module/chrome'
 import * as fromReducerStorageDomain from '~/domain/reducer-storage'
 import * as fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction from '~/action/process/background/initialize-after-load-background-script'
 
+// TODO: ファイル名変更
 export function* watchInitializeAfterLoadBackgroundScript(saga: ReturnType<typeof createInializeAfterLoadBackgroundScript>) {
   yield fork(saga)
 }

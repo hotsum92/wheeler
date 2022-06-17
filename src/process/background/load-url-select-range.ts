@@ -8,6 +8,7 @@ export const actions = [
   fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE,
 ]
 
+// TODO: テストを修正して削除
 export function* watchLoadUrlSelectRange(
   saga: ReturnType<typeof createLoadUrlSelectRange>,
 ) {
