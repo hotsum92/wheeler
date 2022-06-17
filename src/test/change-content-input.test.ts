@@ -8,9 +8,10 @@ import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromApplyPageInputContentProcess from '~/process/content/apply-page-input'
-import * as fromSaveSelectRangeContentProcess from '~/process/content/save-select-range'
 import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/save-url-select-range'
 import * as fromApplyUrlInputContentProcess from '~/process/content/apply-url-input'
+import * as fromTransferContentToBackgroundContentProcess from '~/process/content/transfer-content-to-background'
+import * as fromHandleChromeRuntimeOnMessageBackgroundProcess from '~/process/background/handle-chrome-runtime-on-message'
 
 describe('page inputを変更する', () => {
 
@@ -190,11 +191,12 @@ describe('url inputを変更する', () => {
 
 describe('URLの選択範囲を変更することができる', () => {
 
-  test.skip('URLの数値部分を選択する', async () => {
+  test('URLの数値部分を選択する', async () => {
 
     const url = 'http://example.com/23/356/'
     const selectStart = 19
     const select = '23'
+    const tabId = -1
 
     const storeContent = configureStoreContent({
       ui: {
@@ -207,20 +209,19 @@ describe('URLの選択範囲を変更することができる', () => {
 
     const storeBackground = configureStoreBackground()
 
-    const getUrlMock = jest.fn(() => url)
-    const getTabUrl: any = (_tabId: number) => url
-    const chromeTabsSendMessage = jest.fn((action) => storeBackground.dispatch(action))
-    const sendResponse = jest.fn()
+    const chromeTabsSendMessageFromContent = jest.fn((action) => storeBackground.dispatch(action))
+    const getTabUrl: any = jest.fn((_tabId) => url)
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromSaveSelectRangeContentProcess.actions, fromSaveSelectRangeContentProcess.createSaveSelectRange(getUrlMock, chromeTabsSendMessage)),
+        takeOnce(fromTransferContentToBackgroundContentProcess.actions, fromTransferContentToBackgroundContentProcess.createTransferContentToBackground(chromeTabsSendMessageFromContent))
       ])
     })
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromSaveUrlSelectRangeBackgroundProcess.actions, fromSaveUrlSelectRangeBackgroundProcess.createSaveUrlSelectRange(getTabUrl), sendResponse)
+        takeOnce(fromHandleChromeRuntimeOnMessageBackgroundProcess.actions, fromHandleChromeRuntimeOnMessageBackgroundProcess.createHandleChromeRuntimeOnMessage(), tabId),
+        takeOnce(fromSaveUrlSelectRangeBackgroundProcess.actions, fromSaveUrlSelectRangeBackgroundProcess.createSaveUrlSelectRange(getTabUrl)),
       ])
     })
 
@@ -241,8 +242,6 @@ describe('URLの選択範囲を変更することができる', () => {
       .toStrictEqual({
         selectStart,
       })
-
-    expect(sendResponse).toHaveBeenCalled()
 
   })
 

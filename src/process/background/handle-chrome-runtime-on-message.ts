@@ -37,6 +37,12 @@ export const createHandleChromeRuntimeOnMessage = (
       return
     }
 
+    if(action.type === fromContentUiAction.ON_SELECT_URL_INPUT) {
+      const { payload: { selectStart, select } } = action
+      yield put(fromHandleChromeRuntimeOnMessageChannelProcessAction.onSelectUrlInput(tabId, selectStart, select))
+      return
+    }
+
     yield put(action)
   }
 }
