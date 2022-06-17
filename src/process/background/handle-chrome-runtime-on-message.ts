@@ -3,10 +3,11 @@ import { Action } from '~/action'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromHandleChromeRuntimeOnMessageChannelProcessAction from '~/action/process/background/handle-chrome-runtime-on-message-channel'
 import * as fromChromeRuntimeOnMessageBackgroundChannelProcess from '~/process/channel/chrome-runtime-on-message-background'
+import * as fromApplyUrlSelectRangeInputContentProcessAction from '~/action/process/content/apply-url-select-range-input'
 
 export const actions = [
   fromContentUiAction.ON_LOAD_CONTENT_UI,
-  fromContentUiAction.ON_SELECT_URL_INPUT,
+  fromApplyUrlSelectRangeInputContentProcessAction.VALIDATED_URL_SELECT_RANGE_INPUT,
 ]
 
 export function* watchHandleChromeRuntimeOnMessage(
@@ -37,9 +38,9 @@ export const createHandleChromeRuntimeOnMessage = (
       return
     }
 
-    if(action.type === fromContentUiAction.ON_SELECT_URL_INPUT) {
-      const { payload: { selectStart, select } } = action
-      yield put(fromHandleChromeRuntimeOnMessageChannelProcessAction.onSelectUrlInput(tabId, selectStart, select))
+    if(action.type === fromApplyUrlSelectRangeInputContentProcessAction.VALIDATED_URL_SELECT_RANGE_INPUT) {
+      const { payload: { urlSelectRangeInput } } = action
+      yield put(fromHandleChromeRuntimeOnMessageChannelProcessAction.validatedUrlSelectRangeInput(tabId, urlSelectRangeInput))
       return
     }
 

@@ -1,10 +1,11 @@
 import { takeEvery, call } from 'redux-saga/effects'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromContentUiAction from '~/action/ui/content'
+import * as fromApplyUrlSelectRangeInputContentProcessAction from '~/action/process/content/apply-url-select-range-input'
 
 export const actions = [
   fromContentUiAction.ON_LOAD_CONTENT_UI,
-  fromContentUiAction.ON_SELECT_URL_INPUT,
+  fromApplyUrlSelectRangeInputContentProcessAction.VALIDATED_URL_SELECT_RANGE_INPUT,
 ]
 
 type Action =

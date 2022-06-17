@@ -13,6 +13,7 @@ import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/s
 import * as fromApplyUrlInputContentProcess from '~/process/content/apply-url-input'
 import * as fromTransferContentToBackgroundContentProcess from '~/process/content/transfer-content-to-background'
 import * as fromHandleChromeRuntimeOnMessageBackgroundProcess from '~/process/background/handle-chrome-runtime-on-message'
+import * as fromApplyUrlSelectRangeInputContentProcess from '~/process/content/apply-url-select-range-input'
 
 describe('page inputを変更する', () => {
 
@@ -251,6 +252,7 @@ describe('URLの選択範囲を変更することができる', () => {
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
+        takeOnce(fromApplyUrlSelectRangeInputContentProcess.actions, fromApplyUrlSelectRangeInputContentProcess.createApplyUrlSelectRangeInput()),
         takeOnce(fromTransferContentToBackgroundContentProcess.actions, fromTransferContentToBackgroundContentProcess.createTransferContentToBackground(chromeTabsSendMessageFromContent))
       ])
     })
@@ -282,8 +284,38 @@ describe('URLの選択範囲を変更することができる', () => {
 
   })
 
-  test.skip('文字列選択したときは、保存しない', async () => {
-    throw new Error('未実装')
+  test('文字列選択したときは、保存しない', async () => {
+    const url = 'http://example.com/23/356/'
+    const selectStart = 15
+    const select = 'com'
+
+    const storeContent = configureStoreContent({
+      ui: {
+        content: {
+          urlInput: fromUrlInputDomain.fromUrl(url),
+          pageInput: fromPageInputDomain.fromUrl(url),
+        }
+      }
+    })
+
+    const taskContent = storeContent.runSaga(function* () {
+      yield all([
+        takeOnce(fromApplyUrlSelectRangeInputContentProcess.actions, fromApplyUrlSelectRangeInputContentProcess.createApplyUrlSelectRangeInput()),
+      ])
+    })
+
+    storeContent.dispatch(fromContentUiAction.onSelectUrlInput(selectStart, select))
+
+    await Promise.all([
+      taskContent.toPromise(),
+    ])
+
+    expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
+      .toStrictEqual({
+        input: url,
+        selectStart,
+      })
+
   })
 
 })

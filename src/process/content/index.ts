@@ -7,6 +7,7 @@ import { watchDisplayExtention, createDisplayExtention } from '~/process/content
 import { watchApplyTabUpdate, createApplyTabUpdate } from '~/process/content/apply-tab-update'
 import { watchApplyUrlInput, createApplyUrlInput } from '~/process/content/apply-url-input'
 import { watchTransferContentToBackground, createTransferContentToBackground } from '~/process/content/transfer-content-to-background'
+import { watchApplyUrlSelectRangeInput, createApplyUrlSelectRangeInput } from '~/process/content/apply-url-select-range-input'
 import * as fromDomModule from '~/module/dom'
 import * as fromChromeModule from '~/module/chrome'
 
@@ -26,5 +27,6 @@ export default function* ({
     fork(watchApplyTabUpdate, createApplyTabUpdate(getUrlFromDomModule)),
     fork(watchApplyUrlInput, createApplyUrlInput(assignUrl)),
     fork(watchTransferContentToBackground, createTransferContentToBackground(chromeRuntimeSendMessage)),
+    fork(watchApplyUrlSelectRangeInput, createApplyUrlSelectRangeInput()),
   ])
 }

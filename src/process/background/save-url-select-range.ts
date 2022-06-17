@@ -4,7 +4,7 @@ import * as fromHandleChromeRuntimeOnMessageChannelProcessAction from '~/action/
 import * as fromChromeModule from '~/module/chrome'
 
 export const actions = [
-  fromHandleChromeRuntimeOnMessageChannelProcessAction.ON_SELECT_URL_INPUT,
+  fromHandleChromeRuntimeOnMessageChannelProcessAction.VALIDATED_URL_SELECT_RANGE_INPUT,
 ]
 
 export function* watchSaveUrlSelectRange(
@@ -20,11 +20,11 @@ export const createSaveUrlSelectRange = (
   getTabUrl: typeof fromChromeModule.getTabUrl,
 ) => {
   return function* (
-    action: fromHandleChromeRuntimeOnMessageChannelProcessAction.OnSelectUrlInput,
+    action: fromHandleChromeRuntimeOnMessageChannelProcessAction.ValidatedUrlSelectRangeInput,
   ) {
-    const { payload: { tabId, selectStart } } = action
+    const { payload: { tabId, urlSelectRangeInput } } = action
     const url: string = yield call(getTabUrl, tabId)
-    yield put(fromSaveSelectRangeBackgroundProcess.saveUrlSelectRange(url, selectStart))
+    yield put(fromSaveSelectRangeBackgroundProcess.saveUrlSelectRange(url, urlSelectRangeInput.selectStart))
   }
 }
 

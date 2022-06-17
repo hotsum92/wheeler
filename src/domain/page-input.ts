@@ -1,5 +1,7 @@
+import { pipe } from '~/helper'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 import * as fromUrlDomain from '~/domain/url'
+import * as fromPageDomain from '~/domain/page'
 
 export interface PageInput {
   input: string
@@ -36,10 +38,9 @@ export const fromTabObject = (url: fromUrlDomain.Url, selectTabObject: fromUrlSe
 }
 
 export const invalid = (pageInput: PageInput): boolean => {
-  const n = toPage(pageInput)
-  if(isNaN(n)) return true
-  if(n.toString() !== pageInput.input) return true
-  return false
+  return pipe(pageInput.input)
+          (fromPageDomain.invalid)
+          ()
 }
 
 export const assignInput = (pageInput: PageInput, input: string): PageInput => {
@@ -68,5 +69,8 @@ export const backward = (pageInput: PageInput): PageInput => {
 }
 
 export const toPage = (pageInput: PageInput): number => {
-  return parseInt(pageInput.input, 10)
+  return pipe(pageInput.input)
+          (fromPageDomain.toPage)
+          (fromPageDomain.toNumber)
+          ()
 }

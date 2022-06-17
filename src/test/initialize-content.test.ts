@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects'
-import { pipe, takeOnce, takeSome } from '~/test/helper'
+import { pipe } from '~/helper'
+import { takeOnce, takeSome } from '~/test/helper'
 import configureStoreContent from '~/store/content'
 import configureStoreBackground from '~/store/background'
 import { Action } from '~/action'
