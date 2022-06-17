@@ -38,9 +38,9 @@ export const createTransferBackgroundToContent = (
 
     if(actions.includes(action.type)) {
       try {
-        // content scriptが起動しているか判断する方法がないので、リロード時はレスポンスがないので、エラーを潰す
         yield call(chromeTabsSendMessage, action.payload.tabId, action)
       } catch {
+        // content scriptが起動しているか判断する方法がないので、リロード時はレスポンスがないので、エラーを潰す
       }
     }
 

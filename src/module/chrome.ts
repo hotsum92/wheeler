@@ -88,7 +88,7 @@ export const getAllTabIds = async (): Promise<number[]> => {
 }
 
 export const chromeStorageLocalSet = <T>(key: string, value: T) => {
-  return chrome.storage.local.set({ [key]: value }, () => {})
+  return chrome.storage.local.set({ [key]: value })
 }
 
 export const chromeStorageLocalGet = <T>(key: string): Promise<T> => {

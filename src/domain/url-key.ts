@@ -4,6 +4,6 @@ export const fromSelectStart = (url: string, selectStart: number): UrlKey => {
   return url.substring(0, selectStart)
 }
 
-export const matchUrl = (urlKey: UrlKey, url: string): Boolean => {
+export const matchUrl = (urlKey: UrlKey, url: string): boolean => {
   return url.indexOf(urlKey) === 0
 }

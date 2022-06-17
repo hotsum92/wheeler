@@ -6,7 +6,7 @@ export function* forkChannel(createChannel: () => TakeableChannel<Action>) {
   const channel: TakeableChannel<Action> = yield call(createChannel)
 
   while(true) {
-    let action: Action = yield take(channel)
+    const action: Action = yield take(channel)
     yield put(action)
   }
 }
