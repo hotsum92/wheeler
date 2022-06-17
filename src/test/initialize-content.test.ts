@@ -9,12 +9,9 @@ import * as fromContentUiAction from '~/action/ui/content'
 import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
 import * as fromChromeWebNavigationOnCommittedProcessChannelAction from '~/action/process/channel/chrome-web-navigation-on-committed'
 import * as fromChromeTabsOnUpdatedProcessChannelAction from '~/action/process/channel/chrome-tabs-on-updated'
-import * as fromInitializeContentContentProcess from '~/process/content/initialize-content'
 import * as fromLoadContentScriptBackgroundProcess from '~/process/background/load-content-script'
 import * as fromUrlKeyDomain from '~/domain/url-key'
 import * as fromAppStatusDomain from '~/domain/app-status'
-import * as fromLoadUrlSelectRangeBackgroundProcess from '~/process/background/load-url-select-range'
-import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
 import * as fromTransferBackgroundToContentBacgroundProcess from '~/process/background/transfer-background-to-content'
 import * as fromApplyTabUpdateContentProcess from '~/process/content/apply-tab-update'
 import * as fromDetectUrlSelectRangeBackgroundProcess from '~/process/background/detect-url-select-range-update'
@@ -165,7 +162,6 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
     const storeBackground = configureStoreBackground({
       tab: {
-        tabIds: [ tabId ],
         byTabId: {
           [tabId]: {
             appStatus: pipe(fromAppStatusDomain.newAppStatus())
@@ -178,24 +174,25 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
     const storeContent = configureStoreContent()
 
-    const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
-    const getUrlFromDomModuleMock = jest.fn(() => url)
-    let sendResponse: any = null
-    const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
-      sendResponse = resolve
-      storeBackground.dispatch(action)
-    }))
+    const openContentScriptFromBackground = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
+    const chromeRuntimeSendMessageFromContent = jest.fn((action: Action) => storeBackground.dispatch(action))
+    const chromeTabsSendMessageFromBackground = jest.fn((_tabId: number, action: Action) => storeContent.dispatch(action))
+    const getTabUrl: any = jest.fn((_tabId: number) => url)
+    const getUrl = jest.fn(() => url)
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock)),
-        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => sendResponse(args)),
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromBackground)),
+        takeOnce(fromHandleChromeRuntimeOnMessageChannelBackgroundProcess.actions, fromHandleChromeRuntimeOnMessageChannelBackgroundProcess.createHandleChromeRuntimeOnMessage(), tabId),
+        takeOnce(fromDetectUrlSelectRangeBackgroundProcess.actions, fromDetectUrlSelectRangeBackgroundProcess.createDetectUrlSelectRangeUpdate(getTabUrl)),
+        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground))
       ])
     })
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessageFromContent)),
+        takeOnce(fromTransferContentToBackgroundContentProcess.actions, fromTransferContentToBackgroundContentProcess.createTransferContentToBackground(chromeRuntimeSendMessageFromContent)),
+        takeOnce(fromApplyTabUpdateContentProcess.actions, fromApplyTabUpdateContentProcess.createApplyTabUpdate(getUrl)),
       ])
     })
 
