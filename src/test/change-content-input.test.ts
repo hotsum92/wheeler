@@ -7,6 +7,7 @@ import * as fromContentReducer from '~/reducer/content'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromPageInputDomain from '~/domain/page-input'
+import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 import * as fromApplyPageInputContentProcess from '~/process/content/apply-page-input'
 import * as fromSaveUrlSelectRangeBackgroundProcess from '~/process/background/save-url-select-range'
 import * as fromApplyUrlInputContentProcess from '~/process/content/apply-url-input'
@@ -143,6 +144,42 @@ describe('page inputを変更する', () => {
 
   })
 
+  test('選択後の数値繰り上げ', async () => {
+    const url = 'http://example.com/23/456'
+    const selectStart = 19
+
+    const store = configureStoreContent({
+      ui: {
+        content: {
+          urlInput: fromUrlInputDomain.fromTabObject(url, fromUrlSelectRangeDomain.newUrlSelectRange(selectStart)),
+          pageInput: fromPageInputDomain.fromTabObject(url, fromUrlSelectRangeDomain.newUrlSelectRange(selectStart)),
+        }
+      }
+    })
+
+    const assignUrlFromDomModule = jest.fn()
+
+    const task = store.runSaga(function* () {
+      yield all([
+        takeOnce(fromApplyPageInputContentProcess.actions, fromApplyPageInputContentProcess.createApplyPageInput(assignUrlFromDomModule)),
+      ])
+    })
+
+    store.dispatch(fromContentUiAction.onClickForwardButton())
+
+    await task.toPromise()
+
+    expect(fromContentReducer.getContentUiPageInput(store.getState()))
+      .toStrictEqual({
+        input: '24',
+      })
+
+    expect(assignUrlFromDomModule)
+      .toHaveBeenCalledWith(
+        'http://example.com/24/456',
+      )
+  })
+
   test.skip('選択範囲がpageクエリを含めた保存があれば、それを利用してページを更新', () => {
     throw new Error('未実装')
   })
@@ -245,11 +282,7 @@ describe('URLの選択範囲を変更することができる', () => {
 
   })
 
-  test.skip('選択後の数値繰り上げ', async () => {
-    throw new Error('未実装')
-  })
-
-  test.skip('文字列選択後したときは、保存しない', async () => {
+  test.skip('文字列選択したときは、保存しない', async () => {
     throw new Error('未実装')
   })
 
