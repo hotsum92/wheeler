@@ -79,7 +79,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
   })
 
-  test.skip('すでに訪れたことのあるURLから起動', async () => {
+  test('すでに訪れたことのあるURLから起動', async () => {
 
     const tabId = -1
     const url = 'http://example.com/23/356/'
@@ -103,24 +103,25 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
     const storeContent = configureStoreContent()
 
-    const openContentScriptFromChromeModuleMock = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
-    const getUrlFromDomModuleMock = jest.fn(() => url)
-    let sendResponse: any = null
-    const chromeTabsSendMessageFromContent = jest.fn(action => new Promise((resolve) => {
-      sendResponse = resolve
-      storeBackground.dispatch(action)
-    }))
+    const openContentScript = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
+    const getTabUrl: any = jest.fn((_tabId: number) => url)
+    const chromeRuntimeSendMessageFromContent = jest.fn((action: Action) => storeBackground.dispatch(action))
+    const chromeTabsSendMessageFromBackground = jest.fn((_tabId: number, action: Action) => storeContent.dispatch(action))
+    const getUrl = jest.fn(() => url)
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock)),
-        takeOnce(fromLoadUrlSelectRangeBackgroundProcessAction.REQUEST_LOAD_URL_SELECT_RANGE, fromLoadUrlSelectRangeBackgroundProcess.createLoadUrlSelectRange(), (args?: any) => sendResponse(args)),
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScript)),
+        takeOnce(fromHandleChromeRuntimeOnMessageChannelBackgroundProcess.actions, fromHandleChromeRuntimeOnMessageChannelBackgroundProcess.createHandleChromeRuntimeOnMessage(), tabId),
+        takeOnce(fromDetectUrlSelectRangeBackgroundProcess.actions, fromDetectUrlSelectRangeBackgroundProcess.createDetectUrlSelectRangeUpdate(getTabUrl)),
+        takeSome(2, fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground))
       ])
     })
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
-        takeOnce(fromInitializeContentContentProcess.actions, fromInitializeContentContentProcess.createInitializeContent(getUrlFromDomModuleMock, chromeTabsSendMessageFromContent)),
+        takeOnce(fromTransferContentToBackgroundContentProcess.actions, fromTransferContentToBackgroundContentProcess.createTransferContentToBackground(chromeRuntimeSendMessageFromContent)),
+        takeOnce(fromApplyTabUpdateContentProcess.actions, fromApplyTabUpdateContentProcess.createApplyTabUpdate(getUrl)),
       ])
     })
 
