@@ -15,6 +15,7 @@ export function* watchSaveSelectRange(saga: ReturnType<typeof createSaveSelectRa
   )
 }
 
+// TODO: テストの変更で削除できる
 export const createSaveSelectRange = (
   getUrlFromDomModule: typeof fromDomModule.getUrl,
   chromeRuntimeSendMessage: typeof fromChromeModule.chromeRuntimeSendMessage,

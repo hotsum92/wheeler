@@ -18,6 +18,7 @@ export function* watchInitializeContent(saga: ReturnType<typeof createInitialize
   )
 }
 
+// TODO: testの変更で削除できる
 export const createInitializeContent = (
   getUrlFromDomModule: typeof fromDomModule.getUrl,
   chromeRuntimeSendMessage: typeof fromChromeModule.chromeRuntimeSendMessage,

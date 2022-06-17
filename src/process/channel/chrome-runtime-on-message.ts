@@ -9,6 +9,7 @@ export interface Message {
 
 export type Channel = EventChannel<Message>
 
+// TODO: ファイル名変更
 export const createChannel = () => {
   return () => {
     return eventChannel<Message>(emitter => {
