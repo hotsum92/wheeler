@@ -5,7 +5,7 @@ import * as fromChromeActionOnClickedChannelProcess from '~/process/channel/chro
 import * as fromChromeWebNavigationOnCommittedChannelProcess from '~/process/channel/chrome-web-navigation-on-committed'
 import * as fromChromeTabsOnUpdatedChannelProcess from '~/process/channel/chrome-tabs-on-updated'
 import * as fromChromeWindowsOnCreated from '~/process/channel/chrome-windows-on-created'
-import { watchInitializeAfterLoadBackgroundScript, createInializeAfterLoadBackgroundScript} from '~/process/background/initialize-after-load-background-script'
+import { watchInitializeBackgroundScript, createInializeBackgroundScript} from '~/process/background/initialize-background-script'
 import { watchLoadContentScript, createLoadContentScript } from '~/process/background/load-content-script'
 import { watchLoadUrlSelectRange, createLoadUrlSelectRange } from '~/process/background/load-url-select-range'
 import { watchSaveUrlSelectRange, createSaveUrlSelectRange } from '~/process/background/save-url-select-range'
@@ -28,7 +28,7 @@ export default function* ({
     forkChannel(fromChromeTabsOnUpdatedChannelProcess.createChannel()),
     forkChannel(fromChromeWindowsOnCreated.createChannel()),
     fork(watchSaveReducerLocalStorage, createSaveReducerLocalStorage(chromeStorageLocalSet)),
-    fork(watchInitializeAfterLoadBackgroundScript, createInializeAfterLoadBackgroundScript(chromeStorageLocalGet, chromeStorageLocalSet, getAllTabIds)),
+    fork(watchInitializeBackgroundScript, createInializeBackgroundScript(chromeStorageLocalGet, chromeStorageLocalSet, getAllTabIds)),
     fork(watchLoadContentScript, createLoadContentScript(openContentScript)),
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
     fork(watchSaveUrlSelectRange, createSaveUrlSelectRange(getTabUrl)),

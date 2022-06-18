@@ -1,14 +1,13 @@
 import { fork, put, call } from 'redux-saga/effects'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromReducerStorageDomain from '~/domain/reducer-storage'
-import * as fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction from '~/action/process/background/initialize-after-load-background-script'
+import * as fromInitializeBackgroundScriptBackgroundProcessAction from '~/action/process/background/initialize-background-script'
 
-// TODO: ファイル名変更
-export function* watchInitializeAfterLoadBackgroundScript(saga: ReturnType<typeof createInializeAfterLoadBackgroundScript>) {
+export function* watchInitializeBackgroundScript(saga: ReturnType<typeof createInializeBackgroundScript>) {
   yield fork(saga)
 }
 
-export const createInializeAfterLoadBackgroundScript = (
+export const createInializeBackgroundScript = (
   chromeStorageLocalGet: typeof fromChromeModule.chromeStorageLocalGet,
   chromeStorageLocalSet: typeof fromChromeModule.chromeStorageLocalSet,
   getAllTabIds: typeof fromChromeModule.getAllTabIds,
@@ -21,7 +20,7 @@ export const createInializeAfterLoadBackgroundScript = (
     const newReducerStoratge = fromReducerStorageDomain.extractTabIds(reducerStorage, tabIds)
 
     yield call(chromeStorageLocalSet, fromReducerStorageDomain.REDUCER_STORAGE_KEY, newReducerStoratge)
-    yield put(fromInitializeAfterLoadBackgroundScriptBackgroundProcessAction.loadState(newReducerStoratge))
+    yield put(fromInitializeBackgroundScriptBackgroundProcessAction.loadState(newReducerStoratge))
   }
 }
 
