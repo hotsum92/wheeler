@@ -105,4 +105,7 @@ describe('backgroundの起動する', () => {
 
   })
 
+  test.skip('killされたあとで、clickして起動する', async () => {
+  })
+
 })
