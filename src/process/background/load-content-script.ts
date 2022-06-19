@@ -36,13 +36,11 @@ export const createLoadContentScript = (
 ) => {
   return function* (action: Action) {
 
-    const { payload: { tabId } } = action
-
-    const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatusByTabId, tabId)
-
     switch(action.type) {
 
       case fromChromeActionOnClickedChannelProcessAction.ON_CLICK_EXTENTION: {
+        const { payload: { tabId } } = action
+        const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatusByTabId, tabId)
 
         if(fromAppStatusDomain.isStop(appStatus)) {
           yield call(openContentScriptFromChromeModule, tabId)
@@ -55,6 +53,8 @@ export const createLoadContentScript = (
       case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_RELOAD:
       case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPED:
       case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_LINK: {
+        const { payload: { tabId } } = action
+        const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatusByTabId, tabId)
 
         if(fromAppStatusDomain.isRunning(appStatus)) {
           yield call(openContentScriptFromChromeModule, tabId)
@@ -65,6 +65,8 @@ export const createLoadContentScript = (
 
 
       case fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_AUTO_BOOKMARK: {
+        const { payload: { tabId } } = action
+        const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatusByTabId, tabId)
 
         if(fromAppStatusDomain.isRunning(appStatus)) {
           yield put(fromLoadContentScriptBackgroundProcessAction.stopApp(tabId))

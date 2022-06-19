@@ -13,6 +13,7 @@ import { watchTransferBackgroundToContent, createTransferBackgroundToContent } f
 import { watchSaveReducerLocalStorage, createSaveReducerLocalStorage } from '~/process/background/save-reducer-local-storage'
 import { watchDetectUrlSelectRangeUpdate, createDetectUrlSelectRangeUpdate } from '~/process/background/detect-url-select-range-update'
 import { watchHandleChromeRuntimeOnMessage, createHandleChromeRuntimeOnMessage } from '~/process/background/handle-chrome-runtime-on-message'
+import { watchWakeContentScript, createWakeContentScript } from '~/process/background/wake-content-script'
 
 export default function* ({
   chromeStorageLocalSet = fromChromeModule.chromeStorageLocalSet,
@@ -35,6 +36,7 @@ export default function* ({
     fork(watchTransferBackgroundToContent, createTransferBackgroundToContent(chromeTabsSendMessage)),
     fork(watchDetectUrlSelectRangeUpdate, createDetectUrlSelectRangeUpdate(getTabUrl)),
     fork(watchHandleChromeRuntimeOnMessage, createHandleChromeRuntimeOnMessage()),
+    fork(watchWakeContentScript, createWakeContentScript(chromeTabsSendMessage, openContentScript)),
   ])
 }
 

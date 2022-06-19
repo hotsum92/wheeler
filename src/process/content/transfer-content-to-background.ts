@@ -10,6 +10,7 @@ export const actions = [
 
 type Action =
   | fromContentUiAction.OnLoadContentUi
+  | fromApplyUrlSelectRangeInputContentProcessAction.ValidatedUrlSelectRangeInput
 
 export function* watchTransferContentToBackground(
   saga: ReturnType<typeof createTransferContentToBackground>,

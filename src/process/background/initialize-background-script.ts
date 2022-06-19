@@ -20,6 +20,7 @@ export const createInializeBackgroundScript = (
     const newReducerStoratge = fromReducerStorageDomain.extractTabIds(reducerStorage, tabIds)
 
     yield call(chromeStorageLocalSet, fromReducerStorageDomain.REDUCER_STORAGE_KEY, newReducerStoratge)
+    // TODO: rename
     yield put(fromInitializeBackgroundScriptBackgroundProcessAction.loadState(newReducerStoratge))
   }
 }
