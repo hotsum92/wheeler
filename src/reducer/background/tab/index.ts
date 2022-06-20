@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { Action } from '~/action'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
+import * as fromInitializeBackgroundScriptBackgroundProcessAction from '~/action/process/background/initialize-background-script'
 import * as fromAppStatusDomain from '~/domain/app-status'
 
 export interface TabData {
@@ -13,6 +14,11 @@ const tabIds = (state = [] as number[], action: Action): number[] => {
     case fromLoadContentScriptBackgroundProcessAction.RUN_APP: {
       if(state.includes(action.payload.tabId)) return state
       return [ ...state, action.payload.tabId ]
+    }
+
+    case fromInitializeBackgroundScriptBackgroundProcessAction.LOAD_STATE: {
+      return [ ...state, ...action.payload.reducerStorage.tab.tabIds ]
+        .filter((elem, index, self) => self.indexOf(elem) === index)
     }
 
     default:
@@ -44,6 +50,13 @@ const byTabId = (state = {} as { [key: number]: TabData }, action: Action): { [k
           ...state[action.payload.tabId],
           appStatus: fromAppStatusDomain.stopApp(appStatus)
         }
+      }
+    }
+
+    case fromInitializeBackgroundScriptBackgroundProcessAction.LOAD_STATE: {
+      return {
+        ...action.payload.reducerStorage.tab.byTabId,
+        ...state,
       }
     }
 

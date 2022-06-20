@@ -1,11 +1,8 @@
 import { combineReducers } from 'redux'
-import { Action } from '~/action'
 import url from '~/reducer/background/url'
 import tab from '~/reducer/background/tab'
-import * as fromInitializeBackgroundScriptBackgroundProcessAction from '~/action/process/background/initialize-background-script'
 import * as fromUrlBackgroundReducer from '~/reducer/background/url'
 import * as fromTabBackgroundReducer from '~/reducer/background/tab'
-import * as fromReducerStorageDomain from '~/domain/reducer-storage'
 
 const reducer = combineReducers({
   url,
@@ -13,13 +10,6 @@ const reducer = combineReducers({
 })
 
 export type State = ReturnType<typeof reducer>
-
-const rootReducer = (state: any, action: Action): any => {
-  if(action.type === fromInitializeBackgroundScriptBackgroundProcessAction.LOAD_STATE) {
-    return fromReducerStorageDomain.toState(action.payload.reducerStorage)
-  }
-  return reducer(state, action)
-}
 
 export const getAllState = (state: State) => state
 
@@ -32,4 +22,4 @@ export const getAllTabIds = (state: State) =>
 export const getUrlSelectRangeByUrl = (state: State, url: string) =>
   fromUrlBackgroundReducer.getUrlSelectRangeByUrl(state.url, url)
 
-export default rootReducer
+export default reducer
