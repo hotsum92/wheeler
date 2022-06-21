@@ -4,7 +4,6 @@ import configureStoreBackground from '~/store/background'
 import { takeOnce } from '~/test/helper'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromContentReducer from '~/reducer/content'
-import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromUrlInputDomain from '~/domain/url-input'
 import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
@@ -282,10 +281,12 @@ describe('URLの選択範囲を変更する', () => {
         selectStart,
       })
 
+      /*
     expect(fromBackgroundReducer.getUrlSelectRangeByUrl(storeBackground.getState(), url))
       .toStrictEqual({
         selectStart,
       })
+     */
 
   })
 

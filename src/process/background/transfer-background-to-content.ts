@@ -1,4 +1,5 @@
-import { takeEvery, call, select } from 'redux-saga/effects'
+import { takeEvery, call } from 'redux-saga/effects'
+import * as fromGetStorageReducerFunctionProcess from '~/process/function/get-storage-reducer'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
@@ -28,11 +29,14 @@ export function* watchTransferBackgroundToContent(
 
 export const createTransferBackgroundToContent = (
   chromeTabsSendMessage: typeof fromChromeModule.chromeTabsSendMessage,
+  chromeStorageLocalGet: typeof fromChromeModule.chromeStorageLocalGet,
 ) => {
   return function* (action: Action) {
 
     const { payload: { tabId } } = action
-    const appStatus: fromAppStatusDomain.AppStatus = yield select(fromBackgroundReducer.getAppStatusByTabId, tabId)
+
+    const appStatus: fromAppStatusDomain.AppStatus =
+      yield call(fromGetStorageReducerFunctionProcess.createGetStorageReducer(chromeStorageLocalGet), fromBackgroundReducer.getAppStatusByTabId, tabId)
 
     if(fromAppStatusDomain.isStop(appStatus)) return
 

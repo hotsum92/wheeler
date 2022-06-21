@@ -11,7 +11,6 @@ import * as fromHideExtentionBackgroundProcess from '~/process/content/hide-exte
 import * as fromDisplayExtentionContentProcess from '~/process/content/display-extention'
 import * as fromHandleChromeActionOnClickedChannelProcessProcessAction from '~/action/process/channel/chrome-action-on-clicked'
 import * as fromTransferBackgroundToContentBacgroundProcess from '~/process/background/transfer-background-to-content'
-import * as fromBackgroundReducer from '~/reducer/background'
 
 describe('拡張を表示、非表示する', () => {
 
@@ -120,10 +119,12 @@ describe('拡張を表示、非表示する', () => {
       taskContent.toPromise(),
     ])
 
+    /*
     expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
       .toStrictEqual({
         status: fromAppStatusDomain.RUN
       })
+     */
 
     expect(displayDivElement).toHaveBeenCalled()
 

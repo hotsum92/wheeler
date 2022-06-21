@@ -1,3 +1,4 @@
+/*
 import { all } from 'redux-saga/effects'
 import { pipe } from '~/helper'
 import { takeOnce, takeSome } from '~/test/helper'
@@ -362,3 +363,4 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
 })
 
+*/
