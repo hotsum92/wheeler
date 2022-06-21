@@ -19,6 +19,12 @@ import * as fromReducerStorageDomain from '~/domain/reducer-storage'
 
 describe('page inputを変更する', () => {
 
+  test.skip('10, 100ずつ', async () => {
+  })
+
+  test.skip('url 意味解釈', async () => {
+  })
+
   test('ページを増やす', async () => {
 
     const url = 'http://example.com/23/'

@@ -24,6 +24,9 @@ import * as fromHandleChromeRuntimeOnMessageChannelBackgroundProcess from '~/pro
 
 describe('拡張ボタンをクリックした後、content scriptを開始する', () => {
 
+  test.skip('デフォルトを数値にする', async () => {
+  })
+
   test('初期値からの起動', async () => {
 
     const tabId = -1
