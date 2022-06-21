@@ -4,7 +4,7 @@ import tab from '~/reducer/background/tab'
 import * as fromUrlBackgroundReducer from '~/reducer/background/url'
 import * as fromTabBackgroundReducer from '~/reducer/background/tab'
 
-const reducer = combineReducers({
+export const reducer = combineReducers({
   url,
   tab,
 })

@@ -1,9 +1,10 @@
-import { takeEvery, call, select } from 'redux-saga/effects'
+import { takeEvery, call } from 'redux-saga/effects'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromReducerStorage from '~/domain/reducer-storage'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
 import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process/background/save-url-select-range'
+import * as fromReducerStorageDomain from '~/domain/reducer-storage'
 
 export const actions = [
   fromLoadContentScriptBackgroundProcessAction.RUN_APP,
@@ -27,10 +28,18 @@ export function* watchSaveReducerLocalStorage(
 
 export const createSaveReducerLocalStorage = (
   chromeStorageLocalSet: typeof fromChromeModule.chromeStorageLocalSet,
+  chromeStorageLocalGet: typeof fromChromeModule.chromeStorageLocalGet,
+  getAllTabIds: typeof fromChromeModule.getAllTabIds,
 ) => {
-  return function* (_: Action) {
-    const state: fromBackgroundReducer.State = yield select(fromBackgroundReducer.getAllState)
-    const reducerStorage = fromReducerStorage.fromState(state)
-    yield call(chromeStorageLocalSet, fromReducerStorage.REDUCER_STORAGE_KEY, reducerStorage)
+  return function* (action: Action) {
+    const nullableReducerStorage: fromReducerStorageDomain.ReducerStorage | null =
+      yield call(chromeStorageLocalGet, fromReducerStorageDomain.REDUCER_STORAGE_KEY)
+    const reducerStorage = nullableReducerStorage ?? fromReducerStorageDomain.newReducerStoratge()
+    const tabIds: number[] = yield call(getAllTabIds)
+    const extractedReducerStoratge = fromReducerStorageDomain.extractTabIds(reducerStorage, tabIds)
+    const state = fromReducerStorageDomain.toState(extractedReducerStoratge)
+    const newState = fromBackgroundReducer.reducer(state, action)
+    const newReducerStoratge = fromReducerStorageDomain.fromState(newState)
+    yield call(chromeStorageLocalSet, fromReducerStorage.REDUCER_STORAGE_KEY, newReducerStoratge)
   }
 }

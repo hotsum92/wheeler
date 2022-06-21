@@ -1,8 +1,13 @@
 import * as fromBackgroundReducer from '~/reducer/background'
+import * as fromAction from '~/action'
 
 export type ReducerStorage = fromBackgroundReducer.State
 
 export const REDUCER_STORAGE_KEY = 'REDUCER_STORAGE_KEY'
+
+export const newReducerStoratge = (): ReducerStorage => {
+  return fromBackgroundReducer.reducer({} as any, fromAction.initial())
+}
 
 export const fromState = (state: fromBackgroundReducer.State): ReducerStorage => {
   return state

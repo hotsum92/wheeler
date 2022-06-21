@@ -7,6 +7,7 @@ export function* watchInitializeBackgroundScript(saga: ReturnType<typeof createI
   yield fork(saga)
 }
 
+// TODO: 削除予定
 export const createInializeBackgroundScript = (
   chromeStorageLocalGet: typeof fromChromeModule.chromeStorageLocalGet,
   chromeStorageLocalSet: typeof fromChromeModule.chromeStorageLocalSet,
