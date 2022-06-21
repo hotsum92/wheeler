@@ -191,6 +191,9 @@ describe('page inputを変更する', () => {
     throw new Error('未実装')
   })
 
+  test.skip('入力状態でスクロールで数値変更', async () => {
+  })
+
 })
 
 describe('url inputを変更する', () => {
