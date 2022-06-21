@@ -53,7 +53,6 @@ describe('backgroundの起動する', () => {
 
     const openContentScript = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const chromeStorageLocalGet: any = jest.fn(() => reducerBackground)
-    //const chromeStorageLocalSet = jest.fn()
     const getAllTabIds: any = jest.fn(() => [tabId])
     const chromeTabsSendMessage = jest.fn(() => { throw new Error() })
     const chromeRuntimeSendMessageFromContent = jest.fn(action => storeBackground.dispatch(action))
@@ -66,7 +65,7 @@ describe('backgroundの起動する', () => {
         takeOnce(fromAction.INITIAL, fromWakeContentScriptBackgroundProcess.createWakeContentScript(chromeTabsSendMessage, openContentScript, chromeStorageLocalGet, getAllTabIds)),
         takeOnce(fromHandleChromeRuntimeOnMessageChannelBackgroundProcess.actions, fromHandleChromeRuntimeOnMessageChannelBackgroundProcess.createHandleChromeRuntimeOnMessage(), tabId),
         takeOnce(fromDetectUrlSelectRangeBackgroundProcess.actions, fromDetectUrlSelectRangeBackgroundProcess.createDetectUrlSelectRangeUpdate(getTabUrl, chromeStorageLocalGet)),
-        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground, chromeStorageLocalGet))
+        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground, chromeStorageLocalGet)),
       ])
     })
 
@@ -94,13 +93,6 @@ describe('backgroundの起動する', () => {
       .toStrictEqual({
         input: '23',
       })
-
-    /*
-    expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
-      .toStrictEqual({
-        status: fromAppStatusDomain.RUN,
-      })
-   */
 
   })
 
