@@ -30,7 +30,7 @@ export default function* ({
     forkChannel(fromChromeTabsOnUpdatedChannelProcess.createChannel()),
     forkChannel(fromChromeWindowsOnCreated.createChannel()),
     fork(watchSaveReducerLocalStorage, createSaveReducerLocalStorage(chromeStorageLocalSet, chromeStorageLocalGet, getAllTabIds)),
-    fork(watchLoadContentScript, createLoadContentScript(openContentScript)),
+    fork(watchLoadContentScript, createLoadContentScript(openContentScript, chromeStorageLocalGet)),
     fork(watchLoadUrlSelectRange, createLoadUrlSelectRange()),
     fork(watchSaveUrlSelectRange, createSaveUrlSelectRange(getTabUrl)),
     fork(watchTransferBackgroundToContent, createTransferBackgroundToContent(chromeTabsSendMessage, chromeStorageLocalGet)),

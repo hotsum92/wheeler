@@ -13,6 +13,9 @@ import * as fromApplyUrlInputContentProcess from '~/process/content/apply-url-in
 import * as fromTransferContentToBackgroundContentProcess from '~/process/content/transfer-content-to-background'
 import * as fromHandleChromeRuntimeOnMessageBackgroundProcess from '~/process/background/handle-chrome-runtime-on-message'
 import * as fromApplyUrlSelectRangeInputContentProcess from '~/process/content/apply-url-select-range-input'
+import * as fromSaveReducerLocalStorage from '~/process/background/save-reducer-local-storage'
+import * as fromBackgroundReducer from '~/reducer/background'
+import * as fromReducerStorageDomain from '~/domain/reducer-storage'
 
 describe('page inputを変更する', () => {
 
@@ -251,8 +254,13 @@ describe('URLの選択範囲を変更する', () => {
 
     const storeBackground = configureStoreBackground()
 
+    let reducerStorage: any = null
+
     const chromeTabsSendMessageFromContent = jest.fn((action) => storeBackground.dispatch(action))
     const getTabUrl: any = jest.fn((_tabId) => url)
+    const chromeStorageLocalSet: any = jest.fn((_key, value) => { reducerStorage = value })
+    const chromeStorageLocalGet: any = jest.fn(() => null)
+    const getAllTabIds: any = jest.fn(() => tabId)
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
@@ -265,6 +273,7 @@ describe('URLの選択範囲を変更する', () => {
       yield all([
         takeOnce(fromHandleChromeRuntimeOnMessageBackgroundProcess.actions, fromHandleChromeRuntimeOnMessageBackgroundProcess.createHandleChromeRuntimeOnMessage(), tabId),
         takeOnce(fromSaveUrlSelectRangeBackgroundProcess.actions, fromSaveUrlSelectRangeBackgroundProcess.createSaveUrlSelectRange(getTabUrl)),
+        takeOnce(fromSaveReducerLocalStorage.actions, fromSaveReducerLocalStorage.createSaveReducerLocalStorage(chromeStorageLocalSet, chromeStorageLocalGet, getAllTabIds)),
       ])
     })
 
@@ -281,12 +290,10 @@ describe('URLの選択範囲を変更する', () => {
         selectStart,
       })
 
-      /*
-    expect(fromBackgroundReducer.getUrlSelectRangeByUrl(storeBackground.getState(), url))
+    expect(fromBackgroundReducer.getUrlSelectRangeByUrl(fromReducerStorageDomain.toState(reducerStorage), url))
       .toStrictEqual({
         selectStart,
       })
-     */
 
   })
 

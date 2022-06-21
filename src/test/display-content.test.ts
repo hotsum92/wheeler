@@ -3,14 +3,17 @@ import { pipe } from '~/helper'
 import { takeOnce } from '~/test/helper'
 import configureStoreContent from '~/store/content'
 import configureStoreBackground from '~/store/background'
+import * as fromAction from '~/action'
 import * as fromContentStatusDomain from '~/domain/content-status'
-import * as fromAppStatusDomain from '~/domain/app-status'
 import * as fromLoadContentScriptBackgroundProcess from '~/process/background/load-content-script'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromHideExtentionBackgroundProcess from '~/process/content/hide-extention'
 import * as fromDisplayExtentionContentProcess from '~/process/content/display-extention'
 import * as fromHandleChromeActionOnClickedChannelProcessProcessAction from '~/action/process/channel/chrome-action-on-clicked'
 import * as fromTransferBackgroundToContentBacgroundProcess from '~/process/background/transfer-background-to-content'
+import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
+import * as fromReducerStorageDomain from '~/domain/reducer-storage'
+import * as fromBackgroundReducer from '~/reducer/background'
 
 describe('拡張を表示、非表示する', () => {
 
@@ -18,29 +21,24 @@ describe('拡張を表示、非表示する', () => {
 
     const tabId = -1
 
-    const storeBackground = configureStoreBackground({
-      tab: {
-        tabIds: [ tabId ],
-        byTabId: {
-          [tabId]: {
-            appStatus: pipe(fromAppStatusDomain.newAppStatus())
-                          (fromAppStatusDomain.runApp)
-                          (),
-          },
-        },
-      }
-    })
-
+    const storeBackground = configureStoreBackground()
     const storeContent = configureStoreContent()
 
     const openContentScriptFromChromeModuleMock = jest.fn()
     const chromeTabsSendMessageFromBackground = jest.fn((_tabId, action) => storeContent.dispatch(action))
     const hideDivElement = jest.fn()
+    const chromeStorageLocalGet: any =
+      jest.fn(() =>
+        pipe(fromBackgroundReducer.reducer(undefined, fromAction.initial()))
+          (state => fromBackgroundReducer.reducer(state, fromLoadContentScriptBackgroundProcessAction.runApp(tabId)))
+          (fromReducerStorageDomain.toState)
+          ()
+       )
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock)),
-        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground)),
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeStorageLocalGet)),
+        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground, chromeStorageLocalGet)),
       ])
     })
 
@@ -72,18 +70,7 @@ describe('拡張を表示、非表示する', () => {
 
     const tabId = -1
 
-    const storeBackground = configureStoreBackground({
-      tab: {
-        tabIds: [ tabId ],
-        byTabId: {
-          [tabId]: {
-            appStatus: pipe(fromAppStatusDomain.newAppStatus())
-                          (fromAppStatusDomain.runApp)
-                          (),
-          }
-        }
-      },
-    })
+    const storeBackground = configureStoreBackground()
 
     const storeContent = configureStoreContent({
       ui: {
@@ -98,11 +85,18 @@ describe('拡張を表示、非表示する', () => {
     const openContentScriptFromChromeModuleMock = jest.fn()
     const chromeTabsSendMessageFromBackground = jest.fn((_tabId, action) => storeContent.dispatch(action))
     const displayDivElement = jest.fn()
+    const chromeStorageLocalGet: any =
+      jest.fn(() =>
+        pipe(fromBackgroundReducer.reducer(undefined, fromAction.initial()))
+          (state => fromBackgroundReducer.reducer(state, fromLoadContentScriptBackgroundProcessAction.runApp(tabId)))
+          (fromReducerStorageDomain.toState)
+          ()
+       )
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
-        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock)),
-        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground)),
+        takeOnce(fromLoadContentScriptBackgroundProcess.actions, fromLoadContentScriptBackgroundProcess.createLoadContentScript(openContentScriptFromChromeModuleMock, chromeStorageLocalGet)),
+        takeOnce(fromTransferBackgroundToContentBacgroundProcess.actions, fromTransferBackgroundToContentBacgroundProcess.createTransferBackgroundToContent(chromeTabsSendMessageFromBackground, chromeStorageLocalGet)),
       ])
     })
 
@@ -118,13 +112,6 @@ describe('拡張を表示、非表示する', () => {
       taskBackground.toPromise(),
       taskContent.toPromise(),
     ])
-
-    /*
-    expect(fromBackgroundReducer.getAppStatusByTabId(storeBackground.getState(), tabId))
-      .toStrictEqual({
-        status: fromAppStatusDomain.RUN
-      })
-     */
 
     expect(displayDivElement).toHaveBeenCalled()
 
