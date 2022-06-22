@@ -8,11 +8,12 @@ import { watchApplyTabUpdate, createApplyTabUpdate } from '~/process/content/app
 import { watchApplyUrlInput, createApplyUrlInput } from '~/process/content/apply-url-input'
 import { watchTransferContentToBackground, createTransferContentToBackground } from '~/process/content/transfer-content-to-background'
 import { watchApplyUrlSelectRangeInput, createApplyUrlSelectRangeInput } from '~/process/content/apply-url-select-range-input'
+import { watchApplyDefaultInput, createApplyDefaultInput } from '~/process/content/apply-default-input'
 import * as fromDomModule from '~/module/dom'
 import * as fromChromeModule from '~/module/chrome'
 
 export default function* ({
-  getUrlFromDomModule = fromDomModule.getUrl,
+  getUrl = fromDomModule.getUrl,
   chromeRuntimeSendMessage = fromChromeModule.chromeRuntimeSendMessage,
   hideDivElement = fromDomModule.hideDivElement,
   displayDivElement = fromDomModule.displayDivElement,
@@ -20,13 +21,14 @@ export default function* ({
 } = {}) {
   yield all([
     fork(watchHandleChromeRuntimeOnMessage, createHandleChromeRuntimeOnMessage()),
-    fork(watchApplyPageInput, createApplyPageInput(assignUrl, getUrlFromDomModule)),
-    fork(watchSaveSelectRange, createSaveSelectRange(getUrlFromDomModule, chromeRuntimeSendMessage)),
+    fork(watchApplyPageInput, createApplyPageInput(assignUrl, getUrl)),
+    fork(watchSaveSelectRange, createSaveSelectRange(getUrl, chromeRuntimeSendMessage)),
     fork(watchHideExtention, createHideExtention(hideDivElement)),
     fork(watchDisplayExtention, createDisplayExtention(displayDivElement)),
-    fork(watchApplyTabUpdate, createApplyTabUpdate(getUrlFromDomModule)),
-    fork(watchApplyUrlInput, createApplyUrlInput(assignUrl, getUrlFromDomModule)),
+    fork(watchApplyTabUpdate, createApplyTabUpdate(getUrl)),
+    fork(watchApplyUrlInput, createApplyUrlInput(assignUrl, getUrl)),
     fork(watchTransferContentToBackground, createTransferContentToBackground(chromeRuntimeSendMessage)),
     fork(watchApplyUrlSelectRangeInput, createApplyUrlSelectRangeInput()),
+    fork(watchApplyDefaultInput, createApplyDefaultInput(getUrl)),
   ])
 }

@@ -17,6 +17,7 @@ import * as fromApplyUrlInputContentProcessAction from '~/action/process/content
 import * as fromDetectUrlSelectRangeBackgroundProcessAction from '~/action/process/background/detect-url-select-range-update'
 import * as fromHandleChromeRuntimeOnMessageChannelProcessAction from '~/action/process/background/handle-chrome-runtime-on-message-channel'
 import * as fromApplyUrlSelectRangeInputContentProcessAction from '~/action/process/content/apply-url-select-range-input'
+import * as fromApplyDefaultInputContentProcessAction from '~/action/process/content/apply-default-input'
 
 export const INITIAL = 'ACTION.INITIAL'
 
@@ -75,4 +76,5 @@ export type Action =
   | fromHandleChromeRuntimeOnMessageChannelProcessAction.OnLoadContentUi
   | fromHandleChromeRuntimeOnMessageChannelProcessAction.ValidatedUrlSelectRangeInput
   | fromApplyUrlSelectRangeInputContentProcessAction.ValidatedUrlSelectRangeInput
+  | fromApplyDefaultInputContentProcessAction.ValidatedUrl
 

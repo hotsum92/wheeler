@@ -10,6 +10,7 @@ import * as fromApplyPageInputContentProcessAction from '~/action/process/conten
 import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 import * as fromHideExtentionContentProcessAction from '~/action/process/content/hide-extention'
 import * as fromDisplayExtentionContentProcessAction from '~/action/process/content/display-extention'
+import * as fromApplyDefaultInputContentProcessAction from '~/action/process/content/apply-default-input'
 
 export const status = (state = fromContentStatusDomain.newContentStatus(), action: Action): fromContentStatusDomain.ContentStatus => {
   switch(action.type) {
@@ -63,7 +64,7 @@ export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Ac
       return fromPageInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
 
-    case fromInitializeContentContentProcessAction.INITIALIZE_URL_SELECT_RANGE: {
+    case fromApplyDefaultInputContentProcessAction.VALIDATED_URL: {
       return fromPageInputDomain.fromUrl(action.payload.url)
     }
 
@@ -96,7 +97,7 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
       return fromUrlInputDomain.assignPageInput(state, action.payload.pageInput)
     }
 
-    case fromInitializeContentContentProcessAction.INITIALIZE_URL_SELECT_RANGE: {
+    case fromApplyDefaultInputContentProcessAction.VALIDATED_URL: {
       return fromUrlInputDomain.fromUrl(action.payload.url)
     }
 
