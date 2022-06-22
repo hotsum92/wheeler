@@ -24,6 +24,12 @@ import * as fromHandleChromeRuntimeOnMessageChannelBackgroundProcess from '~/pro
 
 describe('拡張ボタンをクリックした後、content scriptを開始する', () => {
 
+  test.skip('設定', async () => {
+  })
+
+  test.skip('保存のリセット', async () => {
+  })
+
   test.skip('デフォルトを数値にする', async () => {
   })
 
