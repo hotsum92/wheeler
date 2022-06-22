@@ -5,7 +5,6 @@ import { Action } from '~/action'
 import * as fromContentStatusDomain from '~/domain/content-status'
 import * as fromApplyUrlInputContentProcessAction from '~/action/process/content/apply-url-input'
 import * as fromContentUiAction from '~/action/ui/content'
-import * as fromInitializeContentContentProcessAction from '~/action/process/content/initialize-content'
 import * as fromApplyPageInputContentProcessAction from '~/action/process/content/apply-page-input'
 import * as fromApplyTabUpdateContentProcessAction from '~/action/process/content/apply-tab-update'
 import * as fromHideExtentionContentProcessAction from '~/action/process/content/hide-extention'
@@ -59,8 +58,7 @@ export const pageInput = (state = fromPageInputDomain.newPageInput(), action: Ac
     }
 
     case fromApplyTabUpdateContentProcessAction.LOADED_URL_SELECT:
-    case fromApplyUrlInputContentProcessAction.VALIDATED_URL_INPUT:
-    case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
+    case fromApplyUrlInputContentProcessAction.VALIDATED_URL_INPUT: {
       return fromPageInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
 
@@ -88,8 +86,7 @@ export const urlInput = (state = fromUrlInputDomain.newUrlInput(), action: Actio
     }
 
     case fromApplyTabUpdateContentProcessAction.LOADED_URL_SELECT:
-    case fromApplyUrlInputContentProcessAction.VALIDATED_URL_INPUT:
-    case fromInitializeContentContentProcessAction.LOAD_URL_SELECT_RANGE_SUCCESS: {
+    case fromApplyUrlInputContentProcessAction.VALIDATED_URL_INPUT: {
       return fromUrlInputDomain.fromTabObject(action.payload.url, action.payload.selectTabObject)
     }
 
