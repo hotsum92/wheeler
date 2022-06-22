@@ -21,10 +21,9 @@ export const fromUrlInput = (urlInput: fromUrlInputDomain.UrlInput): Url => {
   return urlInput.input
 }
 
-export const matchLastNumber = (url: Url): MatchResult | null => {
+export const matchLastNumber = (url: Url): MatchResult => {
   const found = [ ...url.matchAll(regNumber) ]
   const last = found[found.length - 1]
-  if(last == null) return null
   return { index: last.index!, matched: last[0] }
 }
 
