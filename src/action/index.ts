@@ -1,5 +1,4 @@
 import * as fromContentUiAction from '~/action/ui/content'
-import * as fromInitializeBackgroundScriptBackgroundProcessAction from '~/action/process/background/initialize-background-script'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
 import * as fromLoadUrlSelectRangeBackgroundProcessAction from '~/action/process/background/load-url-select-range'
 import * as fromApplyPageInputContentProcess from '~/action/process/content/apply-page-input'
@@ -48,7 +47,6 @@ export type Action =
   | fromContentUiAction.OnInputEnterKeyPageInput
   | fromContentUiAction.OnFocusOutUrlInput
   | fromContentUiAction.OnInputEnterKeyUrlInput
-  | fromInitializeBackgroundScriptBackgroundProcessAction.LoadState
   | fromApplyPageInputContentProcess.ValidatedPageInput
   | fromLoadContentScriptBackgroundProcessAction.StopApp
   | fromLoadContentScriptBackgroundProcessAction.RunApp
