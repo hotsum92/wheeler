@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { Action } from '~/action'
+import * as fromUrlDomain from '~/domain/url'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 import * as fromUrlKeyDomain from '~/domain/url-key'
 import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process/background/save-url-select-range'
@@ -13,9 +14,9 @@ const urlKeys = (state = [] as fromUrlKeyDomain.UrlKey[], action: Action): fromU
 
     case fromSaveUrlSelectRangeBackgroundProcessAction.SAVE_URL_SELECT_RANGE: {
       const { payload: { url, selectStart } } = action
-      const newUrlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
+      const urlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
 
-      return [ ...state.filter(urlKey => !fromUrlKeyDomain.matchUrl(urlKey, url)), newUrlKey ]
+      return [ ...state, urlKey ]
     }
 
     default:
@@ -32,14 +33,7 @@ const byUrlKey = (state = {} as { [key: fromUrlKeyDomain.UrlKey]: UrlData }, act
       const newUrlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
 
       return {
-        ...Object.keys(state)
-            .filter(urlKey => !fromUrlKeyDomain.matchUrl(urlKey, url))
-            .reduce((obj, urlKey) => {
-              return {
-                ...obj,
-                [urlKey]: state[urlKey]
-              }
-            }, {}),
+        ...state,
         [newUrlKey]: {
           urlSelectRange: fromUrlSelectRangeDomain.fromAction(action)
         },
@@ -59,8 +53,8 @@ const reducer = combineReducers({
 
 export type State = ReturnType<typeof reducer>
 
-export const getUrlSelectRangeByUrl = (state: State, url: string): fromUrlSelectRangeDomain.UrlSelectRange => {
-  const urlKey = state.urlKeys.find(urlKey => fromUrlKeyDomain.matchUrl(urlKey, url))
+export const getUrlSelectRangeByUrl = (state: State, url: fromUrlDomain.Url): fromUrlSelectRangeDomain.UrlSelectRange => {
+  const urlKey = state.urlKeys.find(key => fromUrlKeyDomain.matchUrl(key, url))
 
   if(urlKey == null) return fromUrlSelectRangeDomain.fromUrl(url)
   return state.byUrlKey[urlKey].urlSelectRange

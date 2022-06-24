@@ -21,8 +21,6 @@ import * as fromUrlKeyDomain from '~/domain/url-key'
 describe('url keyを生成する', () => {
 
   test('pathがpage', () => {
-    expectUrlKey('http://example.com/23', 'http://example.com')
-
     expectUrlKey('http://example.com/path/23',       'http://example.com/path')
     expectUrlKey('http://example.com/path/23/',      'http://example.com/path')
     expectUrlKey('http://example.com/path/23/path',  'http://example.com/path')
@@ -63,6 +61,13 @@ describe('url keyを生成する', () => {
   })
 })
 
+describe('selectStartからurl keyを生成する', () => {
+
+  test('pathがpage', () => {
+  })
+
+})
+
 const expectUrlKey = (url: string, be: string) => {
   expect(
     pipe(url)
@@ -71,39 +76,6 @@ const expectUrlKey = (url: string, be: string) => {
       ()
   ).toStrictEqual(be)
 }
-
-
-describe('selectStartからurl keyを生成する', () => {
-
-  test('pathがpage', () => {
-    expectUrlKeyWithSelectStart('http://example.com/path/23',      24, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/23',      25, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/23/',     24, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/23/path', 24, 'http://example.com/path')
-
-    expectUrlKeyWithSelectStart('http://example.com/path/23/path/45',       24, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/23/path/45',       25, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/23/path/45/',      24, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/23/path/45/path',  24, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/23/path/45/path/', 24, 'http://example.com/path')
-  })
-
-  test('hashがpage', () => {
-    expectUrlKeyWithSelectStart('http://example.com/path/#23', 25, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/#23', 26, 'http://example.com/path')
-  })
-
-  test('paramがpage', () => {
-    expectUrlKeyWithSelectStart('http://example.com/path/?page=23', 31, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/?page=23', 32, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path?page=23',  30, 'http://example.com/path')
-
-    expectUrlKeyWithSelectStart('http://example.com/path/?page=23&param=45', 31, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path/?page=23&param=45', 32, 'http://example.com/path')
-    expectUrlKeyWithSelectStart('http://example.com/path?page=23&param=45',  30, 'http://example.com/path')
-  })
-
-})
 
 const expectUrlKeyWithSelectStart = (url: string, selectStart: number, be: string) => {
     expect(
@@ -124,16 +96,10 @@ describe('urlがkeyにマッチする', () => {
 
   test('pathがpage', () => {
     const url = fromUrlDomain.fromString('http://example.com/A/43')
-    expect(urls.find(key => fromUrlKeyDomain.matchUrl(key, url))).toBe('http://example.com/A')
+    expect(urls.find(fromUrlKeyDomain.filterByUrl(url))).toBe('http://example.com/A')
   })
 })
 
 describe('pageを入力する', () => {
-  test('pathがpage', () => {
-    const url = fromUrlDomain.fromString('http://example.com/A/43')
-
-    expect(fromUrlDomain.assignPage(url, 21, 54)).toBe('http://example.com/A/54')
-    expect(fromUrlDomain.assignPage(url, 22, 54)).toBe('http://example.com/A/54')
-  })
 })
 

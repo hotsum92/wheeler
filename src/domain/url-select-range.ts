@@ -1,3 +1,5 @@
+import * as fromUrlDomain from '~/domain/url'
+
 export interface UrlSelectRange {
   selectStart: number
 }
@@ -15,10 +17,11 @@ export const fromAction = ({ payload: { selectStart } }: { payload: { selectStar
 }
 
 export const fromUrl = (url: string): UrlSelectRange => {
-  const found = [ ...url.matchAll(/(\d+)/g) ]
-  const last = found[found.length - 1]
+  const matchResult = fromUrlDomain.matchLastNumber(url)
+
+  if(matchResult == null) return { selectStart: 0 }
 
   return {
-    selectStart: last == null ? 0 : last.index!,
+    selectStart: matchResult.index,
   }
 }

@@ -4,13 +4,19 @@ export type UrlKey = string
 
 export const fromUrl = (url: fromUrlDomain.Url): UrlKey => {
   const { index } = fromUrlDomain.matchLastNumber(url)!
-  return fromSelectStart(url, index)
+  const host = fromUrlDomain.host(url)
+  const path = fromUrlDomain.subpath(url, index)
+  return `http://${host}${path}`
 }
 
 export const fromSelectStart = (url: fromUrlDomain.Url, selectStart: number): UrlKey => {
-  return url.substring(0, selectStart)
+  const { index } = fromUrlDomain.matchNumberAroundIndex(url, selectStart)!
+  const host = fromUrlDomain.host(url)
+  const path = fromUrlDomain.subpath(url, index)
+  return `http://${host}${path}`
 }
 
 export const matchUrl = (urlKey: UrlKey, url: string): boolean => {
   return url.indexOf(urlKey) === 0
 }
+

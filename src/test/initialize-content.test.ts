@@ -99,7 +99,6 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
     const tabId = -1
     const url = 'http://example.com/23/356/'
     const selectStart = 19
-    const selectLength = 2
     const urlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
 
     const storeBackground = configureStoreBackground()
@@ -112,7 +111,6 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
           [urlKey]: {
             urlSelectRange: {
               selectStart,
-              selectLength,
             }
           }
         }
