@@ -50,7 +50,6 @@ export type Action =
   | fromLoadContentScriptBackgroundProcessAction.StopApp
   | fromLoadContentScriptBackgroundProcessAction.RunApp
   | fromSaveUrlSelectRangeBackgroundProcessAction.SaveUrlSelectRange
-  | fromSaveUrlSelectRangeBackgroundProcessAction.RequestSaveUrlSelectRange
   | fromSaveSelectRangeContentProcess.SaveSelectRange
   | fromHideExtentionBackgroundProcessAction.HidDivElement
   | fromDisplayExtentionContentProcessAction.DisplayedDivElement
