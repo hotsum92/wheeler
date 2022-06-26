@@ -16,7 +16,7 @@ const urlKeys = (state = [] as fromUrlKeyDomain.UrlKey[], action: Action): fromU
       const { payload: { url } } = action
       const urlKey = fromUrlKeyDomain.fromUrl(url)
 
-      return [ ...state, urlKey ]
+      return [ ...state.filter(fromUrlKeyDomain.excludeByUrl(url)), urlKey ]
     }
 
     default:
@@ -33,7 +33,14 @@ const byUrlKey = (state = {} as { [key: fromUrlKeyDomain.UrlKey]: UrlData }, act
       const newUrlKey = fromUrlKeyDomain.fromUrl(url)
 
       return {
-        ...state,
+        ...Object.keys(state)
+            .filter(fromUrlKeyDomain.excludeByUrl(url))
+            .reduce((obj, urlKey) => {
+              return {
+                ...obj,
+                [urlKey]: state[urlKey]
+              }
+            }, {}),
         [newUrlKey]: {
           urlSelectRange: fromUrlSelectRangeDomain.fromAction(action)
         },

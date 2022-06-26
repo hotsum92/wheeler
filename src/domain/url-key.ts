@@ -21,6 +21,14 @@ export const filterByUrl = (url: fromUrlDomain.Url) => {
   }
 }
 
+export const excludeByUrl = (url: fromUrlDomain.Url) => {
+  const r = reg(url)
+
+  return (urlKey: UrlKey): boolean => {
+    return urlKey.match(r) == null
+  }
+}
+
 export const reg = (url: fromUrlDomain.Url): string => {
   const regEscapeUrl = /[.*+?^${}()|[\]\\]/g
   const regNumber = /(\d+)/g
