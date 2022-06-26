@@ -94,6 +94,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
     expect(fromBackgroundReducer.getAppStatusByTabId(fromReducerStorageDomain.toState(reducerStorage), tabId))
       .toStrictEqual({
         status: fromAppStatusDomain.RUN,
+        displayStatus: fromAppStatusDomain.DISPLAY,
       })
 
   })
@@ -174,6 +175,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
     expect(fromBackgroundReducer.getAppStatusByTabId(fromReducerStorageDomain.toState(reducerStorage), tabId))
       .toStrictEqual({
         status: fromAppStatusDomain.RUN,
+        displayStatus: fromAppStatusDomain.DISPLAY,
       })
   })
 
@@ -250,6 +252,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
     expect(fromBackgroundReducer.getAppStatusByTabId(fromReducerStorageDomain.toState(reducerStorage), tabId))
       .toStrictEqual({
         status: fromAppStatusDomain.RUN,
+        displayStatus: fromAppStatusDomain.DISPLAY,
       })
 
   })

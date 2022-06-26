@@ -59,8 +59,12 @@ export const createLoadContentScript = (
         const appStatus: fromAppStatusDomain.AppStatus =
           yield call(fromGetStorageReducerFunctionProcess.createGetStorageReducer(chromeStorageLocalGet), fromBackgroundReducer.getAppStatusByTabId, tabId)
 
-        if(fromAppStatusDomain.isRunning(appStatus)) {
+        if(fromAppStatusDomain.isRunning(appStatus) && fromAppStatusDomain.isDisplay(appStatus)) {
           yield call(openContentScriptFromChromeModule, tabId)
+        }
+
+        if(fromAppStatusDomain.isHidden(appStatus)) {
+          yield put(fromLoadContentScriptBackgroundProcessAction.stopApp(tabId))
         }
 
         return

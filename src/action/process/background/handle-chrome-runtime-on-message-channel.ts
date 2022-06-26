@@ -33,3 +33,37 @@ export const validatedUrlSelectRangeInput = (tabId: number, urlSelectRangeInput:
       urlSelectRangeInput,
     }
   })
+
+export const DISPLAYED_DIV_ELEMNET = 'HANDLE_CHROME_RUNTIME_ON_MESSAGE_CHANNEL_BACKGROUND.DISPLAYED_DIV_ELEMNET'
+
+export interface DisplayedDivElement {
+  type: typeof DISPLAYED_DIV_ELEMNET
+  payload: {
+    tabId: number
+  }
+}
+
+export const displayedDivElement = (tabId: number): DisplayedDivElement =>
+  ({
+    type: DISPLAYED_DIV_ELEMNET,
+    payload: {
+      tabId,
+    }
+  })
+
+export const HID_DIV_ELEMENT = 'HANDLE_CHROME_RUNTIME_ON_MESSAGE_CHANNEL_BACKGROUND.HID_DIV_ELEMENT'
+
+export interface HidDivElement {
+  type: typeof HID_DIV_ELEMENT
+  payload: {
+    tabId: number
+  }
+}
+
+export const hidDivElement = (tabId: number): HidDivElement =>
+  ({
+    type: HID_DIV_ELEMENT,
+    payload: {
+      tabId,
+    }
+  })

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { Action } from '~/action'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
+import * as fromHandleChromeRuntimeOnMessageChannelProcessAction from '~/action/process/background/handle-chrome-runtime-on-message-channel'
 import * as fromAppStatusDomain from '~/domain/app-status'
 
 export interface TabData {
@@ -43,6 +44,30 @@ const byTabId = (state = {} as { [key: number]: TabData }, action: Action): { [k
         [action.payload.tabId]: {
           ...state[action.payload.tabId],
           appStatus: fromAppStatusDomain.stopApp(appStatus)
+        }
+      }
+    }
+
+    case fromHandleChromeRuntimeOnMessageChannelProcessAction.DISPLAYED_DIV_ELEMNET: {
+      const appStatus = state[action.payload.tabId].appStatus
+
+      return {
+        ...state,
+        [action.payload.tabId]: {
+          ...state[action.payload.tabId],
+          appStatus: fromAppStatusDomain.displayApp(appStatus)
+        }
+      }
+    }
+
+    case fromHandleChromeRuntimeOnMessageChannelProcessAction.HID_DIV_ELEMENT: {
+      const appStatus = state[action.payload.tabId].appStatus
+
+      return {
+        ...state,
+        [action.payload.tabId]: {
+          ...state[action.payload.tabId],
+          appStatus: fromAppStatusDomain.hideApp(appStatus)
         }
       }
     }

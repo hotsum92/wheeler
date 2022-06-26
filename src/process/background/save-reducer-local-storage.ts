@@ -4,12 +4,15 @@ import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromReducerStorage from '~/domain/reducer-storage'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
 import * as fromSaveUrlSelectRangeBackgroundProcessAction from '~/action/process/background/save-url-select-range'
+import * as fromHandleChromeRuntimeOnMessageChannelProcessAction from '~/action/process/background/handle-chrome-runtime-on-message-channel'
 import * as fromReducerStorageDomain from '~/domain/reducer-storage'
 
 export const actions = [
   fromLoadContentScriptBackgroundProcessAction.RUN_APP,
   fromLoadContentScriptBackgroundProcessAction.STOP_APP,
   fromSaveUrlSelectRangeBackgroundProcessAction.SAVE_URL_SELECT_RANGE,
+  fromHandleChromeRuntimeOnMessageChannelProcessAction.DISPLAYED_DIV_ELEMNET,
+  fromHandleChromeRuntimeOnMessageChannelProcessAction.HID_DIV_ELEMENT,
 ]
 
 type Action =

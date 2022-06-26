@@ -66,6 +66,8 @@ export type Action =
   | fromDetectUrlSelectRangeBackgroundProcessAction.DetectedUrlSelectRangeUpdate
   | fromHandleChromeRuntimeOnMessageChannelProcessAction.OnLoadContentUi
   | fromHandleChromeRuntimeOnMessageChannelProcessAction.ValidatedUrlSelectRangeInput
+  | fromHandleChromeRuntimeOnMessageChannelProcessAction.DisplayedDivElement
+  | fromHandleChromeRuntimeOnMessageChannelProcessAction.HidDivElement
   | fromApplyUrlSelectRangeInputContentProcessAction.ValidatedUrlSelectRangeInput
   | fromApplyDefaultInputContentProcessAction.ValidatedUrl
 
