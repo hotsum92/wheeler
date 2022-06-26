@@ -5,6 +5,7 @@ import { takeOnce } from '~/test/helper'
 import * as fromContentUiAction from '~/action/ui/content'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromUrlInputDomain from '~/domain/url-input'
+import * as fromUrlDomain from '~/domain/url'
 import * as fromPageInputDomain from '~/domain/page-input'
 import * as fromUrlSelectRangeDomain from '~/domain/url-select-range'
 import * as fromApplyPageInputContentProcess from '~/process/content/apply-page-input'
@@ -27,7 +28,8 @@ describe('page inputを変更する', () => {
 
   test('ページを増やす', async () => {
 
-    const url = 'http://example.com/23/'
+    const urlStr = 'http://example.com/23/'
+    const url = fromUrlDomain.fromString(urlStr)
 
     const store = configureStoreContent({
       ui: {
@@ -39,7 +41,7 @@ describe('page inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
-    const getUrl = jest.fn(() => url)
+    const getUrl = jest.fn(() => urlStr)
 
     const task = store.runSaga(function* () {
       yield all([
@@ -71,7 +73,8 @@ describe('page inputを変更する', () => {
 
   test('数値を入力する', async () => {
 
-    const url = 'http://example.com/23/'
+    const urlStr = 'http://example.com/23/'
+    const url = fromUrlDomain.fromString(urlStr)
     const input = '24'
 
     const store = configureStoreContent({
@@ -84,7 +87,7 @@ describe('page inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
-    const getUrl = jest.fn(() => url)
+    const getUrl = jest.fn(() => urlStr)
 
     const task = store.runSaga(function* () {
       yield all([
@@ -117,7 +120,8 @@ describe('page inputを変更する', () => {
 
   test('数値以外を入力', async () => {
 
-    const url = 'http://example.com/23/'
+    const urlStr = 'http://example.com/23/'
+    const url = fromUrlDomain.fromString(urlStr)
     const input = 'input'
 
     const store = configureStoreContent({
@@ -130,7 +134,7 @@ describe('page inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
-    const getUrl = jest.fn(() => url)
+    const getUrl = jest.fn(() => urlStr)
 
     const task = store.runSaga(function* () {
       yield all([
@@ -157,7 +161,8 @@ describe('page inputを変更する', () => {
   })
 
   test('選択後の数値繰り上げ', async () => {
-    const url = 'http://example.com/23/456'
+    const urlStr = 'http://example.com/23/456'
+    const url = fromUrlDomain.fromString(urlStr)
     const selectStart = 19
 
     const store = configureStoreContent({
@@ -170,7 +175,7 @@ describe('page inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
-    const getUrl = jest.fn(() => url)
+    const getUrl = jest.fn(() => urlStr)
 
     const task = store.runSaga(function* () {
       yield all([
@@ -206,7 +211,8 @@ describe('url inputを変更する', () => {
 
   test('urlを入力する', async () => {
 
-    const url = 'http://example.com/23/'
+    const urlStr = 'http://example.com/23/'
+    const url = fromUrlDomain.fromString(urlStr)
     const input = 'http://new-example.com/23/456/'
 
     const storeContent = configureStoreContent({
@@ -219,7 +225,7 @@ describe('url inputを変更する', () => {
     })
 
     const assignUrlFromDomModule = jest.fn()
-    const getUrl = jest.fn(() => url)
+    const getUrl = jest.fn(() => urlStr)
 
     const taskContent = storeContent.runSaga(function* () {
       yield all([
@@ -247,7 +253,8 @@ describe('URLの選択範囲を変更する', () => {
 
   test('URLの数値部分を選択する', async () => {
 
-    const url = 'http://example.com/23/356/'
+    const urlStr = 'http://example.com/23/356/'
+    const url = fromUrlDomain.fromString(urlStr)
     const selectStart = 19
     const select = '23'
     const tabId = -1
@@ -266,7 +273,7 @@ describe('URLの選択範囲を変更する', () => {
     let reducerStorage: any = null
 
     const chromeTabsSendMessageFromContent = jest.fn((action) => storeBackground.dispatch(action))
-    const getTabUrl: any = jest.fn((_tabId) => url)
+    const getTabUrl: any = jest.fn((_tabId) => urlStr)
     const chromeStorageLocalSet: any = jest.fn((_key, value) => { reducerStorage = value })
     const chromeStorageLocalGet: any = jest.fn(() => null)
     const getAllTabIds: any = jest.fn(() => tabId)
@@ -295,7 +302,7 @@ describe('URLの選択範囲を変更する', () => {
 
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
-        input: url,
+        input: urlStr,
         selectStart,
       })
 
@@ -307,7 +314,8 @@ describe('URLの選択範囲を変更する', () => {
   })
 
   test('文字列選択したときは、保存しない', async () => {
-    const url = 'http://example.com/23/356/'
+    const urlStr = 'http://example.com/23/356/'
+    const url = fromUrlDomain.fromString(urlStr)
     const selectStart = 15
     const select = 'com'
 
@@ -334,7 +342,7 @@ describe('URLの選択範囲を変更する', () => {
 
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
-        input: url,
+        input: urlStr,
         selectStart,
       })
 

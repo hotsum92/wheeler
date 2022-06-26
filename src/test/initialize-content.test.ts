@@ -9,6 +9,7 @@ import * as fromContentUiAction from '~/action/ui/content'
 import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromReducerStorageDomain from '~/domain/reducer-storage'
+import * as fromUrlDomain from '~/domain/url'
 import * as fromSaveReducerLocalStorage from '~/process/background/save-reducer-local-storage'
 import * as fromChromeWebNavigationOnCommittedProcessChannelAction from '~/action/process/channel/chrome-web-navigation-on-committed'
 import * as fromChromeTabsOnUpdatedProcessChannelAction from '~/action/process/channel/chrome-tabs-on-updated'
@@ -36,7 +37,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
   test('初期値からの起動', async () => {
 
     const tabId = -1
-    const url = 'http://example.com/23/356/'
+    const urlStr = 'http://example.com/23/356/'
 
     const storeBackground = configureStoreBackground()
     const storeContent = configureStoreContent()
@@ -46,8 +47,8 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
     const openContentScript = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const chromeRuntimeSendMessageFromContent = jest.fn((action: fromAction.Action) => storeBackground.dispatch(action))
     const chromeTabsSendMessageFromBackground = jest.fn((_tabId: number, action: fromAction.Action) => storeContent.dispatch(action))
-    const getTabUrl: any = jest.fn((_tabId: number) => url)
-    const getUrl = jest.fn(() => url)
+    const getTabUrl: any = jest.fn((_tabId: number) => urlStr)
+    const getUrl = jest.fn(() => urlStr)
     const chromeStorageLocalGet: any = jest.fn(() => reducerStorage)
     const chromeStorageLocalSet: any = jest.fn((_key, storage) => reducerStorage = storage)
     const getAllTabIds: any = jest.fn(() => [tabId])
@@ -78,7 +79,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
-        input: url,
+        input: urlStr,
         selectStart: 22,
       })
 
@@ -97,9 +98,10 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
   test('すでに訪れたことのあるURLから起動', async () => {
 
     const tabId = -1
-    const url = 'http://example.com/23/356/'
+    const urlStr = 'http://example.com/23/356/'
+    const url = fromUrlDomain.fromString(urlStr)
     const selectStart = 19
-    const urlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
+    const urlKey = fromUrlKeyDomain.fromUrl(url)
 
     const storeBackground = configureStoreBackground()
     const storeContent = configureStoreContent()
@@ -123,10 +125,10 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
         ()
 
     const openContentScript = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
-    const getTabUrl: any = jest.fn((_tabId: number) => url)
+    const getTabUrl: any = jest.fn((_tabId: number) => urlStr)
     const chromeRuntimeSendMessageFromContent = jest.fn((action: fromAction.Action) => storeBackground.dispatch(action))
     const chromeTabsSendMessageFromBackground = jest.fn((_tabId: number, action: fromAction.Action) => storeContent.dispatch(action))
-    const getUrl = jest.fn(() => url)
+    const getUrl = jest.fn(() => urlStr)
     const chromeStorageLocalGet = jest.fn(() => reducerStorage)
     const chromeStorageLocalSet: any = jest.fn((_key, storage) => reducerStorage = storage)
     const getAllTabIds: any = jest.fn(() => [tabId])
@@ -157,7 +159,7 @@ describe('拡張ボタンをクリックした後、content scriptを開始す�
 
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
-        input: url,
+        input: urlStr,
         selectStart: 19,
       })
 
@@ -179,7 +181,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
   test('初期値からの起動', async () => {
 
     const tabId = -1
-    const url = 'http://example.com/23/356/'
+    const urlStr = 'http://example.com/23/356/'
 
     const storeBackground = configureStoreBackground()
     const storeContent = configureStoreContent()
@@ -204,8 +206,8 @@ describe('ページを更新した後、content scriptを開始する', () => {
     const openContentScriptFromBackground = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const chromeRuntimeSendMessageFromContent = jest.fn((action: fromAction.Action) => storeBackground.dispatch(action))
     const chromeTabsSendMessageFromBackground = jest.fn((_tabId: number, action: fromAction.Action) => storeContent.dispatch(action))
-    const getTabUrl: any = jest.fn((_tabId: number) => url)
-    const getUrl = jest.fn(() => url)
+    const getTabUrl: any = jest.fn((_tabId: number) => urlStr)
+    const getUrl = jest.fn(() => urlStr)
     const chromeStorageLocalGet = jest.fn(() => reducerStorage)
 
     const taskBackground = storeBackground.runSaga(function* () {
@@ -233,7 +235,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
-        input: url,
+        input: urlStr,
         selectStart: 22,
       })
 
@@ -252,10 +254,11 @@ describe('ページを更新した後、content scriptを開始する', () => {
   test('URLのみの変更の場合は、inputを変更する', async () => {
 
     const tabId = -1
-    const url = 'http://example.com/23/356/'
+    const urlStr = 'http://example.com/23/356/'
+    const url = fromUrlDomain.fromString(urlStr)
     const selectStart = 19
     const selectLength = 2
-    const urlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
+    const urlKey = fromUrlKeyDomain.fromUrl(url)
 
     const storeBackground = configureStoreBackground()
     const storeContent = configureStoreContent()
@@ -290,8 +293,8 @@ describe('ページを更新した後、content scriptを開始する', () => {
         ()
 
     const sendResponse = jest.fn()
-    const getUrl = jest.fn(() => url)
-    const getTabUrl: any = jest.fn((_tabId: number) => url)
+    const getUrl = jest.fn(() => urlStr)
+    const getTabUrl: any = jest.fn((_tabId: number) => urlStr)
     const chromeTabsSendMessageFromBackground = jest.fn((_tabId, action) => storeContent.dispatch(action))
     const chromeStorageLocalGet = jest.fn(() => reducerStorage)
 
@@ -330,7 +333,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
   test('URLアドレスを直接変更した後に、起動する', async () => {
     const tabId = -1
-    const url = 'http://example.com/23/356/'
+    const urlStr = 'http://example.com/23/356/'
 
     const storeBackground = configureStoreBackground()
     const storeContent = configureStoreContent()
@@ -355,8 +358,8 @@ describe('ページを更新した後、content scriptを開始する', () => {
     const openContentScriptFromBackground = jest.fn(() => storeContent.dispatch(fromContentUiAction.onLoadContentUi()))
     const chromeRuntimeSendMessageFromContent = jest.fn((action: fromAction.Action) => storeBackground.dispatch(action))
     const chromeTabsSendMessageFromBackground = jest.fn((_tabId: number, action: fromAction.Action) => storeContent.dispatch(action))
-    const getTabUrl: any = jest.fn((_tabId: number) => url)
-    const getUrl = jest.fn(() => url)
+    const getTabUrl: any = jest.fn((_tabId: number) => urlStr)
+    const getUrl = jest.fn(() => urlStr)
     const chromeStorageLocalGet = jest.fn(() => reducerStorage)
 
     const taskBackground = storeBackground.runSaga(function* () {
@@ -384,7 +387,7 @@ describe('ページを更新した後、content scriptを開始する', () => {
 
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
-        input: url,
+        input: urlStr,
         selectStart: 22,
       })
 

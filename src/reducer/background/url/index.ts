@@ -13,8 +13,8 @@ const urlKeys = (state = [] as fromUrlKeyDomain.UrlKey[], action: Action): fromU
   switch(action.type) {
 
     case fromSaveUrlSelectRangeBackgroundProcessAction.SAVE_URL_SELECT_RANGE: {
-      const { payload: { url, selectStart } } = action
-      const urlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
+      const { payload: { url } } = action
+      const urlKey = fromUrlKeyDomain.fromUrl(url)
 
       return [ ...state, urlKey ]
     }
@@ -29,8 +29,8 @@ const byUrlKey = (state = {} as { [key: fromUrlKeyDomain.UrlKey]: UrlData }, act
   switch(action.type) {
 
     case fromSaveUrlSelectRangeBackgroundProcessAction.SAVE_URL_SELECT_RANGE: {
-      const { payload: { url, selectStart } } = action
-      const newUrlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
+      const { payload: { url } } = action
+      const newUrlKey = fromUrlKeyDomain.fromUrl(url)
 
       return {
         ...state,
@@ -54,7 +54,7 @@ const reducer = combineReducers({
 export type State = ReturnType<typeof reducer>
 
 export const getUrlSelectRangeByUrl = (state: State, url: fromUrlDomain.Url): fromUrlSelectRangeDomain.UrlSelectRange => {
-  const urlKey = state.urlKeys.find(key => fromUrlKeyDomain.matchUrl(key, url))
+  const urlKey = state.urlKeys.find(fromUrlKeyDomain.filterByUrl(url))
 
   if(urlKey == null) return fromUrlSelectRangeDomain.fromUrl(url)
   return state.byUrlKey[urlKey].urlSelectRange

@@ -4,6 +4,7 @@ import { pipe } from '~/helper'
 import * as fromAction from '~/action'
 import configureStoreBackground from '~/store/background'
 import configureStoreContent from '~/store/content'
+import * as fromUrlDomain from '~/domain/url'
 import * as fromContentReducer from '~/reducer/content'
 import * as fromAppStatusDomain from '~/domain/app-status'
 import * as fromContentUiAction from '~/action/ui/content'
@@ -19,10 +20,10 @@ describe('backgroundの起動する', () => {
   test('backgroundをkillしたときに、content scriptを起動する', async () => {
 
     const tabId = -1
-    const url = 'http://example.com/23/356/'
+    const urlStr = 'http://example.com/23/356/'
+    const url = fromUrlDomain.fromString(urlStr)
     const selectStart = 19
-    const selectLength = 2
-    const urlKey = fromUrlKeyDomain.fromSelectStart(url, selectStart)
+    const urlKey = fromUrlKeyDomain.fromUrl(url)
 
     const storeBackground = configureStoreBackground()
     const storeContent = configureStoreContent()
@@ -34,13 +35,12 @@ describe('backgroundの起動する', () => {
           [urlKey]: {
             urlSelectRange: {
               selectStart,
-              selectLength,
             }
           }
         }
       },
       tab: {
-        tabIds: [tabId],
+        tabIds: [ tabId ],
         byTabId: {
           [tabId]: {
             appStatus: pipe(fromAppStatusDomain.newAppStatus())
@@ -57,8 +57,8 @@ describe('backgroundの起動する', () => {
     const chromeTabsSendMessage = jest.fn(() => { throw new Error() })
     const chromeRuntimeSendMessageFromContent = jest.fn(action => storeBackground.dispatch(action))
     const chromeTabsSendMessageFromBackground = jest.fn((_tabId, action) => storeContent.dispatch(action))
-    const getUrl = jest.fn(() => url)
-    const getTabUrl: any = jest.fn((_tabId: number) => url)
+    const getUrl = jest.fn(() => urlStr)
+    const getTabUrl: any = jest.fn((_tabId: number) => urlStr)
 
     const taskBackground = storeBackground.runSaga(function* () {
       yield all([
@@ -85,7 +85,7 @@ describe('backgroundの起動する', () => {
 
     expect(fromContentReducer.getContentUiUrlInput(storeContent.getState()))
       .toStrictEqual({
-        input: url,
+        input: urlStr,
         selectStart: 19,
       })
 

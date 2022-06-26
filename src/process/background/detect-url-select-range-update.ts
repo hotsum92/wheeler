@@ -1,4 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
+import * as fromUrlDomain from '~/domain/url'
 import * as fromGetStorageReducerFunctionProcess from '~/process/function/get-storage-reducer'
 import * as fromDetectUrlSelectRangeBackgroundProcessAction from '~/action/process/background/detect-url-select-range-update'
 import * as fromHandleChromeRuntimeOnMessageChannelProcessAction from '~/action/process/background/handle-chrome-runtime-on-message-channel'
@@ -33,7 +34,8 @@ export const createDetectUrlSelectRangeUpdate = (
     action: Action,
   ) {
     const { payload: { tabId } } = action
-    const url: string = yield call(getTabUrl, tabId)
+    const urlStr: string = yield call(getTabUrl, tabId)
+    const url = fromUrlDomain.fromString(urlStr)
 
     const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange =
       yield call(fromGetStorageReducerFunctionProcess.createGetStorageReducer(chromeStorageLocalGet), fromBackgroundReducer.getUrlSelectRangeByUrl, url)

@@ -60,3 +60,4 @@ export const assignPage = (url: Url, index: number, page: number): Url => {
 
   return a + page.toString() + b
 }
+
