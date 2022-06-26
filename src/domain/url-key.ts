@@ -3,6 +3,8 @@ import * as fromUrlDomain from '~/domain/url'
 export type UrlKey = string
 
 export const fromUrl = (url: fromUrlDomain.Url): UrlKey => {
+  if(!url) return ''
+
   const regEndSlash = /\/$/
 
   const u = new URL(url)
@@ -14,7 +16,8 @@ export const fromUrl = (url: fromUrlDomain.Url): UrlKey => {
 }
 
 export const filterByUrl = (url: fromUrlDomain.Url) => {
-  const r = reg(url)
+  if(!url) return (_urlKey: UrlKey): boolean => false
+  const r = reg(fromUrl(url))
 
   return (urlKey: UrlKey): boolean => {
     return urlKey.match(r) != null
@@ -22,7 +25,8 @@ export const filterByUrl = (url: fromUrlDomain.Url) => {
 }
 
 export const excludeByUrl = (url: fromUrlDomain.Url) => {
-  const r = reg(url)
+  if(!url) return (_urlKey: UrlKey): boolean => true
+  const r = reg(fromUrl(url))
 
   return (urlKey: UrlKey): boolean => {
     return urlKey.match(r) == null
