@@ -25,6 +25,9 @@ import * as fromHandleChromeRuntimeOnMessageChannelBackgroundProcess from '~/pro
 
 describe('拡張ボタンをクリックした後、content scriptを開始する', () => {
 
+  test.skip('ロードが無効なときの対処', async () => {
+  })
+
   test.skip('設定', async () => {
   })
 

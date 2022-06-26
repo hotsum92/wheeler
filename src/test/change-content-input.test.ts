@@ -23,9 +23,6 @@ describe('page inputを変更する', () => {
   test.skip('10, 100ずつ', async () => {
   })
 
-  test.skip('url 意味解釈', async () => {
-  })
-
   test('ページを増やす', async () => {
 
     const urlStr = 'http://example.com/23/'
