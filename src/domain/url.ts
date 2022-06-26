@@ -13,6 +13,10 @@ export const newUrl = (url: string = ''): Url => {
   return url
 }
 
+export const invalid = (url: Url): boolean => {
+  return !url
+}
+
 export const fromString = (str: string): Url => {
   return str
 }

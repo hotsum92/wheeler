@@ -37,6 +37,8 @@ export const createDetectUrlSelectRangeUpdate = (
     const urlStr: string = yield call(getTabUrl, tabId)
     const url = fromUrlDomain.fromString(urlStr)
 
+    if(fromUrlDomain.invalid(url)) return
+
     const urlSelectRange: fromUrlSelectRangeDomain.UrlSelectRange =
       yield call(fromGetStorageReducerFunctionProcess.createGetStorageReducer(chromeStorageLocalGet), fromBackgroundReducer.getUrlSelectRangeByUrl, url)
 
