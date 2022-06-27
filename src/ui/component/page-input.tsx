@@ -14,8 +14,8 @@ interface Props {
   onChangePageInput: (input: string) => void
   onClickBackwardButton: () => void
   onClickForwardButton: () => void
-  onWheelUp: () => void
-  onWheelDown: () => void
+  onWheelUp: (hasFocus: boolean) => void
+  onWheelDown: (hasFocus: boolean) => void
   sx?: SxProps<Theme>
 }
 
@@ -28,9 +28,9 @@ export default (props: Props) => {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
       if(e.deltaY < 0) {
-        props.onWheelUp()
+        props.onWheelUp(document.activeElement == inputRef.current)
       } else if(e.deltaY > 0) {
-        props.onWheelDown()
+        props.onWheelDown(document.activeElement == inputRef.current)
       }
     }
 

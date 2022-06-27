@@ -33,8 +33,8 @@ export default function Content() {
         onChangePageInput={(input) => dispatch(fromContentUiAction.onChangePageInput(input))}
         onClickBackwardButton={() => dispatch(fromContentUiAction.onClickBackwardButton())}
         onClickForwardButton={() => dispatch(fromContentUiAction.onClickForwardButton())}
-        onWheelUp={() => dispatch(fromContentUiAction.onWheelUp())}
-        onWheelDown={() => dispatch(fromContentUiAction.onWheelDown())}
+        onWheelUp={(hasFocus) => dispatch(fromContentUiAction.onWheelUp(hasFocus))}
+        onWheelDown={(hasFocus) => dispatch(fromContentUiAction.onWheelDown(hasFocus))}
       />
     </>
   );

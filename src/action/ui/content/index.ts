@@ -69,14 +69,16 @@ export const ON_WHEEL_UP = 'CONTENT_UI.ON_WHEEL_UP'
 export interface OnWheelUp {
   type: typeof ON_WHEEL_UP
   payload: {
+    hasFocus: boolean
   }
 }
 
 export const onWheelUp =
-  (): OnWheelUp =>
+  (hasFocus: boolean): OnWheelUp =>
     ({
       type: ON_WHEEL_UP,
       payload: {
+        hasFocus,
       }
     })
 
@@ -85,14 +87,16 @@ export const ON_WHEEL_DOWN = 'CONTENT_UI.ON_WHEEL_DOWN'
 export interface OnWheelDown {
   type: typeof ON_WHEEL_DOWN
   payload: {
+    hasFocus: boolean
   }
 }
 
 export const onWheelDown =
-  (): OnWheelDown =>
+  (hasFocus: boolean): OnWheelDown =>
     ({
       type: ON_WHEEL_DOWN,
       payload: {
+        hasFocus,
       }
     })
 

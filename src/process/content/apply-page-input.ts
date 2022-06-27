@@ -28,7 +28,12 @@ export const createApplyPageInput = (
   assignUrl: typeof fromDomModule.assignUrl,
   getUrl: typeof fromDomModule.getUrl,
 ) => {
-  return function* (_: Action) {
+  return function* (action: Action) {
+    if((action.type === fromContentUiAction.ON_WHEEL_UP || action.type === fromContentUiAction.ON_WHEEL_DOWN)
+      && action.payload.hasFocus) {
+        return
+    }
+
     const pageInput: fromPageInputDomain.PageInput
       = yield select(fromContentReducer.getContentUiPageInput)
 
