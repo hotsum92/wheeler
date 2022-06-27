@@ -31,3 +31,17 @@ export const extractTabIds = (state: ReducerStorage, ids: number[]): ReducerStor
   }
 }
 
+export const extractLatestUrl = (state: ReducerStorage): ReducerStorage => {
+  const urlKeys = state.url.urlKeys.slice(100)
+  const byUrlKey = urlKeys.reduce((prev, urlKey) => ({ ...prev, [urlKey]: state.url.byUrlKey[urlKey] }), {})
+
+  return {
+    ...state,
+    url: {
+      ...state.url,
+      urlKeys,
+      byUrlKey,
+    }
+  }
+}
+
