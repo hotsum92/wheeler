@@ -2,7 +2,6 @@ import { takeLatest, call, put } from 'redux-saga/effects'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromLoadContentScriptBackgroundProcessAction from '~/action/process/background/load-content-script'
 import * as fromChromeWebNavigationOnCommittedChannelProcessAction from '~/action/process/channel/chrome-web-navigation-on-committed'
-import * as fromChromeTabsOnUpdatedChannelProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromChromeActionOnClickedChannelProcessAction from '~/action/process/channel/chrome-action-on-clicked'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromAppStatusDomain from '~/domain/app-status'
@@ -14,7 +13,6 @@ export const actions = [
   fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPE_RELOAD,
   fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_AUTO_BOOKMARK,
   fromChromeWebNavigationOnCommittedChannelProcessAction.TRANSITION_TYPED,
-  fromChromeTabsOnUpdatedChannelProcessAction.TAB_STATUS_LOADING,
 ]
 
 type Action =
@@ -23,7 +21,6 @@ type Action =
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTypeReload
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TrasitionAutoBookmark
   | fromChromeWebNavigationOnCommittedChannelProcessAction.TransitionTyped
-  | fromChromeTabsOnUpdatedChannelProcessAction.TabStatusLoading
 
 export function* watchLoadContentScript(saga: ReturnType<typeof createLoadContentScript>) {
   yield takeLatest(

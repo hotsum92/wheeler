@@ -1,14 +1,24 @@
-import { fork, call } from 'redux-saga/effects'
+import { fork, takeLatest, call } from 'redux-saga/effects'
 import * as fromChromeModule from '~/module/chrome'
 import * as fromBackgroundReducer from '~/reducer/background'
 import * as fromAppStatusDomain from '~/domain/app-status'
 import * as fromChromeTabsOnUpdatedProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
 import * as fromGetStorageReducerFunctionProcess from '~/process/function/get-storage-reducer'
+import * as fromChromeTabsOnUpdatedChannelProcessAction from '~/action/process/channel/chrome-tabs-on-updated'
+
+export const actions = [
+  fromChromeTabsOnUpdatedChannelProcessAction.TAB_STATUS_LOADING,
+]
 
 export function* watchWakeContentScript(
   saga: ReturnType<typeof createWakeContentScript>,
 ) {
-  fork(saga)
+  yield fork(saga)
+
+  yield takeLatest(
+    actions,
+    saga,
+  )
 }
 
 export const createWakeContentScript = (
